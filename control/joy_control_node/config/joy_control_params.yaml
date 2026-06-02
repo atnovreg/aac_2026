@@ -1,0 +1,6 @@
+joy_control_node:
+  ros__parameters:
+    maximum_speed: 1.5             # [m/s]
+    maximum_steering_angle: 0.524  # [rad]  ~30 deg, must match vehicle_params.yaml
+    wheelbase: 0.80                # [m]  Twist→Ackermann 변환에 사용
+    reverse_angle: true            # 조향 부호 반전

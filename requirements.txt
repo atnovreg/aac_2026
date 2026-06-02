@@ -1,0 +1,24 @@
+numpy
+Pillow
+scipy
+numba
+pyyaml
+pyglet
+pyopengl
+
+filterpy
+scikit-learn
+scikit-image
+matplotlib
+h5py
+einops
+glob2
+utm
+easydict
+tqdm
+lxml
+opencv-python
+open3d
+
+# --- 외부 Git 저장소 ---
+git+https://github.com/DanielPollithy/pypcd.git

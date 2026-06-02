@@ -1,0 +1,14 @@
+session_name: AAC_2026
+windows: 
+  - window_name: Autonomy
+    layout: tiled
+    shell_command_before:
+      - source /opt/ros/humble/setup.bash
+      - cd /ros_ws/src/aac_2026
+    panes:
+    - shell_command:
+      - ros2 launch aac_vehicle spawn_vehicle.launch.py
+    - shell_command:
+      - ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_kb
+    - shell_command:
+      - ros2 launch joy_control_node teleop.launch.py input_type:=keyboard

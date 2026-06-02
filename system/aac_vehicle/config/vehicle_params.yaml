@@ -1,0 +1,16 @@
+vehicle_state_publisher:
+  ros__parameters:
+    # -------------------------------------------------------
+    # Vehicle geometry  (AAC 2026 scale car platform)
+    #   Body: 99 x 55 x 41 cm
+    # -------------------------------------------------------
+    wheelbase: 0.80          # [m] front-to-rear axle distance
+    track_width: 0.46        # [m] left-to-right wheel center distance
+    wheel_radius: 0.08       # [m]
+
+    # Steering limit: passed both to this node (clamping) and to
+    # the Gazebo model (URDF joint limit / plugin parameter)
+    max_steering_angle: 0.524  # [rad]  ~30 deg
+
+    max_speed: 3.0           # [m/s]  used for throttle clamping
+    publish_rate: 20.0       # [Hz]   timer frequency
