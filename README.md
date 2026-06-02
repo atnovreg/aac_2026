@@ -157,6 +157,12 @@ echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_m
 echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_jetson.sh'" >> ~/.bashrc
 ```
 
+### Stop all containers alias (all platforms)
+
+```bash
+echo "alias kill_sys='bash /home/${USER}/ros_ws/src/aac_2026/kill_sys.sh'" >> ~/.bashrc
+```
+
 Apply changes:
 
 ```bash

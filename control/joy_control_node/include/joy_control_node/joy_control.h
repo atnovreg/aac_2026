@@ -10,7 +10,7 @@
 // Button / axis mapping (PS3/PS4 layout via joy_node)
 //   Button[0] : Cross  (×)  — E-STOP
 //   Button[1] : Circle (○)  — enable run mode
-//   Button[5] : R1          — hold for manual joystick control
+//   Button[4] : L1          — hold for manual joystick control
 //   Axes[0]   : left  stick horizontal  (steering)
 //   Axes[4]   : right stick vertical    (speed)
 // ----------------------------------------------------------------

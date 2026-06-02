@@ -14,7 +14,7 @@ VehicleStatePublisher::VehicleStatePublisher(const std::string & node_name)
     std::bind(&VehicleStatePublisher::timerCallback, this));
 
   pub_ackermann_cmd_ = create_publisher<geometry_msgs::msg::Twist>(
-    "/ackermann_twist_cmd_for_gazebo", rclcpp::QoS(10));
+    "/ackermann_cmd", rclcpp::QoS(10));
 
   pub_marker_ = create_publisher<visualization_msgs::msg::Marker>(
     "/vehicle/marker", rclcpp::SensorDataQoS());

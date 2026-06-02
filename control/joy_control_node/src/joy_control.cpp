@@ -15,7 +15,6 @@ JoyControl::JoyControl(const std::string & node_name)
     "/joy", rclcpp::QoS(10),
     std::bind(&JoyControl::joyCallback, this, std::placeholders::_1));
 
-  // TODO: auto 모드 선택 추가 예정 — 현재는 저장만 함
   sub_auto_cmd_ = create_subscription<ackermann_msgs::msg::AckermannDriveStamped>(
     "/ackermann_auto", rclcpp::QoS(10),
     std::bind(&JoyControl::autoCallback, this, std::placeholders::_1));
@@ -73,10 +72,6 @@ void JoyControl::timerCallback()
       ackermann_cmd_.drive.steering_angle = 0.0f;
       pub_ackermann_->publish(ackermann_cmd_);
       RCLCPP_WARN(get_logger(), "E-STOP (×)");
-      RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 1000,
-        "[STOP]  speed: %+.2f m/s  steer: %+.1f deg",
-        ackermann_cmd_.drive.speed,
-        static_cast<double>(ackermann_cmd_.drive.steering_angle) * 180.0 / M_PI);
       return;
     }
 
@@ -87,7 +82,7 @@ void JoyControl::timerCallback()
       const double reverse = reverse_angle_ ? -1.0 : 1.0;
 
       if (buttons.at(4) == 1) {
-        // R1 홀드 → 조이스틱 수동 제어
+        // L1 홀드 → 조이스틱 수동 제어
         ackermann_cmd_.drive.speed =
           static_cast<float>(maximum_speed_ * axes.at(4));
         ackermann_cmd_.drive.steering_angle =

@@ -86,7 +86,7 @@ def generate_launch_description():
         arguments=[
             # Ackermann command: ROS → Ignition AckermannSteering plugin
             # Twist.linear.x = speed [m/s],  Twist.angular.z = steer_angle [rad]
-            '/ackermann_twist_cmd_for_gazebo@geometry_msgs/msg/Twist]ignition.msgs.Twist',
+            '/ackermann_cmd@geometry_msgs/msg/Twist]ignition.msgs.Twist',
             # Odometry:         Ignition → ROS
             '/model/aac_vehicle/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
             # Joint states:     Ignition → ROS
