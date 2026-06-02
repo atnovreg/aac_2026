@@ -1,0 +1,15 @@
+material SimpleTrack/TrackImage
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture track.png
+        filtering anisotropic
+        max_anisotropy 16
+      }
+    }
+  }
+}

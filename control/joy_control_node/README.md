@@ -23,7 +23,7 @@ Runs on a 40 Hz timer, making it easy to add alternative input sources (e.g. key
 | ------------- | ----- | -------- |
 | `buttons[1]` | Circle (○) | Enable RUN MODE |
 | `buttons[0]` | Cross (×) | E-STOP (immediate stop) |
-| `buttons[4]` | L1 (hold) | Enable manual joystick control |
+| `buttons[5]` | R1 (hold) | Enable manual joystick control |
 | `axes[4]` | Right stick vertical | Speed |
 | `axes[0]` | Left stick horizontal | Steering angle |
 
@@ -38,9 +38,9 @@ joystick connected
 │   └─ ○ button → RUN MODE
 │
 └─ RUN MODE
-    ├─ L1 held                        → manual control from axes
-    ├─ L1 released + /ackermann_auto  → pass-through autonomous command
-    ├─ L1 released + no auto command  → speed=0, steer=0
+    ├─ R1 held                        → manual control from axes
+    ├─ R1 released + /ackermann_auto  → pass-through autonomous command
+    ├─ R1 released + no auto command  → speed=0, steer=0
     └─ × button                       → E-STOP → STOP
 ```
 

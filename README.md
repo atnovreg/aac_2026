@@ -163,6 +163,12 @@ echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_j
 echo "alias kill_sys='bash /home/${USER}/ros_ws/src/aac_2026/kill_sys.sh'" >> ~/.bashrc
 ```
 
+### Stop the tmux/Gazebo session inside the container
+
+```bash
+bash /ros_ws/src/aac_2026/stop.sh
+```
+
 Apply changes:
 
 ```bash

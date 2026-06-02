@@ -81,8 +81,8 @@ void JoyControl::timerCallback()
     if (run_mode_) {
       const double reverse = reverse_angle_ ? -1.0 : 1.0;
 
-      if (buttons.at(4) == 1) {
-        // L1 홀드 → 조이스틱 수동 제어
+      if (buttons.at(5) == 1) {
+        // R1 홀드 → 조이스틱 수동 제어
         ackermann_cmd_.drive.speed =
           static_cast<float>(maximum_speed_ * axes.at(4));
         ackermann_cmd_.drive.steering_angle =
