@@ -10,4 +10,4 @@ windows:
     - shell_command:
       - exec ros2 launch aac_vehicle spawn_vehicle.launch.py
     - shell_command:
-      - exec ros2 launch joy_control_node joy_control.launch.py
+      - ros2 launch joy_control_node joy_control.launch.py

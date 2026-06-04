@@ -1,4 +1,5 @@
 import os
+import yaml
 import xacro
 
 from ament_index_python.packages import get_package_share_directory
@@ -21,8 +22,24 @@ def generate_launch_description():
         'use_sim_time', default_value='true')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
+    # sensor_config.yaml → xacro mappings for sensor TF
+    sensor_config_file = os.path.join(pkg_share, 'config', 'sensor_config.yaml')
+    with open(sensor_config_file, 'r') as f:
+        sensor_cfg = yaml.safe_load(f)
+
+    sensor_mappings = {}
+    for sensor, params in sensor_cfg.items():
+        x, y, z = params['xyz']
+        roll, pitch, yaw = params['rpy']
+        sensor_mappings[f'{sensor}_x']     = str(x)
+        sensor_mappings[f'{sensor}_y']     = str(y)
+        sensor_mappings[f'{sensor}_z']     = str(z)
+        sensor_mappings[f'{sensor}_roll']  = str(roll)
+        sensor_mappings[f'{sensor}_pitch'] = str(pitch)
+        sensor_mappings[f'{sensor}_yaw']   = str(yaw)
+
     xacro_file = os.path.join(pkg_share, 'urdf', 'aac_vehicle.urdf.xacro')
-    robot_description = xacro.process_file(xacro_file).toxml()
+    robot_description = xacro.process_file(xacro_file, mappings=sensor_mappings).toxml()
 
     robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -59,14 +76,29 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
+            # Vehicle control & state
             '/ackermann_cmd@geometry_msgs/msg/Twist]ignition.msgs.Twist',
             '/model/aac_vehicle/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
             '/world/simple_track_world/model/aac_vehicle/joint_state'
             '@sensor_msgs/msg/JointState[ignition.msgs.Model',
+            # RPLIDAR A1
+            '/lidar/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+            # Cameras (C920e) — Ignition publishes image to /<topic>, camera_info to /camera_info
+            '/camera_front@sensor_msgs/msg/Image[ignition.msgs.Image',
+            '/camera_rear@sensor_msgs/msg/Image[ignition.msgs.Image',
+            '/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
+            # Ultrasonic sensors — modeled as narrow-beam gpu_lidar (ranges[0] = distance)
+            '/ultrasonic_front/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+            '/ultrasonic_rear/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+            '/ultrasonic_left/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+            '/ultrasonic_right/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
         ],
         remappings=[
             ('/model/aac_vehicle/odometry', '/odom_gt'),
             ('/world/simple_track_world/model/aac_vehicle/joint_state', '/joint_states'),
+            # Camera: Ignition publishes to /camera_front, remap to ROS convention
+            ('/camera_front', '/camera_front/image_raw'),
+            ('/camera_rear', '/camera_rear/image_raw'),
         ],
         output='screen'
     )

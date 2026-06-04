@@ -1,0 +1,37 @@
+# Sensor mounting positions relative to base_link
+# xyz: [x, y, z]  in meters
+# rpy: [roll, pitch, yaw]  in radians
+#
+# Vehicle coordinate reference (base_link):
+#   x+: forward   y+: left   z+: up
+#   front bumper: x=+0.495  rear bumper: x=-0.495
+#   left side:    y=+0.275  right side:  y=-0.275
+#   chassis top:  z≈+0.33
+
+lidar:
+  xyz: [0.0, 0.0, 0.33]
+  rpy: [0.0, 0.0, 0.0]
+
+camera_front:
+  xyz: [0.45, 0.0, 0.70]
+  rpy: [0.0, 0.2617, 0.0]
+
+camera_rear:
+  xyz: [-0.45, 0.0, 0.70]
+  rpy: [0.0, 0.2617, 3.14159]
+
+ultrasonic_front:
+  xyz: [0.495, 0.0, 0.10]
+  rpy: [0.0, 0.0, 0.0]
+
+ultrasonic_rear:
+  xyz: [-0.495, 0.0, 0.10]
+  rpy: [0.0, 0.0, 3.14159]
+
+ultrasonic_left:
+  xyz: [0.0, 0.275, 0.10]
+  rpy: [0.0, 0.0, 1.5708]
+
+ultrasonic_right:
+  xyz: [0.0, -0.275, 0.10]
+  rpy: [0.0, 0.0, -1.5708]

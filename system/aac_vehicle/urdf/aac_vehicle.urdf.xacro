@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="aac_vehicle">
 
+  <xacro:include filename="$(find aac_vehicle)/urdf/sensors.urdf.xacro"/>
+
   <!-- ============================================================
        Vehicle parameters — AAC 2026 scale car platform
          Body: 99 x 55 x 41 cm

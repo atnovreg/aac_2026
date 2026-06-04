@@ -13,6 +13,11 @@
             name="ignition::gazebo::systems::UserCommands"/>
     <plugin filename="ignition-gazebo-scene-broadcaster-system"
             name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <!-- Required for camera and lidar rendering -->
+    <plugin filename="ignition-gazebo-sensors-system"
+            name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <scene>
       <ambient>0.8 0.8 0.8 1.0</ambient>
@@ -80,6 +85,179 @@
             </pbr>
           </material>
         </visual>
+      </link>
+    </model>
+
+    <!-- ============================================================
+         Stadium walls — 5 m outside track boundary (12×16 m)
+         Track: X ±6, Y ±8  →  Walls: X ±11, Y ±13
+         Wall dimensions: 0.2 m thick, 1.5 m tall
+    ============================================================ -->
+    <model name="wall_north">
+      <static>true</static>
+      <pose>0 13 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>22.4 0.2 1.5</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>22.4 0.2 1.5</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_south">
+      <static>true</static>
+      <pose>0 -13 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>22.4 0.2 1.5</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>22.4 0.2 1.5</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_east">
+      <static>true</static>
+      <pose>11 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.2 26 1.5</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.2 26 1.5</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_west">
+      <static>true</static>
+      <pose>-11 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.2 26 1.5</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.2 26 1.5</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============================================================
+         Obstacles — scattered outside track area (X ±6, Y ±8)
+         Boxes  (0.4×0.4×0.4 m, orange) = barrels/crates
+         Cylinders (r=0.15 m, h=1.0 m, yellow) = traffic cones/posts
+    ============================================================ -->
+
+    <!-- Box obstacles -->
+    <model name="obs_box_1"><static>true</static><pose>9 5 0.2 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 0.4 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_box_2"><static>true</static><pose>9 -5 0.2 0 0 0.4</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 0.4 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_box_3"><static>true</static><pose>-9 5 0.2 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 0.4 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_box_4"><static>true</static><pose>-9 -5 0.2 0 0 0.8</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 0.4 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_box_5"><static>true</static><pose>3 11 0.2 0 0 0.3</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.5 0.5 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.5 0.5 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_box_6"><static>true</static><pose>-3 -11 0.2 0 0 1.0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.5 0.5 0.4</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.5 0.5 0.4</size></box></geometry>
+          <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <!-- Cylinder obstacles (traffic cone / post style) -->
+    <model name="obs_cyl_1"><static>true</static><pose>9 12 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_2"><static>true</static><pose>-9 12 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_3"><static>true</static><pose>9 -12 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_4"><static>true</static><pose>-9 -12 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_5"><static>true</static><pose>9 3 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_6"><static>true</static><pose>-9 -3 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_7"><static>true</static><pose>0 11 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_8"><static>true</static><pose>0 -11 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.8 0.0 1</ambient><diffuse>0.95 0.8 0.0 1</diffuse></material></visual>
       </link>
     </model>
 

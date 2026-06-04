@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ============================================================
+       Sensor TF arguments — overridden by sensor_config.yaml at launch
+       All values relative to base_link: xyz [m], rpy [rad]
+  ============================================================ -->
+
+  <!-- RPLIDAR A1 -->
+  <xacro:arg name="lidar_x"     default="0.0"/>
+  <xacro:arg name="lidar_y"     default="0.0"/>
+  <xacro:arg name="lidar_z"     default="0.33"/>
+  <xacro:arg name="lidar_roll"  default="0.0"/>
+  <xacro:arg name="lidar_pitch" default="0.0"/>
+  <xacro:arg name="lidar_yaw"   default="0.0"/>
+
+  <!-- Logitech C920e — front -->
+  <xacro:arg name="camera_front_x"     default="0.45"/>
+  <xacro:arg name="camera_front_y"     default="0.0"/>
+  <xacro:arg name="camera_front_z"     default="0.15"/>
+  <xacro:arg name="camera_front_roll"  default="0.0"/>
+  <xacro:arg name="camera_front_pitch" default="0.0"/>
+  <xacro:arg name="camera_front_yaw"   default="0.0"/>
+
+  <!-- Logitech C920e — rear -->
+  <xacro:arg name="camera_rear_x"     default="-0.45"/>
+  <xacro:arg name="camera_rear_y"     default="0.0"/>
+  <xacro:arg name="camera_rear_z"     default="0.15"/>
+  <xacro:arg name="camera_rear_roll"  default="0.0"/>
+  <xacro:arg name="camera_rear_pitch" default="0.0"/>
+  <xacro:arg name="camera_rear_yaw"   default="3.14159"/>
+
+  <!-- Ultrasonic sensors -->
+  <xacro:arg name="ultrasonic_front_x"     default="0.495"/>
+  <xacro:arg name="ultrasonic_front_y"     default="0.0"/>
+  <xacro:arg name="ultrasonic_front_z"     default="0.10"/>
+  <xacro:arg name="ultrasonic_front_roll"  default="0.0"/>
+  <xacro:arg name="ultrasonic_front_pitch" default="0.0"/>
+  <xacro:arg name="ultrasonic_front_yaw"   default="0.0"/>
+
+  <xacro:arg name="ultrasonic_rear_x"     default="-0.495"/>
+  <xacro:arg name="ultrasonic_rear_y"     default="0.0"/>
+  <xacro:arg name="ultrasonic_rear_z"     default="0.10"/>
+  <xacro:arg name="ultrasonic_rear_roll"  default="0.0"/>
+  <xacro:arg name="ultrasonic_rear_pitch" default="0.0"/>
+  <xacro:arg name="ultrasonic_rear_yaw"   default="3.14159"/>
+
+  <xacro:arg name="ultrasonic_left_x"     default="0.0"/>
+  <xacro:arg name="ultrasonic_left_y"     default="0.275"/>
+  <xacro:arg name="ultrasonic_left_z"     default="0.10"/>
+  <xacro:arg name="ultrasonic_left_roll"  default="0.0"/>
+  <xacro:arg name="ultrasonic_left_pitch" default="0.0"/>
+  <xacro:arg name="ultrasonic_left_yaw"   default="1.5708"/>
+
+  <xacro:arg name="ultrasonic_right_x"     default="0.0"/>
+  <xacro:arg name="ultrasonic_right_y"     default="-0.275"/>
+  <xacro:arg name="ultrasonic_right_z"     default="0.10"/>
+  <xacro:arg name="ultrasonic_right_roll"  default="0.0"/>
+  <xacro:arg name="ultrasonic_right_pitch" default="0.0"/>
+  <xacro:arg name="ultrasonic_right_yaw"   default="-1.5708"/>
+
+  <!-- ============================================================
+       RPLIDAR A1 (A1M8)
+         range: 0.15–12 m  |  360°  |  5.5 Hz @ 360 samples
+  ============================================================ -->
+  <link name="lidar_link"/>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="lidar_link"/>
+    <origin xyz="$(arg lidar_x) $(arg lidar_y) $(arg lidar_z)"
+            rpy="$(arg lidar_roll) $(arg lidar_pitch) $(arg lidar_yaw)"/>
+  </joint>
+
+  <gazebo reference="lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <topic>/lidar/scan</topic>
+      <update_rate>5.5</update_rate>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159265</min_angle>
+            <max_angle>3.14159265</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- ============================================================
+       Logitech C920e — front camera
+         1280×720 @ 30 fps  |  HFoV ≈ 70° (from dFOV 78°, 16:9)
+  ============================================================ -->
+  <link name="camera_front_link"/>
+  <joint name="camera_front_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="camera_front_link"/>
+    <origin xyz="$(arg camera_front_x) $(arg camera_front_y) $(arg camera_front_z)"
+            rpy="$(arg camera_front_roll) $(arg camera_front_pitch) $(arg camera_front_yaw)"/>
+  </joint>
+
+  <gazebo reference="camera_front_link">
+    <sensor name="camera_front" type="camera">
+      <topic>/camera_front</topic>
+      <update_rate>30</update_rate>
+      <camera>
+        <horizontal_fov>1.2217</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>100.0</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- ============================================================
+       Logitech C920e — rear camera
+  ============================================================ -->
+  <link name="camera_rear_link"/>
+  <joint name="camera_rear_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="camera_rear_link"/>
+    <origin xyz="$(arg camera_rear_x) $(arg camera_rear_y) $(arg camera_rear_z)"
+            rpy="$(arg camera_rear_roll) $(arg camera_rear_pitch) $(arg camera_rear_yaw)"/>
+  </joint>
+
+  <gazebo reference="camera_rear_link">
+    <sensor name="camera_rear" type="camera">
+      <topic>/camera_rear</topic>
+      <update_rate>30</update_rate>
+      <camera>
+        <horizontal_fov>1.2217</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>100.0</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- ============================================================
+       Ultrasonic sensors (×4)
+         range: 0.02–4.0 m  |  beam half-angle: 15°  |  20 Hz
+         front / rear / left / right
+  ============================================================ -->
+  <!-- Ultrasonic modeled as narrow-beam gpu_lidar (1 ray, ±15° FOV)
+       sonar sensor type not bridgeable in Ignition Fortress
+       Output: LaserScan with 1 sample → ranges[0] = distance [m] -->
+  <xacro:macro name="ultrasonic_sensor" params="name x y z roll pitch yaw">
+    <link name="${name}_link"/>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child  link="${name}_link"/>
+      <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}"/>
+    </joint>
+    <gazebo reference="${name}_link">
+      <sensor name="${name}" type="gpu_lidar">
+        <topic>/${name}/scan</topic>
+        <update_rate>20</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.2618</min_angle>
+              <max_angle>0.2618</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>4.0</max>
+            <resolution>0.005</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.005</stddev>
+          </noise>
+        </lidar>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:ultrasonic_sensor name="ultrasonic_front"
+    x="$(arg ultrasonic_front_x)" y="$(arg ultrasonic_front_y)" z="$(arg ultrasonic_front_z)"
+    roll="$(arg ultrasonic_front_roll)" pitch="$(arg ultrasonic_front_pitch)" yaw="$(arg ultrasonic_front_yaw)"/>
+
+  <xacro:ultrasonic_sensor name="ultrasonic_rear"
+    x="$(arg ultrasonic_rear_x)" y="$(arg ultrasonic_rear_y)" z="$(arg ultrasonic_rear_z)"
+    roll="$(arg ultrasonic_rear_roll)" pitch="$(arg ultrasonic_rear_pitch)" yaw="$(arg ultrasonic_rear_yaw)"/>
+
+  <xacro:ultrasonic_sensor name="ultrasonic_left"
+    x="$(arg ultrasonic_left_x)" y="$(arg ultrasonic_left_y)" z="$(arg ultrasonic_left_z)"
+    roll="$(arg ultrasonic_left_roll)" pitch="$(arg ultrasonic_left_pitch)" yaw="$(arg ultrasonic_left_yaw)"/>
+
+  <xacro:ultrasonic_sensor name="ultrasonic_right"
+    x="$(arg ultrasonic_right_x)" y="$(arg ultrasonic_right_y)" z="$(arg ultrasonic_right_z)"
+    roll="$(arg ultrasonic_right_roll)" pitch="$(arg ultrasonic_right_pitch)" yaw="$(arg ultrasonic_right_yaw)"/>
+
+</robot>
