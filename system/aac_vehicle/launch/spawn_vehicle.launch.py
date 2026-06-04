@@ -65,7 +65,7 @@ def generate_launch_description():
             '@sensor_msgs/msg/JointState[ignition.msgs.Model',
         ],
         remappings=[
-            ('/model/aac_vehicle/odometry', '/odom'),
+            ('/model/aac_vehicle/odometry', '/odom_gt'),
             ('/world/simple_track_world/model/aac_vehicle/joint_state', '/joint_states'),
         ],
         output='screen'

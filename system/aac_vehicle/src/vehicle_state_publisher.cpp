@@ -24,7 +24,7 @@ VehicleStatePublisher::VehicleStatePublisher(const std::string & node_name)
     std::bind(&VehicleStatePublisher::ackermannCallback, this, std::placeholders::_1));
 
   sub_odom_ = create_subscription<nav_msgs::msg::Odometry>(
-    "/odom", rclcpp::SensorDataQoS(),
+    "/odom_gt", rclcpp::SensorDataQoS(),
     std::bind(&VehicleStatePublisher::odomCallback, this, std::placeholders::_1));
 }
 

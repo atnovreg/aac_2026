@@ -169,6 +169,14 @@ echo "alias kill_sys='bash /home/${USER}/ros_ws/src/aac_2026/kill_sys.sh'" >> ~/
 bash /ros_ws/src/aac_2026/stop.sh
 ```
 
+### Check tmux/Gazebo shutdown harness inside the container
+
+```bash
+cd /ros_ws/src/aac_2026
+operations/harnesses/tmux_shutdown_harness.sh
+operations/harnesses/tmux_shutdown_harness.sh --live
+```
+
 Apply changes:
 
 ```bash
