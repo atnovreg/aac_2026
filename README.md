@@ -76,8 +76,35 @@ cd aac_2026
 git checkout main
 ```
 
-> **Note**: If you do not have an SSH key configured, submodule cloning may fail.
+> **Note**: `--recursive` is required to also clone submodules (e.g. `navigation/WildGS-SLAM`).
+> Without it, `navigation/WildGS-SLAM/` will be an empty directory.
+> If you do not have an SSH key configured, submodule cloning may fail.
 > Set up GitHub SSH keys here: [github.com/settings/keys](https://github.com/settings/keys)
+
+### If you forgot `--recursive` (submodule recovery)
+
+If you already cloned without `--recursive` and `navigation/WildGS-SLAM/` is empty, run:
+
+```bash
+cd /home/${USER}/ros_ws/src/aac_2026
+git submodule update --init --recursive
+```
+
+This fetches and checks out all registered submodules at the pinned commit.
+
+If the submodule directory is missing entirely or the state looks broken:
+
+```bash
+cd /home/${USER}/ros_ws/src/aac_2026
+
+# Step 1: Deinitialize and remove any stale state
+git submodule deinit -f navigation/WildGS-SLAM
+git rm -rf --cached navigation/WildGS-SLAM 2>/dev/null || true
+rm -rf .git/modules/navigation/WildGS-SLAM
+
+# Step 2: Re-initialize and clone
+git submodule update --init --recursive
+```
 
 ---
 

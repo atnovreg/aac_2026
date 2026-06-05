@@ -44,7 +44,7 @@ mkdir release
 cd release/
 cmake -D WITH_CUDA=ON \
       -D WITH_CUDNN=ON \
-      -D CUDA_ARCH_BIN="8.7" \
+      -D CUDA_ARCH_BIN="${CUDA_ARCH_BIN:-12.0}" \
 	    -D CMAKE_CUDA_FLAGS="-DCV_CUDA_DISABLER=double" \
       -D CUDA_ARCH_PTX="" \
       -D OPENCV_GENERATE_PKGCONFIG=ON \

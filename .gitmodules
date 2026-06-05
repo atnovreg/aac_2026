@@ -1,0 +1,3 @@
+[submodule "navigation/WildGS-SLAM"]
+	path = navigation/WildGS-SLAM
+	url = https://github.com/Leedk3/WildGS-SLAM.git

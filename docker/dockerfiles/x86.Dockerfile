@@ -1,10 +1,13 @@
 ARG TAG
 
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04
 
 ENV ROS_DISTRO=humble
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 ENV ROS_PYTHON_VERSION=3
+ENV CUDA_HOME=/usr/local/cuda
+ENV PATH=${CUDA_HOME}/bin:${PATH}
+ENV TORCH_CUDA_ARCH_LIST=12.0
 
 ENV SHELL /bin/bash
 SHELL ["/bin/bash", "-c"] 
@@ -26,8 +29,12 @@ RUN apt-get update && apt-get install -y \
     ln -sf python3.10 /usr/bin/python3 && \
     pip3 install --upgrade pip
 
-# PyTorch 설치 (CUDA 12.1용)
-RUN pip install torch==2.1.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+# PyTorch install for RTX 50-series / Blackwell sm_120.
+# Keep the global Python usable even when WildGS-SLAM's venv is not activated.
+RUN pip install --no-cache-dir \
+    torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0 \
+    --index-url https://download.pytorch.org/whl/cu128
+RUN pip install --no-cache-dir xformers==0.0.35
 
 ## Install ROS2
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
