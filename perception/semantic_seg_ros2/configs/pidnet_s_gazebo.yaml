@@ -1,0 +1,40 @@
+backend: onnxruntime
+
+model:
+  # Qualcomm's public PIDNet export is based on PIDNet_S_Cityscapes_val.pt and
+  # is easier to download in Docker than the original Google Drive PyTorch weight.
+  checkpoint: /ros_ws/src/aac_2026/perception/PIDNet/pretrained_models/qualcomm_pidnet_onnx_float/pidnet.onnx
+  device: cuda:0
+  providers: [CUDAExecutionProvider, CPUExecutionProvider]
+  input_size: [1024, 2048]  # [height, width]
+  input_layout: nchw
+  output_layout: nchw
+  color_order: rgb
+  mean: null
+  std: null
+  class_names:
+    - road
+    - sidewalk
+    - building
+    - wall
+    - fence
+    - pole
+    - traffic light
+    - traffic sign
+    - vegetation
+    - terrain
+    - sky
+    - person
+    - rider
+    - car
+    - truck
+    - bus
+    - train
+    - motorcycle
+    - bicycle
+
+output:
+  # Cityscapes pretrained models label road as class 0. Lane markings are not a
+  # separate Cityscapes class, so train a custom 3-class model if lane masks are required.
+  drivable_class_ids: [0]
+  lane_class_ids: []

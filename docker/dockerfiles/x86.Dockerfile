@@ -35,6 +35,7 @@ RUN pip install --no-cache-dir \
     torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0 \
     --index-url https://download.pytorch.org/whl/cu128
 RUN pip install --no-cache-dir xformers==0.0.35
+RUN pip install --no-cache-dir onnxruntime-gpu==1.23.2
 
 ## Install ROS2
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg

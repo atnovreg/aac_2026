@@ -1,0 +1,21 @@
+backend: pidnet_s
+
+model:
+  source_path: /ros_ws/src/aac_2026/perception/PIDNet
+  checkpoint: /ros_ws/src/aac_2026/perception/PIDNet/pretrained_models/cityscapes/PIDNet_S_Cityscapes_test.pt
+  allow_random_weights: true
+  model_name: pidnet_s
+  num_classes: 3
+  device: cuda:0
+  input_size: [128, 256]
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  align_corners: true
+  class_names:
+    - background
+    - drivable
+    - lane_marking
+
+output:
+  drivable_class_ids: [1, 2]
+  lane_class_ids: [2]

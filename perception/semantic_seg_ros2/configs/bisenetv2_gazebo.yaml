@@ -1,0 +1,40 @@
+backend: bisenetv2
+
+model:
+  # CoinCheung BiSeNet submodule source checkout:
+  #   git submodule update --init --recursive perception/BiSeNet
+  source_path: /ros_ws/src/aac_2026/perception/BiSeNet
+  checkpoint: /ros_ws/src/aac_2026/perception/BiSeNet/res/model_final.pth
+  model_type: bisenetv2
+  num_classes: 19
+  device: cuda:0
+  input_size: [512, 1024]  # [height, width]
+  mean: [0.3257, 0.3690, 0.3223]
+  std: [0.2112, 0.2148, 0.2115]
+  align_corners: false
+  class_names:
+    - road
+    - sidewalk
+    - building
+    - wall
+    - fence
+    - pole
+    - traffic light
+    - traffic sign
+    - vegetation
+    - terrain
+    - sky
+    - person
+    - rider
+    - car
+    - truck
+    - bus
+    - train
+    - motorcycle
+    - bicycle
+
+output:
+  # Cityscapes pretrained models label road as class 0. Lane markings are not a
+  # separate Cityscapes class, so train a custom 3-class model if lane masks are required.
+  drivable_class_ids: [0]
+  lane_class_ids: []

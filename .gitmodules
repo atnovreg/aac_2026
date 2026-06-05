@@ -1,3 +1,15 @@
 [submodule "navigation/WildGS-SLAM"]
 	path = navigation/WildGS-SLAM
 	url = https://github.com/Leedk3/WildGS-SLAM.git
+[submodule "perception/sam3"]
+	path = perception/sam3
+	url = https://github.com/facebookresearch/sam3.git
+	ignore = untracked
+[submodule "perception/PIDNet"]
+	path = perception/PIDNet
+	url = https://github.com/XuJiacong/PIDNet.git
+	ignore = untracked
+[submodule "perception/BiSeNet"]
+	path = perception/BiSeNet
+	url = https://github.com/CoinCheung/BiSeNet.git
+	ignore = untracked

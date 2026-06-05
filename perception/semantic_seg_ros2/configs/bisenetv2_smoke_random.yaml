@@ -1,0 +1,22 @@
+backend: bisenetv2
+
+model:
+  source_path: /ros_ws/src/aac_2026/perception/BiSeNet
+  checkpoint: /ros_ws/src/aac_2026/perception/BiSeNet/res/model_final.pth
+  allow_random_weights: true
+  skip_backbone_pretrain: true
+  model_type: bisenetv2
+  num_classes: 3
+  device: cuda:0
+  input_size: [128, 256]
+  mean: [0.3257, 0.3690, 0.3223]
+  std: [0.2112, 0.2148, 0.2115]
+  align_corners: false
+  class_names:
+    - background
+    - drivable
+    - lane_marking
+
+output:
+  drivable_class_ids: [1, 2]
+  lane_class_ids: [2]
