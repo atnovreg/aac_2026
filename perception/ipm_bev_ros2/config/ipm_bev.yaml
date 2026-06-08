@@ -1,0 +1,53 @@
+ipm_bev_node:
+  ros__parameters:
+    use_sim_time: true
+
+    # AAC Gazebo camera topics
+    front_image_topic: /camera_front/image_raw
+    rear_image_topic: /camera_rear/image_raw
+
+    # ros_gz_bridge currently exposes one CameraInfo topic. Both simulated
+    # cameras share the same 1280x720, 70-degree calibration.
+    front_camera_info_topic: /camera_info
+    rear_camera_info_topic: /camera_info
+
+    # Installed sensor TFs from aac_vehicle/config/sensor_config.yaml
+    base_frame: base_footprint
+    front_camera_frame: camera_front_link
+    rear_camera_frame: camera_rear_link
+    prefer_image_frame_id: false
+
+    # Gazebo camera links use X forward, Y left, Z up. Use ros_optical only
+    # when the selected TF frame follows X right, Y down, Z forward.
+    camera_frame_convention: link_x_forward
+
+    use_camera_info: true
+    allow_fov_fallback: true
+    horizontal_fov: 1.2217
+    sync_tolerance_sec: 0.15
+    min_camera_depth: 0.05
+
+    # BEV image orientation:
+    #   top    = vehicle front (+X)
+    #   left   = vehicle left (+Y)
+    #   bottom = vehicle rear (-X)
+    x_min: -10.0
+    x_max: 10.0
+    y_min: -6.0
+    y_max: 6.0
+    resolution: 0.025
+    ground_z: 0.0
+    fusion_split_x: 0.0
+
+    mask_vehicle_footprint: true
+    vehicle_x_min: -0.55
+    vehicle_x_max: 0.55
+    vehicle_y_min: -0.30
+    vehicle_y_max: 0.30
+
+    front_bev_topic: /ipm_bev/front
+    rear_bev_topic: /ipm_bev/rear
+    fused_bev_topic: /ipm_bev/fused
+    valid_mask_topic: /ipm_bev/valid_mask
+    source_mask_topic: /ipm_bev/source_mask
+    debug_bev_topic: /ipm_bev/debug
