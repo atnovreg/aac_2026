@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(ipm_bev_ros2)
+project(ipm_bev_node)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
@@ -20,10 +20,10 @@ ament_auto_add_library(ipm_bev SHARED
 )
 target_link_libraries(ipm_bev ${OpenCV_LIBS})
 
-ament_auto_add_executable(ipm_bev_exe
+ament_auto_add_executable(ipm_bev_node_exe
   src/ipm_bev_main.cpp
 )
-target_link_libraries(ipm_bev_exe ipm_bev)
+target_link_libraries(ipm_bev_node_exe ipm_bev)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -32,7 +32,9 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_auto_package(INSTALL_TO_SHARE
+ament_auto_package(
+  USE_SCOPED_HEADER_INSTALL_DIR
+  INSTALL_TO_SHARE
   config
   launch
 )

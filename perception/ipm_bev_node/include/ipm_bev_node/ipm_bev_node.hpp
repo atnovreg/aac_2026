@@ -1,5 +1,5 @@
-#ifndef IPM_BEV_ROS2__IPM_BEV_NODE_HPP_
-#define IPM_BEV_ROS2__IPM_BEV_NODE_HPP_
+#ifndef IPM_BEV_NODE__IPM_BEV_NODE_HPP_
+#define IPM_BEV_NODE__IPM_BEV_NODE_HPP_
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
 
-namespace ipm_bev_ros2
+namespace ipm_bev_node
 {
 
 class IpmBevNode : public rclcpp::Node
@@ -127,6 +127,6 @@ private:
   int64_t last_rear_stamp_ns_{-1};
 };
 
-}  // namespace ipm_bev_ros2
+}  // namespace ipm_bev_node
 
-#endif  // IPM_BEV_ROS2__IPM_BEV_NODE_HPP_
+#endif  // IPM_BEV_NODE__IPM_BEV_NODE_HPP_

@@ -1,4 +1,4 @@
-# IPM BEV ROS2
+# IPM BEV Node
 
 전방 및 후방 카메라 영상과 차량의 카메라 TF를 이용해 지면 평면의
 Inverse Perspective Mapping(IPM) 이미지를 생성하는 ROS2 C++ 노드입니다.
@@ -49,16 +49,42 @@ Docker 컨테이너 안에서 실행합니다.
 ```bash
 cd /ros_ws
 source /opt/ros/$ROS_DISTRO/setup.bash
+src/aac_2026/perception/setup_colcon_ignores.sh
 
 colcon build \
-  --base-paths /ros_ws/src/aac_2026/perception/ipm_bev_ros2 \
+  --base-paths /ros_ws/src/aac_2026/perception/ipm_bev_node \
   --symlink-install \
-  --packages-select ipm_bev_ros2
+  --packages-select ipm_bev_node
 
 source install/setup.bash
 ```
 
-## Run
+## Run With AAC Stack
+
+The normal team workflow is to run this node through the repository-level
+tmux session:
+
+```bash
+cd /ros_ws/src/aac_2026
+./build.sh
+./start.sh
+```
+
+`start.sh` loads `operations/tmuxp_config/config.yaml`, which currently starts
+Gazebo vehicle spawning, joystick control, and:
+
+```bash
+ros2 launch ipm_bev_node deploy.launch.py
+```
+
+Stop the stack cleanly with:
+
+```bash
+cd /ros_ws/src/aac_2026
+./stop.sh
+```
+
+## Run Standalone
 
 Gazebo 차량과 `robot_state_publisher`를 먼저 실행한 뒤:
 
@@ -66,7 +92,7 @@ Gazebo 차량과 `robot_state_publisher`를 먼저 실행한 뒤:
 source /opt/ros/$ROS_DISTRO/setup.bash
 source /ros_ws/install/setup.bash
 
-ros2 launch ipm_bev_ros2 ipm_bev.launch.py
+ros2 launch ipm_bev_node deploy.launch.py
 ```
 
 확인:

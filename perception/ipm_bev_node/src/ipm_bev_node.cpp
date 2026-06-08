@@ -1,4 +1,4 @@
-#include "ipm_bev_ros2/ipm_bev_node.hpp"
+#include "ipm_bev_node/ipm_bev_node.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -15,7 +15,7 @@
 #include <tf2/LinearMath/Transform.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
-namespace ipm_bev_ros2
+namespace ipm_bev_node
 {
 
 namespace
@@ -643,4 +643,4 @@ double IpmBevNode::yFromCol(int col) const
   return y_max_ - (static_cast<double>(col) + 0.5) * resolution_;
 }
 
-}  // namespace ipm_bev_ros2
+}  // namespace ipm_bev_node

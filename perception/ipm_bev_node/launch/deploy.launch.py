@@ -9,7 +9,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     default_config = os.path.join(
-        get_package_share_directory('ipm_bev_ros2'),
+        get_package_share_directory('ipm_bev_node'),
         'config',
         'ipm_bev.yaml',
     )
@@ -21,8 +21,8 @@ def generate_launch_description():
     )
 
     node = Node(
-        package='ipm_bev_ros2',
-        executable='ipm_bev_exe',
+        package='ipm_bev_node',
+        executable='ipm_bev_node_exe',
         name='ipm_bev_node',
         output='screen',
         emulate_tty=True,

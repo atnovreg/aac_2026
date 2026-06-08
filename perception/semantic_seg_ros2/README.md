@@ -39,6 +39,7 @@ The wrapper uses external model code through git submodules.
 ```bash
 cd /ros_ws/src/aac_2026
 git submodule update --init --recursive perception/PIDNet perception/BiSeNet
+perception/setup_colcon_ignores.sh
 ```
 
 Download checkpoints into each repo or into a shared checkpoint folder, then

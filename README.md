@@ -12,11 +12,12 @@ A Docker-based development environment built on Ubuntu 22.04 + ROS2 Humble for b
 4. [Shell Environment Setup](#4-shell-environment-setup)
 5. [Run the Container](#5-run-the-container)
 6. [Build Packages](#6-build-packages)
-7. [Sensors](#7-sensors)
-8. [GUI on Mac (RViz2 / X11)](#8-gui-on-mac-rviz2--x11)
-9. [Troubleshooting](#9-troubleshooting)
-10. [TODO](#10-todo)
-11. [Changelog](#11-changelog)
+7. [Run AAC Stack](#7-run-aac-stack)
+8. [Sensors](#8-sensors)
+9. [GUI on Mac (RViz2 / X11)](#9-gui-on-mac-rviz2--x11)
+10. [Troubleshooting](#10-troubleshooting)
+11. [TODO](#11-todo)
+12. [Changelog](#12-changelog)
 
 ---
 
@@ -59,7 +60,7 @@ sudo systemctl restart docker
 Verify installation:
 
 ```bash
-docker run --rm --gpus all nvidia/cuda:12.1.1-base-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.8.1-base-ubuntu22.04 nvidia-smi
 ```
 
 > Reference: [NVIDIA Docker Setup Guide](https://velog.io/@boom109/Nvidia-docker)
@@ -116,7 +117,7 @@ cd /home/${USER}/ros_ws/src/aac_2026/docker
 
 ### For x86 Desktop (PC / Workstation)
 
-Includes: Ubuntu 22.04, ROS2 Humble, CUDA 12.1 + cuDNN 8, PyTorch 2.1.0 (CUDA), OpenCV (CUDA), ZeroMQ
+Includes: Ubuntu 22.04, ROS2 Humble, CUDA 12.8 + cuDNN, PyTorch 2.11.0 (cu128), xFormers, ONNX Runtime GPU, OpenCV (CUDA), ZeroMQ
 
 ```bash
 ./build_docker.sh x86
@@ -248,21 +249,72 @@ cd /ros_ws/src/aac_2026
 ./build.sh
 ```
 
+`build.sh` first creates `COLCON_IGNORE` files for external ML repositories
+such as `perception/BiSeNet`, `perception/PIDNet`, `perception/sam3`, and the
+local `wildgs-env` virtual environment. This keeps colcon from treating
+third-party demo projects as ROS packages.
+
 To build a specific package only:
 
 ```bash
 aac_enter
 cd /ros_ws
+src/aac_2026/perception/setup_colcon_ignores.sh
 colcon build --packages-up-to example_cpp_node
 ```
 
 ---
 
-## 7. Sensors
+## 7. Run AAC Stack
+
+Inside the container, build once or after code/config changes, then start the
+current Gazebo autonomy stack with `start.sh`:
+
+```bash
+aac_enter
+cd /ros_ws/src/aac_2026
+./build.sh
+./start.sh
+```
+
+If the workspace is already built, you can skip `./build.sh` and run
+`./start.sh` directly.
+
+`start.sh` loads `operations/tmuxp_config/config.yaml` and creates the tmux
+session `AAC_2026`. The current session starts:
+
+| Pane | Command |
+|------|---------|
+| Vehicle / Gazebo | `ros2 launch aac_vehicle spawn_vehicle.launch.py` |
+| Joystick control | `ros2 launch joy_control_node joy_control.launch.py` |
+| IPM BEV | `ros2 launch ipm_bev_node deploy.launch.py` |
+
+Useful checks:
+
+```bash
+tmux attach -t AAC_2026
+ros2 topic list | grep ipm_bev
+rqt_image_view /ipm_bev/debug
+ros2 topic hz /ipm_bev/fused
+```
+
+Stop the stack with the shutdown helper instead of killing tmux directly:
+
+```bash
+cd /ros_ws/src/aac_2026
+./stop.sh
+```
+
+`stop.sh` sends `Ctrl-C` to every tmux pane first, then cleans up leftover
+Gazebo/ROS processes if they did not exit cleanly.
+
+---
+
+## 8. Sensors
 
 The following sensors are supported out of the box.
 
-### 7-1. USB Camera (×2)
+### 8-1. USB Camera (×2)
 
 Package: `sensors/usb_cam`
 
@@ -303,7 +355,7 @@ ls /dev/video*
 
 ---
 
-### 7-2. RPLiDAR (2D LiDAR)
+### 8-2. RPLiDAR (2D LiDAR)
 
 Package: `sensors/rplidar_ros2`
 
@@ -335,7 +387,7 @@ ls /dev/ttyUSB*
 
 ---
 
-## 8. GUI on Mac (RViz2 / X11)
+## 9. GUI on Mac (RViz2 / X11)
 
 Mac Docker Desktop runs containers inside a Linux VM, so mounting `/tmp/.X11-unix` does not work.
 Instead, `run_mac.sh` uses TCP-based X11 via XQuartz (`DISPLAY=host.docker.internal:0`).
@@ -371,7 +423,7 @@ rviz2
 
 ---
 
-## 9. Troubleshooting
+## 10. Troubleshooting
 
 ### `permission denied` when running Docker
 
@@ -424,7 +476,7 @@ dmesg | grep tty | tail -10
 
 ---
 
-## 10. TODO
+## 11. TODO
 
 - [ ] **USB device symlink (udev rules)**
   - Set up persistent symlinks so sensor device paths are stable across reboots and re-plugs.
@@ -434,7 +486,15 @@ dmesg | grep tty | tail -10
 
 ---
 
-## 11. Changelog
+## 12. Changelog
+
+### 2026-06-08 — Gazebo runtime and perception updates
+
+- x86 Docker base updated to CUDA 12.8.1 with PyTorch 2.11.0 cu128 for RTX 50-series GPUs.
+- Added `perception/setup_colcon_ignores.sh` and wired it into `build.sh` to keep third-party ML repositories out of colcon discovery.
+- Added `perception/ipm_bev_node` for front/rear camera TF-based IPM BEV generation.
+- `operations/tmuxp_config/config.yaml` now starts Gazebo vehicle spawn, joystick control, and `ipm_bev_node`.
+- Use `./start.sh` to launch the tmux stack and `./stop.sh` for clean Gazebo/ROS shutdown.
 
 ### 2026-06-01 — Migration from `irdl_tiny` scaffold
 

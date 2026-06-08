@@ -11,3 +11,5 @@ windows:
       - exec ros2 launch aac_vehicle spawn_vehicle.launch.py
     - shell_command:
       - ros2 launch joy_control_node joy_control.launch.py
+    - shell_command:
+      - ros2 launch ipm_bev_node deploy.launch.py
