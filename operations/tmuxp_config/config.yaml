@@ -13,3 +13,5 @@ windows:
       - ros2 launch joy_control_node joy_control.launch.py
     - shell_command:
       - ros2 launch ipm_bev_node deploy.launch.py
+    - shell_command:
+      - ros2 launch image_match_node opencv.launch.py

@@ -1,0 +1,68 @@
+opencv_localization:
+  ros__parameters:
+    use_sim_time: true
+
+    image_topic: /ipm_bev/fused
+    map_image_path: ""
+
+    # feature_type: sift | orb | akaze
+    feature_type: sift
+    max_features: 6000
+    ratio_test: 0.72
+    use_clahe: true
+    frame_stride: 1
+    min_matches: 12
+    min_inliers: 6
+    min_inlier_ratio: 0.1
+    ransac_reproj_threshold: 5.0
+    forward_probe_distance: 1.0
+
+    # Add lane-focused correspondences to the regular grayscale features.
+    # Map and BEV images pass through the same classic HSV/morphology pipeline.
+    enable_lane_features: true
+    lane_ratio_test: 0.75
+    lane_max_matches: 100
+    lane_hsv_lower: [0, 0, 165]
+    lane_hsv_upper: [179, 80, 255]
+    lane_roi_y_min_ratio: 0.0
+    lane_roi_y_max_ratio: 1.0
+    lane_kernel_size: 5
+    lane_open_iterations: 0
+    lane_close_iterations: 1
+    lane_min_area: 20
+    lane_feature_dilation_ratio: 0.02
+
+    # Chamfer distance refinement: refine SIFT homography using lane mask EDT.
+    enable_chamfer_refinement: true
+    chamfer_max_pts: 400       # lane pixels sampled per frame (speed vs accuracy)
+    chamfer_score_gate: 20.0   # skip refinement if initial score > this (pixels)
+
+    map_x_min: -6.0
+    map_x_max: 6.0
+    map_y_min: -8.0
+    map_y_max: 8.0
+    # Gazebo box top-face UV:
+    # image u -> world +Y, image v decreasing -> world +X
+    map_swap_xy: true
+    map_flip_x: true
+    map_flip_y: false
+
+    bev_x_min: -10.0
+    bev_x_max: 10.0
+    bev_y_min: -6.0
+    bev_y_max: 6.0
+
+    map_frame: map
+    child_frame: base_footprint_opencv
+    publish_tf: false
+
+    pose_topic: /visual_localization/opencv/pose
+    odometry_topic: /visual_localization/opencv/odometry
+    debug_topic: /visual_localization/opencv/debug_matches
+    homography_topic: /visual_localization/opencv/homography
+    match_count_topic: /visual_localization/opencv/match_count
+    lane_match_count_topic: /visual_localization/opencv/lane_match_count
+    lane_inlier_count_topic: /visual_localization/opencv/lane_inlier_count
+    inlier_ratio_topic: /visual_localization/opencv/inlier_ratio
+    max_debug_matches: 120
+    debug_height: 720

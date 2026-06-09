@@ -13,3 +13,11 @@
 	path = perception/BiSeNet
 	url = https://github.com/CoinCheung/BiSeNet.git
 	ignore = untracked
+[submodule "navigation/image_match_node/MINIMA"]
+	path = navigation/image_match_node/MINIMA
+	url = https://github.com/LSXI7/MINIMA.git
+	ignore = untracked
+[submodule "navigation/image_match_node/EfficientLoFTR"]
+	path = navigation/image_match_node/EfficientLoFTR
+	url = https://github.com/zju3dv/EfficientLoFTR.git
+	ignore = untracked

@@ -1,0 +1,5 @@
+.git
+**/.git
+.hf_home
+**/__pycache__
+*.py[cod]

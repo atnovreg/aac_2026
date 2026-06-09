@@ -77,7 +77,8 @@ DiffDrive 플러그인 대신 **JointController 방식**을 사용하여 정확�
 | `JointPositionController` | `front_right_steering_joint` | `/joint/front_right_steer` | rad |
 | `JointVelocityController` | `rear_left_wheel_joint` | `/joint/rear_left_wheel` | rad/s |
 | `JointVelocityController` | `rear_right_wheel_joint` | `/joint/rear_right_wheel` | rad/s |
-| `OdometryPublisher` | — | `/model/aac_vehicle/odometry` | — |
+| `AckermannSteering` odometry | — | `/model/aac_vehicle/odometry` | wheel odometry |
+| Gazebo dynamic pose | — | `/world/simple_track_world/dynamic_pose/info` | world ground truth |
 | `JointStatePublisher` | — | (joint states) | — |
 
 ### DiffDrive vs JointController 비교
@@ -118,7 +119,7 @@ L: 휠베이스, W: 트랙 폭, r: 휠 반지름
 | 토픽 | 타입 | 설명 |
 |------|------|------|
 | `/ackermann_drive` | `ackermann_msgs/AckermannDriveStamped` | 속도 + 조향각 명령 |
-| `/odom` | `nav_msgs/Odometry` | 현재 위치 (Gazebo OdometryPublisher) |
+| `/odom` | `nav_msgs/Odometry` | Ackermann 플러그인의 적분 wheel odometry |
 
 ### Publish
 
@@ -129,6 +130,7 @@ L: 휠베이스, W: 트랙 폭, r: 휠 반지름
 | `/joint/rear_left_wheel` | `std_msgs/Float64` | 좌후륜 각속도 [rad/s] |
 | `/joint/rear_right_wheel` | `std_msgs/Float64` | 우후륜 각속도 [rad/s] |
 | `/vehicle/marker` | `visualization_msgs/Marker` | RViz 차체 마커 |
+| `/odom_gt` | `nav_msgs/Odometry` | Gazebo 월드 pose 기반 ground truth (`map` frame) |
 
 ---
 
@@ -174,7 +176,13 @@ ros2 topic pub /ackermann_drive ackermann_msgs/msg/AckermannDriveStamped \
   /joint/rear_left_wheel    → ros_gz_bridge → JointVelocityController (Ignition)
   /joint/rear_right_wheel   → ros_gz_bridge → JointVelocityController (Ignition)
 
-  /model/aac_vehicle/odometry ← ros_gz_bridge ← OdometryPublisher (Ignition)
+  /model/aac_vehicle/odometry ← ros_gz_bridge ← AckermannSteering (Ignition)
         ↓ (remapped to /odom)
   vehicle_state_publisher (상태 로깅)
+
+  /world/simple_track_world/dynamic_pose/info
+        ↓ ros_gz_bridge (/gazebo/dynamic_pose)
+  gazebo_ground_truth_publisher
+        ↓
+  /odom_gt (map → base_link_gt)
 ```

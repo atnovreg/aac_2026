@@ -1,0 +1,53 @@
+minima_localization:
+  ros__parameters:
+    use_sim_time: true
+
+    image_topic: /ipm_bev/fused
+    map_image_path: ""
+
+    # method: loftr | roma | sp_lg
+    method: sp_lg
+    # ckpt_path: "" means auto-detect from MINIMA/weights/<method default>
+    # minima_lightglue.pth 
+    # minima_loftr.ckpt 
+    # minima_roma.pth
+    ckpt_path: "minima_lightglue.pth"
+    # match_thr applies to loftr only (coarse matching threshold)
+    match_thr: 0.2
+    device: cuda
+
+    frame_stride: 3
+    min_matches: 40
+    min_inliers: 20
+    min_inlier_ratio: 0.2
+    ransac_reproj_threshold: 4.0
+    forward_probe_distance: 1.0
+
+    # simple_track.world의 box 크기: X 12 m, Y 16 m.
+    map_x_min: -6.0
+    map_x_max: 6.0
+    map_y_min: -8.0
+    map_y_max: 8.0
+
+    # Gazebo box top-face UV와 월드 좌표 정렬 보정.
+    map_swap_xy: true
+    map_flip_x: true
+    map_flip_y: false
+
+    # ipm_bev_node 기본 출력 범위.
+    bev_x_min: -10.0
+    bev_x_max: 10.0
+    bev_y_min: -6.0
+    bev_y_max: 6.0
+
+    map_frame: map
+    child_frame: base_footprint
+    publish_tf: true
+
+    pose_topic: /visual_localization/pose
+    debug_topic: /visual_localization/debug_matches
+    homography_topic: /visual_localization/homography
+    match_count_topic: /visual_localization/match_count
+    inlier_ratio_topic: /visual_localization/inlier_ratio
+    max_debug_matches: 120
+    debug_height: 720

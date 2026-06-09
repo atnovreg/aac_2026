@@ -117,7 +117,7 @@ cd /home/${USER}/ros_ws/src/aac_2026/docker
 
 ### For x86 Desktop (PC / Workstation)
 
-Includes: Ubuntu 22.04, ROS2 Humble, CUDA 12.8 + cuDNN, PyTorch 2.11.0 (cu128), xFormers, ONNX Runtime GPU, OpenCV (CUDA), ZeroMQ
+Includes: Ubuntu 22.04, ROS2 Humble, CUDA 12.8 + cuDNN, PyTorch 2.11.0 (cu128), xFormers, Hugging Face Transformers, ONNX Runtime GPU, OpenCV (CUDA), ZeroMQ
 
 ```bash
 ./build_docker.sh x86
@@ -126,6 +126,9 @@ Includes: Ubuntu 22.04, ROS2 Humble, CUDA 12.8 + cuDNN, PyTorch 2.11.0 (cu128), 
 Resulting image: `aac-2026-image:x86`
 
 > **Note**: The first build may take 30 minutes to over an hour due to OpenCV CUDA compilation.
+> Hugging Face models are cached under
+> `/ros_ws/src/aac_2026/.hf_home`, so the cache remains available when the
+> Docker container is recreated. The directory is excluded from Git.
 
 ### For Mac (Apple Silicon — M1/M2/M3/M4/M5)
 
@@ -250,9 +253,9 @@ cd /ros_ws/src/aac_2026
 ```
 
 `build.sh` first creates `COLCON_IGNORE` files for external ML repositories
-such as `perception/BiSeNet`, `perception/PIDNet`, `perception/sam3`, and the
-local `wildgs-env` virtual environment. This keeps colcon from treating
-third-party demo projects as ROS packages.
+such as `navigation/WildGS-SLAM`, `perception/BiSeNet`, `perception/PIDNet`,
+`perception/sam3`, and the local `wildgs-env` virtual environment. This keeps
+colcon from treating third-party CUDA/Python projects as ROS packages.
 
 To build a specific package only:
 
@@ -288,6 +291,7 @@ session `AAC_2026`. The current session starts:
 | Vehicle / Gazebo | `ros2 launch aac_vehicle spawn_vehicle.launch.py` |
 | Joystick control | `ros2 launch joy_control_node joy_control.launch.py` |
 | IPM BEV | `ros2 launch ipm_bev_node deploy.launch.py` |
+| Visual localization (OpenCV) | `ros2 launch image_match_node opencv.launch.py` |
 
 Useful checks:
 
@@ -487,6 +491,19 @@ dmesg | grep tty | tail -10
 ---
 
 ## 12. Changelog
+
+### 2026-06-10 — OpenCV visual localization + Chamfer refinement
+
+- `image_match_node opencv.launch.py` added to `operations/tmuxp_config/config.yaml`.
+  `./start.sh` now launches the OpenCV SIFT localization node automatically as the fourth pane.
+- Added **Chamfer distance refinement** to the OpenCV backend (`opencv_node/ros_wrapper.py`):
+  - Map lane mask EDT precomputed once at startup.
+  - After RANSAC, a coarse-to-fine coordinate descent (3-DOF: dx, dy, dθ) minimises
+    the mean EDT of projected BEV lane pixels — no external dependencies (numpy only).
+  - Controlled by `enable_chamfer_refinement`, `chamfer_max_pts`, `chamfer_score_gate`
+    in `config/opencv_gazebo.yaml`.
+  - New topics: `/visual_localization/opencv/chamfer_score`,
+    `/visual_localization/opencv/chamfer_refined_score`.
 
 ### 2026-06-08 — Gazebo runtime and perception updates
 

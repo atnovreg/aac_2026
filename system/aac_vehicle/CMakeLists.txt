@@ -23,6 +23,9 @@ ament_auto_add_executable(vehicle_state_publisher_exe
 target_link_libraries(vehicle_state_publisher_exe
   vehicle_state_publisher)
 
+ament_auto_add_executable(gazebo_ground_truth_publisher
+  src/gazebo_ground_truth_publisher.cpp)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)

@@ -79,6 +79,8 @@ def generate_launch_description():
             # Vehicle control & state
             '/ackermann_cmd@geometry_msgs/msg/Twist]ignition.msgs.Twist',
             '/model/aac_vehicle/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
+            '/world/simple_track_world/dynamic_pose/info'
+            '@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',
             '/world/simple_track_world/model/aac_vehicle/joint_state'
             '@sensor_msgs/msg/JointState[ignition.msgs.Model',
             # RPLIDAR A1
@@ -94,12 +96,30 @@ def generate_launch_description():
             '/ultrasonic_right/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
         ],
         remappings=[
-            ('/model/aac_vehicle/odometry', '/odom_gt'),
+            ('/model/aac_vehicle/odometry', '/odom'),
+            (
+                '/world/simple_track_world/dynamic_pose/info',
+                '/gazebo/dynamic_pose',
+            ),
             ('/world/simple_track_world/model/aac_vehicle/joint_state', '/joint_states'),
             # Camera: Ignition publishes to /camera_front, remap to ROS convention
             ('/camera_front', '/camera_front/image_raw'),
             ('/camera_rear', '/camera_rear/image_raw'),
         ],
+        output='screen'
+    )
+
+    ground_truth_node = Node(
+        package='aac_vehicle',
+        executable='gazebo_ground_truth_publisher',
+        parameters=[{
+            'use_sim_time': use_sim_time,
+            'input_topic': '/gazebo/dynamic_pose',
+            'output_topic': '/odom_gt',
+            'model_name': 'aac_vehicle',
+            'frame_id': 'map',
+            'child_frame_id': 'base_link_gt',
+        }],
         output='screen'
     )
 
@@ -135,5 +155,6 @@ def generate_launch_description():
         gz_sim,
         spawn_vehicle,
         bridge,
+        ground_truth_node,
         vehicle_node,
     ])

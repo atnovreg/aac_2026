@@ -5,6 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 workspace_root="$(cd "${repo_root}/../.." && pwd)"
 
 external_dirs=(
+  "${repo_root}/navigation/WildGS-SLAM"
   "${repo_root}/perception/BiSeNet"
   "${repo_root}/perception/PIDNet"
   "${repo_root}/perception/sam3"
