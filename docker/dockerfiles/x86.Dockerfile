@@ -8,8 +8,11 @@ ENV ROS_PYTHON_VERSION=3
 ENV CUDA_HOME=/usr/local/cuda
 ENV PATH=${CUDA_HOME}/bin:${PATH}
 ENV TORCH_CUDA_ARCH_LIST=12.0
+# Persist Hugging Face model downloads in the host-mounted ROS workspace.
+ENV HF_HOME=/ros_ws/src/aac_2026/.hf_home
+ENV HF_HUB_DISABLE_TELEMETRY=1
 
-ENV SHELL /bin/bash
+ENV SHELL=/bin/bash
 SHELL ["/bin/bash", "-c"] 
 
 ## Install from packages list
@@ -41,11 +44,15 @@ RUN pip install --no-cache-dir onnxruntime-gpu==1.23.2
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-# 
+#
 # install OpenCV (with CUDA)
 #
+# PyTorch 설치 시 numpy 2.x가 당겨질 수 있으므로, OpenCV 소스 빌드 전에
+# numpy를 requirements.txt와 동일한 버전으로 고정합니다.
+# (OpenCV Python 바인딩은 빌드 시점의 numpy C ABI에 링크됩니다.)
+RUN pip install --no-cache-dir 'numpy==1.26.4'
 COPY docker/opencv_install.sh /tmp/opencv_install.sh
-RUN cd /tmp && ./opencv_install.sh 
+RUN cd /tmp && ./opencv_install.sh
 
 # 
 # install development packages
@@ -67,9 +74,21 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
         libzmq3-dev libczmq-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# pip install
+# Python runtime dependencies, including Transformers for EfficientLoFTR.
+# ROS 2 Humble colcon-python-setup-py is incompatible with setuptools 80+.
 COPY requirements.txt /tmp
-RUN  cd /tmp && pip install --ignore-installed --no-cache-dir -r requirements.txt
+RUN cd /tmp && pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall --no-deps 'numpy==1.26.4' && \
+    pip install --no-cache-dir --force-reinstall 'setuptools==59.6.0' && \
+    python3 - <<'PY'
+import torch
+
+assert torch.version.cuda == '12.8', (
+    f'Expected the cu128 PyTorch build, found torch={torch.__version__}, '
+    f'torch.version.cuda={torch.version.cuda}'
+)
+print(f'PyTorch dependency check: {torch.__version__}, CUDA {torch.version.cuda}')
+PY
 
 ARG UID=1000
 ARG USER

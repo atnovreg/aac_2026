@@ -156,6 +156,8 @@ DOCKER_ARGS=(
   -e DDS_INTERFACE="${DDS_INTERFACE}"
   -e RMW_IMPLEMENTATION="${RMW_IMPLEMENTATION}"
   -e CYCLONEDDS_URI="/ros_ws/src/aac_2026/.cyclonedds.xml"
+  -e HF_HOME="/ros_ws/src/aac_2026/.hf_home"
+  -e HF_HUB_DISABLE_TELEMETRY=1
 
   --add-host "${CONTAINER_NAME}:127.0.1.1"
   --name "${CONTAINER_NAME}"

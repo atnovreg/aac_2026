@@ -6,8 +6,11 @@ FROM ubuntu:22.04
 ENV ROS_DISTRO=humble
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 ENV ROS_PYTHON_VERSION=3
+# Persist Hugging Face model downloads in the host-mounted ROS workspace.
+ENV HF_HOME=/ros_ws/src/aac_2026/.hf_home
+ENV HF_HUB_DISABLE_TELEMETRY=1
 
-ENV SHELL /bin/bash
+ENV SHELL=/bin/bash
 SHELL ["/bin/bash", "-c"]
 
 ## Install base apt packages
@@ -59,9 +62,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
         libzmq3-dev libczmq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# pip install
+# Python runtime dependencies, including Transformers for EfficientLoFTR.
 COPY requirements.txt /tmp
-RUN cd /tmp && pip install --ignore-installed --no-cache-dir -r requirements.txt
+RUN cd /tmp && pip install --ignore-installed --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall --no-deps 'numpy==1.26.4'
 
 ARG UID=1000
 ARG USER

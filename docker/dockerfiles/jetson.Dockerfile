@@ -6,8 +6,10 @@ FROM dustynv/l4t-pytorch:$L4TPYTORCH_VER
 ENV ROS_DISTRO=jazzy
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 ENV ROS_PYTHON_VERSION=3
+ENV HF_HOME=/ros_ws/src/aac_2026/.hf_home
+ENV HF_HUB_DISABLE_TELEMETRY=1
 
-ENV SHELL /bin/bash
+ENV SHELL=/bin/bash
 SHELL ["/bin/bash", "-c"] 
 
 ## Install from packages list
