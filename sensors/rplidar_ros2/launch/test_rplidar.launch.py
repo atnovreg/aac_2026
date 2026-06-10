@@ -12,7 +12,7 @@ def generate_launch_description():
             parameters=[{
                 'serial_port': '/dev/ttyUSB0',
                 'serial_baudrate': 115200,
-                'frame_id': 'laser',
+                'frame_id': 'lidar_link',
                 'inverted': False,
                 'angle_compensate': True,
             }],

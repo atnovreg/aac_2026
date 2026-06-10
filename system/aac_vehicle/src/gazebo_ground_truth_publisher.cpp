@@ -3,8 +3,10 @@
 #include <memory>
 #include <string>
 
+#include <geometry_msgs/msg/transform_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <tf2_ros/transform_broadcaster.hpp>
 #include <tf2_msgs/msg/tf_message.hpp>
 
 namespace
@@ -38,9 +40,13 @@ public:
     frame_id_ = declare_parameter<std::string>("frame_id", "map");
     child_frame_id_ = declare_parameter<std::string>(
       "child_frame_id", "base_link_gt");
+    publish_tf_ = declare_parameter<bool>("publish_tf", false);
 
     publisher_ = create_publisher<nav_msgs::msg::Odometry>(
       output_topic_, rclcpp::SensorDataQoS());
+    if (publish_tf_) {
+      tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    }
     subscription_ = create_subscription<tf2_msgs::msg::TFMessage>(
       input_topic_, rclcpp::SensorDataQoS(),
       std::bind(
@@ -99,6 +105,19 @@ private:
     }
 
     publisher_->publish(odometry);
+
+    if (tf_broadcaster_) {
+      geometry_msgs::msg::TransformStamped tf_msg;
+      tf_msg.header.stamp = stamp;
+      tf_msg.header.frame_id = frame_id_;
+      tf_msg.child_frame_id = child_frame_id_;
+      tf_msg.transform.translation.x = x;
+      tf_msg.transform.translation.y = y;
+      tf_msg.transform.translation.z = transform->transform.translation.z;
+      tf_msg.transform.rotation = transform->transform.rotation;
+      tf_broadcaster_->sendTransform(tf_msg);
+    }
+
     previous_stamp_ = stamp;
     previous_x_ = x;
     previous_y_ = y;
@@ -114,7 +133,9 @@ private:
 
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisher_;
   rclcpp::Subscription<tf2_msgs::msg::TFMessage>::SharedPtr subscription_;
+  std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
+  bool publish_tf_{false};
   bool has_previous_pose_{false};
   rclcpp::Time previous_stamp_{0, 0, RCL_ROS_TIME};
   double previous_x_{0.0};

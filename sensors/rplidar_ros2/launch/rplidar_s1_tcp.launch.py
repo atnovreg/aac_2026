@@ -13,7 +13,7 @@ def generate_launch_description():
                 'channel_type': 'tcp',
                 'tcp_ip': '192.168.0.7',
                 'tcp_port': 20108,
-                'frame_id': 'laser',
+                'frame_id': 'lidar_link',
                 'inverted': False,
                 'angle_compensate': True,
             }]

@@ -109,6 +109,21 @@ def generate_launch_description():
         output='screen'
     )
 
+    # Ignition Fortress collapses fixed joints in SDF, so the lidar sensor's
+    # scoped frame becomes aac_vehicle/base_footprint/lidar instead of
+    # aac_vehicle/lidar_link. Publish an identity TF alias so RViz2 can
+    # resolve the scan's frame_id to the URDF TF tree.
+    lidar_frame_alias = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        arguments=[
+            '0', '0', '0', '0', '0', '0',
+            'lidar_link',
+            'aac_vehicle/base_footprint/lidar',
+        ],
+        output='screen',
+    )
+
     ground_truth_node = Node(
         package='aac_vehicle',
         executable='gazebo_ground_truth_publisher',
@@ -118,7 +133,8 @@ def generate_launch_description():
             'output_topic': '/odom_gt',
             'model_name': 'aac_vehicle',
             'frame_id': 'map',
-            'child_frame_id': 'base_link_gt',
+            'child_frame_id': 'base_footprint',
+            'publish_tf': True,
         }],
         output='screen'
     )
@@ -155,6 +171,7 @@ def generate_launch_description():
         gz_sim,
         spawn_vehicle,
         bridge,
+        lidar_frame_alias,
         ground_truth_node,
         vehicle_node,
     ])

@@ -23,7 +23,17 @@ from std_msgs.msg import Float32, Float64MultiArray, Int32
 
 from tf2_ros import TransformBroadcaster
 
-from opencv_node.lane_mask import extract_lane_mask, make_lane_feature_mask
+from opencv_node.chamfer import (
+    centered_rigid_correction,
+    chamfer_score,
+    deterministic_subsample,
+)
+from opencv_node.lane_mask import (
+    classify_lane_keypoints,
+    extract_lane_mask,
+    partition_features,
+)
+from opencv_node.map_geometry import pixel_to_world
 
 
 class OpenCVLocalizationNode(Node):
@@ -54,28 +64,41 @@ class OpenCVLocalizationNode(Node):
             self._map_bgr.shape[:2], dtype=np.uint8)
         self._map_lane_keypoints = []
         self._map_lane_descriptors = None
+        self._map_non_lane_keypoints = self._map_keypoints
+        self._map_non_lane_descriptors = self._map_descriptors
         self._map_lane_dt = None
 
         if self.enable_lane_features or self.enable_chamfer_refinement:
             self._map_lane_mask = self._extract_lane_mask(self._map_bgr)
         if self.enable_lane_features:
-            map_lane_feature_mask = make_lane_feature_mask(
-                self._map_lane_mask, self.lane_feature_dilation_ratio)
-            self._map_lane_keypoints, self._map_lane_descriptors = (
-                self._detector.detectAndCompute(
-                    map_gray, map_lane_feature_mask))
+            map_lane_labels = classify_lane_keypoints(
+                self._map_keypoints,
+                self._map_lane_mask,
+                self.lane_feature_dilation_ratio,
+            )
+            (
+                self._map_lane_keypoints,
+                self._map_lane_descriptors,
+                self._map_non_lane_keypoints,
+                self._map_non_lane_descriptors,
+            ) = partition_features(
+                self._map_keypoints,
+                self._map_descriptors,
+                map_lane_labels,
+            )
             if self._map_lane_descriptors is None:
                 self.get_logger().warning(
                     'Lane features enabled, but the map lane mask has no '
-                    'descriptors. Raw features will still be used.')
+                    'classified descriptors. Non-lane features will be used.')
         if self.enable_chamfer_refinement:
             if not self._map_lane_mask.any():
                 self.get_logger().warning(
                     'Chamfer refinement enabled but map lane mask is empty. '
-                    'Check lane HSV parameters.')
-            inv_mask = cv2.bitwise_not(self._map_lane_mask)
-            self._map_lane_dt = cv2.distanceTransform(
-                inv_mask, cv2.DIST_L2, 5)
+                    'Refinement is disabled; check lane HSV parameters.')
+            else:
+                inv_mask = cv2.bitwise_not(self._map_lane_mask)
+                self._map_lane_dt = cv2.distanceTransform(
+                    inv_mask, cv2.DIST_L2, 5)
 
         sensor_qos = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
@@ -113,7 +136,8 @@ class OpenCVLocalizationNode(Node):
             f'OpenCV {self.feature_type.upper()} localization ready: '
             f'map_features={len(self._map_keypoints)}, '
             f'map_lane_features={len(self._map_lane_keypoints)}, '
-            f'chamfer_refinement={self.enable_chamfer_refinement}, '
+            f'homography={self.homography_method}, '
+            f'chamfer_refinement={self._map_lane_dt is not None}, '
             f'image={self.image_topic}, map={self.map_image_path}')
 
     def _declare_parameters(self):
@@ -132,6 +156,7 @@ class OpenCVLocalizationNode(Node):
         self.declare_parameter('min_matches', 12)
         self.declare_parameter('min_inliers', 8)
         self.declare_parameter('min_inlier_ratio', 0.25)
+        self.declare_parameter('homography_method', 'usac_magsac')
         self.declare_parameter('ransac_reproj_threshold', 5.0)
         self.declare_parameter('forward_probe_distance', 1.0)
 
@@ -146,11 +171,19 @@ class OpenCVLocalizationNode(Node):
         self.declare_parameter('lane_open_iterations', 0)
         self.declare_parameter('lane_close_iterations', 1)
         self.declare_parameter('lane_min_area', 20)
+        self.declare_parameter('lane_kernel_size_ratio', 0.006)
+        self.declare_parameter('lane_min_area_ratio', 0.00005)
         self.declare_parameter('lane_feature_dilation_ratio', 0.02)
+        self.declare_parameter('enable_global_match_fallback', True)
 
         self.declare_parameter('enable_chamfer_refinement', False)
         self.declare_parameter('chamfer_max_pts', 400)
         self.declare_parameter('chamfer_score_gate', 20.0)
+        self.declare_parameter('chamfer_min_coverage', 0.8)
+        self.declare_parameter('chamfer_outside_penalty', 30.0)
+        self.declare_parameter('chamfer_min_improvement', 0.25)
+        self.declare_parameter('chamfer_max_translation_px', 20.0)
+        self.declare_parameter('chamfer_max_rotation_deg', 5.0)
         self.declare_parameter(
             'chamfer_score_topic',
             '/visual_localization/opencv/chamfer_score')
@@ -164,7 +197,7 @@ class OpenCVLocalizationNode(Node):
         self.declare_parameter('map_y_max', 8.0)
         self.declare_parameter('map_swap_xy', True)
         self.declare_parameter('map_flip_x', True)
-        self.declare_parameter('map_flip_y', False)
+        self.declare_parameter('map_flip_y', True)
 
         self.declare_parameter('bev_x_min', -10.0)
         self.declare_parameter('bev_x_max', 10.0)
@@ -223,6 +256,18 @@ class OpenCVLocalizationNode(Node):
             4, int(self.get_parameter('min_inliers').value))
         self.min_inlier_ratio = float(
             self.get_parameter('min_inlier_ratio').value)
+        self.homography_method = str(
+            self.get_parameter('homography_method').value).lower()
+        if self.homography_method not in ('ransac', 'usac_magsac'):
+            raise ValueError(
+                'homography_method must be ransac or usac_magsac.')
+        if (
+                self.homography_method == 'usac_magsac'
+                and not hasattr(cv2, 'USAC_MAGSAC')):
+            self.get_logger().warning(
+                'USAC_MAGSAC is unavailable in this OpenCV build. '
+                'Falling back to RANSAC.')
+            self.homography_method = 'ransac'
         self.ransac_reproj_threshold = float(
             self.get_parameter('ransac_reproj_threshold').value)
         self.forward_probe_distance = float(
@@ -254,10 +299,20 @@ class OpenCVLocalizationNode(Node):
             0, int(self.get_parameter('lane_close_iterations').value))
         self.lane_min_area = max(
             0, int(self.get_parameter('lane_min_area').value))
+        self.lane_kernel_size_ratio = max(
+            0.0,
+            float(self.get_parameter('lane_kernel_size_ratio').value),
+        )
+        self.lane_min_area_ratio = max(
+            0.0,
+            float(self.get_parameter('lane_min_area_ratio').value),
+        )
         self.lane_feature_dilation_ratio = max(
             0.0,
             float(self.get_parameter('lane_feature_dilation_ratio').value),
         )
+        self.enable_global_match_fallback = bool(
+            self.get_parameter('enable_global_match_fallback').value)
 
         self.enable_chamfer_refinement = bool(
             self.get_parameter('enable_chamfer_refinement').value)
@@ -265,6 +320,16 @@ class OpenCVLocalizationNode(Node):
             10, int(self.get_parameter('chamfer_max_pts').value))
         self.chamfer_score_gate = float(
             self.get_parameter('chamfer_score_gate').value)
+        self.chamfer_min_coverage = float(
+            self.get_parameter('chamfer_min_coverage').value)
+        self.chamfer_outside_penalty = float(
+            self.get_parameter('chamfer_outside_penalty').value)
+        self.chamfer_min_improvement = float(
+            self.get_parameter('chamfer_min_improvement').value)
+        self.chamfer_max_translation_px = float(
+            self.get_parameter('chamfer_max_translation_px').value)
+        self.chamfer_max_rotation_rad = math.radians(float(
+            self.get_parameter('chamfer_max_rotation_deg').value))
         self.chamfer_score_topic = self.get_parameter(
             'chamfer_score_topic').value
         self.chamfer_refined_score_topic = self.get_parameter(
@@ -300,9 +365,13 @@ class OpenCVLocalizationNode(Node):
             self.get_parameter('max_debug_matches').value)
         self.debug_height = int(self.get_parameter('debug_height').value)
 
-        if self.map_x_max <= self.map_x_min or self.map_y_max <= self.map_y_min:
+        if (
+                self.map_x_max <= self.map_x_min
+                or self.map_y_max <= self.map_y_min):
             raise ValueError('Invalid map bounds.')
-        if self.bev_x_max <= self.bev_x_min or self.bev_y_max <= self.bev_y_min:
+        if (
+                self.bev_x_max <= self.bev_x_min
+                or self.bev_y_max <= self.bev_y_min):
             raise ValueError('Invalid BEV bounds.')
         if not 0.0 < self.lane_ratio_test < 1.0:
             raise ValueError('lane_ratio_test must be between 0 and 1.')
@@ -312,6 +381,11 @@ class OpenCVLocalizationNode(Node):
                 0.0 <= self.lane_roi_y_min_ratio
                 <= self.lane_roi_y_max_ratio <= 1.0):
             raise ValueError('Invalid lane ROI ratios.')
+        if not 0.0 < self.chamfer_min_coverage <= 1.0:
+            raise ValueError(
+                'chamfer_min_coverage must be in the range (0, 1].')
+        if self.chamfer_outside_penalty < 0.0:
+            raise ValueError('chamfer_outside_penalty must be non-negative.')
 
     def _create_detector(self):
         if self.feature_type == 'sift':
@@ -346,33 +420,19 @@ class OpenCVLocalizationNode(Node):
             self.lane_open_iterations,
             self.lane_close_iterations,
             self.lane_min_area,
+            self.lane_kernel_size_ratio,
+            self.lane_min_area_ratio,
         )
 
     def _chamfer_score(self, homography, pts_xy):
-        """Mean EDT value at projected BEV lane pixels. Lower = better alignment."""
-        projected = cv2.perspectiveTransform(
-            pts_xy, homography).reshape(-1, 2)
-        map_h, map_w = self._map_bgr.shape[:2]
-        valid = (
-            (projected[:, 0] >= 0) & (projected[:, 0] < map_w)
-            & (projected[:, 1] >= 0) & (projected[:, 1] < map_h)
+        """Return penalized Chamfer score and in-map point coverage."""
+        return chamfer_score(
+            self._map_lane_dt,
+            homography,
+            pts_xy,
+            self.chamfer_min_coverage,
+            self.chamfer_outside_penalty,
         )
-        if not valid.any():
-            return float('inf')
-        px = projected[valid, 0].astype(int)
-        py = projected[valid, 1].astype(int)
-        return float(self._map_lane_dt[py, px].mean())
-
-    @staticmethod
-    def _build_correction(params):
-        """Build a 2-D rigid-body correction matrix from (dx, dy, dtheta)."""
-        dx, dy, dtheta = params
-        cos_t, sin_t = np.cos(dtheta), np.sin(dtheta)
-        return np.array([
-            [cos_t, -sin_t, dx],
-            [sin_t,  cos_t, dy],
-            [0.0,    0.0,   1.0],
-        ], dtype=np.float64)
 
     def _refine_with_chamfer(self, homography, bev_lane_mask):
         """Refine homography with coarse-to-fine coordinate descent on EDT.
@@ -381,18 +441,47 @@ class OpenCVLocalizationNode(Node):
         """
         pts = np.argwhere(bev_lane_mask > 0)
         if len(pts) < 10:
-            return homography, float('inf'), float('inf')
-        if len(pts) > self.chamfer_max_pts:
-            idx = np.random.choice(len(pts), self.chamfer_max_pts, replace=False)
-            pts = pts[idx]
+            return homography, float('inf'), float('inf'), 0.0, 0.0
+        pts = deterministic_subsample(pts, self.chamfer_max_pts)
         pts_xy = pts[:, ::-1].astype(np.float32).reshape(-1, 1, 2)
 
-        score_before = self._chamfer_score(homography, pts_xy)
-        if not math.isfinite(score_before) or score_before > self.chamfer_score_gate:
-            return homography, score_before, score_before
+        score_before, coverage_before = self._chamfer_score(
+            homography, pts_xy)
+        if (
+                not math.isfinite(score_before)
+                or score_before > self.chamfer_score_gate):
+            return (
+                homography,
+                score_before,
+                score_before,
+                coverage_before,
+                coverage_before,
+            )
+
+        bev_center = self._bev_metric_to_pixel(
+            0.0,
+            0.0,
+            bev_lane_mask.shape[1],
+            bev_lane_mask.shape[0],
+        )
+        correction_center = cv2.perspectiveTransform(
+            np.asarray([[bev_center]], dtype=np.float32),
+            homography,
+        )[0, 0]
+        if (
+                not np.isfinite(correction_center).all()
+                or not self._inside_map(correction_center)):
+            return (
+                homography,
+                score_before,
+                score_before,
+                coverage_before,
+                coverage_before,
+            )
 
         best_params = np.zeros(3)
         best_score = score_before
+        best_coverage = coverage_before
 
         for scale in (4.0, 1.5, 0.5):
             steps = np.array([scale, scale, scale * 0.008])
@@ -402,24 +491,42 @@ class OpenCVLocalizationNode(Node):
                     for sign in (1.0, -1.0):
                         trial = best_params.copy()
                         trial[axis] += sign * steps[axis]
-                        score = self._chamfer_score(
-                            self._build_correction(trial) @ homography,
-                            pts_xy)
+                        if (
+                                np.hypot(trial[0], trial[1])
+                                > self.chamfer_max_translation_px
+                                or abs(trial[2])
+                                > self.chamfer_max_rotation_rad):
+                            continue
+                        correction = centered_rigid_correction(
+                            trial, correction_center)
+                        score, coverage = self._chamfer_score(
+                            correction @ homography, pts_xy)
                         if score < best_score - 0.05:
                             best_score = score
+                            best_coverage = coverage
                             best_params = trial
                             moved = True
                             break
                 if not moved:
                     break
 
-        if best_score < score_before:
+        if best_score <= score_before - self.chamfer_min_improvement:
+            correction = centered_rigid_correction(
+                best_params, correction_center)
             return (
-                self._build_correction(best_params) @ homography,
+                correction @ homography,
                 score_before,
                 best_score,
+                coverage_before,
+                best_coverage,
             )
-        return homography, score_before, score_before
+        return (
+            homography,
+            score_before,
+            score_before,
+            coverage_before,
+            coverage_before,
+        )
 
     def _match_features(
             self, query_keypoints, query_descriptors,
@@ -439,6 +546,12 @@ class OpenCVLocalizationNode(Node):
             first for first, second in pairs
             if first.distance < ratio_test * second.distance
         ]
+        best_by_map_feature = {}
+        for match in good_matches:
+            previous = best_by_map_feature.get(match.trainIdx)
+            if previous is None or match.distance < previous.distance:
+                best_by_map_feature[match.trainIdx] = match
+        good_matches = list(best_by_map_feature.values())
         if max_matches > 0 and len(good_matches) > max_matches:
             good_matches = sorted(
                 good_matches, key=lambda match: match.distance)[:max_matches]
@@ -471,13 +584,6 @@ class OpenCVLocalizationNode(Node):
         bev_gray = self._prepare_gray(bev_bgr)
         bev_keypoints, bev_descriptors = self._detector.detectAndCompute(
             bev_gray, None)
-        raw_bev_points, raw_map_points, raw_distances = self._match_features(
-            bev_keypoints,
-            bev_descriptors,
-            self._map_keypoints,
-            self._map_descriptors,
-            self.ratio_test,
-        )
 
         bev_lane_mask = np.zeros(bev_bgr.shape[:2], dtype=np.uint8)
         lane_bev_points = np.empty((0, 2), dtype=np.float32)
@@ -487,12 +593,30 @@ class OpenCVLocalizationNode(Node):
         if self.enable_lane_features or self.enable_chamfer_refinement:
             bev_lane_mask = self._extract_lane_mask(bev_bgr)
         if self.enable_lane_features:
-            lane_feature_mask = make_lane_feature_mask(
-                bev_lane_mask, self.lane_feature_dilation_ratio)
-            lane_keypoints, lane_descriptors = (
-                self._detector.detectAndCompute(
-                    bev_gray, lane_feature_mask))
+            lane_labels = classify_lane_keypoints(
+                bev_keypoints,
+                bev_lane_mask,
+                self.lane_feature_dilation_ratio,
+            )
+            (
+                lane_keypoints,
+                lane_descriptors,
+                non_lane_keypoints,
+                non_lane_descriptors,
+            ) = partition_features(
+                bev_keypoints,
+                bev_descriptors,
+                lane_labels,
+            )
             lane_keypoint_count = len(lane_keypoints)
+            raw_bev_points, raw_map_points, raw_distances = (
+                self._match_features(
+                    non_lane_keypoints,
+                    non_lane_descriptors,
+                    self._map_non_lane_keypoints,
+                    self._map_non_lane_descriptors,
+                    self.ratio_test,
+                ))
             lane_bev_points, lane_map_points, lane_distances = (
                 self._match_features(
                     lane_keypoints,
@@ -502,6 +626,34 @@ class OpenCVLocalizationNode(Node):
                     self.lane_ratio_test,
                     self.lane_max_matches,
                 ))
+        else:
+            raw_bev_points, raw_map_points, raw_distances = (
+                self._match_features(
+                    bev_keypoints,
+                    bev_descriptors,
+                    self._map_keypoints,
+                    self._map_descriptors,
+                    self.ratio_test,
+                ))
+
+        used_global_fallback = False
+        semantic_match_count = len(raw_bev_points) + len(lane_bev_points)
+        if (
+                self.enable_lane_features
+                and self.enable_global_match_fallback
+                and semantic_match_count < self.min_matches):
+            raw_bev_points, raw_map_points, raw_distances = (
+                self._match_features(
+                    bev_keypoints,
+                    bev_descriptors,
+                    self._map_keypoints,
+                    self._map_descriptors,
+                    self.ratio_test,
+                ))
+            lane_bev_points = np.empty((0, 2), dtype=np.float32)
+            lane_map_points = np.empty((0, 2), dtype=np.float32)
+            lane_distances = np.empty((0,), dtype=np.float32)
+            used_global_fallback = True
 
         raw_match_count = len(raw_bev_points)
         lane_match_count = len(lane_bev_points)
@@ -511,7 +663,9 @@ class OpenCVLocalizationNode(Node):
         self.lane_inlier_count_pub.publish(Int32(data=0))
         if total_match_count < self.min_matches:
             self.get_logger().warning(
-                f'Rejected: raw={raw_match_count}, lane={lane_match_count}, '
+                f'Rejected: non_lane={raw_match_count}, '
+                f'lane={lane_match_count}, '
+                f'semantic={semantic_match_count}, '
                 f'total={total_match_count} ratio-test matches '
                 f'< {self.min_matches}.')
             return
@@ -528,14 +682,20 @@ class OpenCVLocalizationNode(Node):
         ))
         scores = 1.0 / (1.0 + distances)
 
+        method = (
+            cv2.USAC_MAGSAC
+            if self.homography_method == 'usac_magsac'
+            else cv2.RANSAC
+        )
         homography, inlier_mask = cv2.findHomography(
             bev_points,
             map_points,
-            cv2.RANSAC,
+            method,
             self.ransac_reproj_threshold,
         )
         if homography is None or inlier_mask is None:
-            self.get_logger().warning('Rejected: homography estimation failed.')
+            self.get_logger().warning(
+                'Rejected: homography estimation failed.')
             return
 
         inlier_mask = inlier_mask.ravel().astype(bool)
@@ -546,7 +706,9 @@ class OpenCVLocalizationNode(Node):
             Int32(data=lane_inlier_count))
         inlier_ratio = inlier_count / max(1, len(inlier_mask))
         self.inlier_ratio_pub.publish(Float32(data=float(inlier_ratio)))
-        if inlier_count < self.min_inliers or inlier_ratio < self.min_inlier_ratio:
+        if (
+                inlier_count < self.min_inliers
+                or inlier_ratio < self.min_inlier_ratio):
             self.get_logger().warning(
                 f'Rejected: matches={total_match_count}, '
                 f'inliers={inlier_count}, ratio={inlier_ratio:.3f}.')
@@ -557,8 +719,16 @@ class OpenCVLocalizationNode(Node):
 
         chamfer_before = float('inf')
         chamfer_after = float('inf')
+        chamfer_coverage_before = 0.0
+        chamfer_coverage_after = 0.0
         if self.enable_chamfer_refinement and self._map_lane_dt is not None:
-            homography, chamfer_before, chamfer_after = (
+            (
+                homography,
+                chamfer_before,
+                chamfer_after,
+                chamfer_coverage_before,
+                chamfer_coverage_after,
+            ) = (
                 self._refine_with_chamfer(homography, bev_lane_mask))
         self.chamfer_score_pub.publish(Float32(data=float(chamfer_before)))
         self.chamfer_refined_score_pub.publish(
@@ -599,14 +769,17 @@ class OpenCVLocalizationNode(Node):
 
         elapsed = time.perf_counter() - start
         chamfer_str = (
-            f' chamfer={chamfer_before:.1f}→{chamfer_after:.1f}'
+            f' chamfer={chamfer_before:.1f}->{chamfer_after:.1f}'
+            f' coverage={chamfer_coverage_before:.2f}'
+            f'->{chamfer_coverage_after:.2f}'
             if math.isfinite(chamfer_before) else ''
         )
         self.get_logger().info(
             f'pose=({x:.2f}, {y:.2f}, {math.degrees(yaw):.1f}deg), '
-            f'features={len(bev_keypoints)}+{lane_keypoint_count}, '
+            f'features={len(bev_keypoints)} lane={lane_keypoint_count}, '
             f'matches={raw_match_count}+{lane_match_count}, '
             f'inliers={inlier_count} lane={lane_inlier_count} '
+            f'fallback={used_global_fallback} '
             f'({inlier_ratio:.2f}),{chamfer_str} '
             f'time={elapsed:.3f}s')
 
@@ -618,19 +791,15 @@ class OpenCVLocalizationNode(Node):
         return [float(u), float(v)]
 
     def _map_pixel_to_world(self, point):
-        width = self._map_bgr.shape[1]
-        height = self._map_bgr.shape[0]
-        u_norm = float(point[0]) / max(1, width - 1)
-        v_norm = float(point[1]) / max(1, height - 1)
-        x_norm, y_norm = (
-            (v_norm, u_norm) if self.map_swap_xy else (u_norm, v_norm))
-        if self.map_flip_x:
-            x_norm = 1.0 - x_norm
-        if self.map_flip_y:
-            y_norm = 1.0 - y_norm
-        x = self.map_x_min + x_norm * (self.map_x_max - self.map_x_min)
-        y = self.map_y_min + y_norm * (self.map_y_max - self.map_y_min)
-        return x, y
+        return pixel_to_world(
+            point,
+            self._map_bgr.shape,
+            (self.map_x_min, self.map_x_max),
+            (self.map_y_min, self.map_y_max),
+            self.map_swap_xy,
+            self.map_flip_x,
+            self.map_flip_y,
+        )
 
     def _inside_map(self, point):
         return (

@@ -12,13 +12,14 @@ opencv_localization:
     use_clahe: true
     frame_stride: 1
     min_matches: 12
-    min_inliers: 6
-    min_inlier_ratio: 0.1
+    min_inliers: 8
+    min_inlier_ratio: 0.25
+    homography_method: usac_magsac  # usac_magsac | ransac
     ransac_reproj_threshold: 5.0
     forward_probe_distance: 1.0
 
-    # Add lane-focused correspondences to the regular grayscale features.
-    # Map and BEV images pass through the same classic HSV/morphology pipeline.
+    # Detect features once, classify them with the lane mask, then only match
+    # lane-to-lane and non-lane-to-non-lane descriptors.
     enable_lane_features: true
     lane_ratio_test: 0.75
     lane_max_matches: 100
@@ -29,23 +30,34 @@ opencv_localization:
     lane_kernel_size: 5
     lane_open_iterations: 0
     lane_close_iterations: 1
+    # Ratios override the pixel fallbacks above so map/BEV processing scales
+    # with image resolution.
     lane_min_area: 20
+    lane_kernel_size_ratio: 0.006
+    lane_min_area_ratio: 0.00005
     lane_feature_dilation_ratio: 0.02
+    # Replace sparse semantic matches with one global SIFT match set.
+    enable_global_match_fallback: true
 
-    # Chamfer distance refinement: refine SIFT homography using lane mask EDT.
-    enable_chamfer_refinement: true
-    chamfer_max_pts: 400       # lane pixels sampled per frame (speed vs accuracy)
-    chamfer_score_gate: 20.0   # skip refinement if initial score > this (pixels)
+    # Experimental: enable after semantic matching is validated on a bag.
+    enable_chamfer_refinement: false
+    chamfer_max_pts: 400
+    chamfer_score_gate: 20.0
+    chamfer_min_coverage: 0.8
+    chamfer_outside_penalty: 30.0
+    chamfer_min_improvement: 0.25
+    chamfer_max_translation_px: 20.0
+    chamfer_max_rotation_deg: 5.0
 
     map_x_min: -6.0
     map_x_max: 6.0
     map_y_min: -8.0
     map_y_max: 8.0
-    # Gazebo box top-face UV:
-    # image u -> world +Y, image v decreasing -> world +X
+    # Gazebo texture UV:
+    # image u increasing -> world -Y, image v decreasing -> world +X
     map_swap_xy: true
     map_flip_x: true
-    map_flip_y: false
+    map_flip_y: true
 
     bev_x_min: -10.0
     bev_x_max: 10.0

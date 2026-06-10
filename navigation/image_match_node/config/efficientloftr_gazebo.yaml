@@ -26,10 +26,10 @@ efficientloftr_localization:
     map_y_min: -8.0
     map_y_max: 8.0
 
-    # Gazebo box top-face UV와 월드 좌표 정렬 보정.
+    # Gazebo texture U축은 world Y축과 반대 방향.
     map_swap_xy: true
     map_flip_x: true
-    map_flip_y: false
+    map_flip_y: true
 
     # ipm_bev_node 기본 출력 범위.
     bev_x_min: -10.0

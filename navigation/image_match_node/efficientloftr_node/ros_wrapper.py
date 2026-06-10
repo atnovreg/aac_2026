@@ -27,6 +27,8 @@ import torch
 
 from transformers import AutoImageProcessor, AutoModelForKeypointMatching
 
+from opencv_node.map_geometry import pixel_to_world
+
 
 class EfficientLoFTRLocalizationNode(Node):
     """Match a vehicle-centered BEV image against a global map texture."""
@@ -123,7 +125,7 @@ class EfficientLoFTRLocalizationNode(Node):
         self.declare_parameter('map_y_max', 8.0)
         self.declare_parameter('map_swap_xy', True)
         self.declare_parameter('map_flip_x', True)
-        self.declare_parameter('map_flip_y', False)
+        self.declare_parameter('map_flip_y', True)
 
         self.declare_parameter('bev_x_min', -10.0)
         self.declare_parameter('bev_x_max', 10.0)
@@ -331,19 +333,15 @@ class EfficientLoFTRLocalizationNode(Node):
         return [float(u), float(v)]
 
     def _map_pixel_to_world(self, point):
-        width = self._map_bgr.shape[1]
-        height = self._map_bgr.shape[0]
-        u_norm = float(point[0]) / max(1, width - 1)
-        v_norm = float(point[1]) / max(1, height - 1)
-        x_norm, y_norm = (
-            (v_norm, u_norm) if self.map_swap_xy else (u_norm, v_norm))
-        if self.map_flip_x:
-            x_norm = 1.0 - x_norm
-        if self.map_flip_y:
-            y_norm = 1.0 - y_norm
-        x = self.map_x_min + x_norm * (self.map_x_max - self.map_x_min)
-        y = self.map_y_min + y_norm * (self.map_y_max - self.map_y_min)
-        return x, y
+        return pixel_to_world(
+            point,
+            self._map_bgr.shape,
+            (self.map_x_min, self.map_x_max),
+            (self.map_y_min, self.map_y_max),
+            self.map_swap_xy,
+            self.map_flip_x,
+            self.map_flip_y,
+        )
 
     def _inside_map(self, point):
         return (

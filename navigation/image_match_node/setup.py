@@ -24,6 +24,7 @@ setup(
         'safetensors>=0.4.3',
         'transformers>=4.56,<5',
     ],
+    tests_require=['pytest'],
     zip_safe=True,
     maintainer='etri',
     maintainer_email='lee.dk@etri.re.kr',

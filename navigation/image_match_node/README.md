@@ -17,11 +17,11 @@ Gazebo 전역 지도와 차량 주변 BEV 영상을 feature matching으로 매�
 
 학습 가중치 없이 다음의 전통적 영상처리 파이프라인을 사용합니다.
 
-1. 지도와 BEV에서 SIFT, ORB 또는 AKAZE 특징점과 descriptor 추출
+1. 지도와 BEV에서 SIFT, ORB 또는 AKAZE 특징점과 descriptor를 한 번 추출
 2. 두 영상에 동일한 HSV/morphology lane-mask 전처리 적용
-3. lane mask 주변의 grayscale 특징점과 descriptor를 별도로 추출
-4. raw와 lane descriptor를 각각 KNN + Lowe ratio test로 매칭
-5. 두 correspondence 집합을 합쳐 RANSAC homography 계산
+3. 추출된 각 keypoint를 lane 또는 non-lane semantic으로 분류
+4. lane-to-lane, non-lane-to-non-lane descriptor만 KNN으로 매칭
+5. 중복 없는 correspondence 집합으로 RANSAC homography 계산
 6. (선택) Chamfer distance refinement로 homography 정밀화
 7. BEV 차량 중심과 전방점을 지도에 투영해 pose 계산
 
@@ -29,12 +29,14 @@ lane-mask 전처리는
 `perception/classic_road_mask_ros2/scripts/ros2_road_lane_mask_wrapper.py`와
 같은 전통적 영상처리 방식입니다. 지도와 입력 BEV가 반드시 같은 HSV,
 ROI, morphology 파라미터를 사용하도록 노드 내부에서 하나의 함수를
-공유합니다. Binary mask 자체를 descriptor로 사용하지 않고, 확장된 lane
-영역 안의 grayscale 특징점을 사용해 차선 경계의 명암 정보를 유지합니다.
+공유합니다. Binary mask 자체를 descriptor로 사용하지 않고, 한 번 추출한
+grayscale 특징점에 lane semantic을 붙입니다. 따라서 같은 특징점이 raw와
+lane match에 중복 투표하지 않습니다. 하나의 지도 특징에 여러 BEV 특징이
+매칭된 경우에도 descriptor distance가 가장 작은 match 하나만 사용합니다.
 
-지도 특징은 노드 시작 시 한 번만 계산합니다. 기본 SIFT 설정의 Gazebo
-검증에서는 BEV 프레임당 약 340개 특징, 32개 전후의 ratio-test match,
-약 0.5의 RANSAC inlier ratio, 약 0.13초의 처리 시간을 확인했습니다.
+지도 특징과 lane semantic은 노드 시작 시 한 번만 계산합니다. 처리 성능은
+입력 해상도와 장비에 따라 달라지므로 실제 주행에서는 아래 진단 topic과
+로그의 처리 시간을 함께 확인합니다.
 
 ### 실행
 
@@ -84,24 +86,41 @@ feature_type: sift  # sift | orb | akaze
 | `ratio_test` | `0.72` | 낮을수록 더 엄격한 descriptor 매칭 |
 | `use_clahe` | `true` | grayscale 명암 대비 보정 |
 | `min_matches` | `12` | homography 계산 전 최소 match 수 |
-| `min_inliers` | `6` | pose 발행에 필요한 RANSAC inlier 수 |
-| `min_inlier_ratio` | `0.10` | pose 발행에 필요한 inlier 비율 |
+| `min_inliers` | `8` | pose 발행에 필요한 RANSAC inlier 수 |
+| `min_inlier_ratio` | `0.25` | pose 발행에 필요한 inlier 비율 |
+| `homography_method` | `usac_magsac` | `usac_magsac` 또는 `ransac` |
 | `ransac_reproj_threshold` | `5.0` | RANSAC reprojection 오차 허용값 |
-| `enable_lane_features` | `true` | raw 특징과 lane 특징을 함께 사용 |
-| `lane_ratio_test` | `0.75` | lane descriptor 전용 ratio test |
+| `enable_lane_features` | `true` | keypoint에 lane semantic을 부여해 동종끼리 매칭 |
+| `lane_ratio_test` | `0.75` | lane keypoint 전용 ratio test |
 | `lane_hsv_lower` | `[0, 0, 165]` | lane paint HSV 하한 |
 | `lane_hsv_upper` | `[179, 80, 255]` | lane paint HSV 상한 |
-| `lane_min_area` | `20` | 제거할 작은 lane component 크기 |
+| `lane_kernel_size_ratio` | `0.006` | 짧은 영상 변 기준 morphology kernel 비율 |
+| `lane_min_area_ratio` | `0.00005` | 영상 전체 면적 기준 최소 component 비율 |
 | `lane_feature_dilation_ratio` | `0.02` | descriptor 영역 확장 비율 |
-| `enable_chamfer_refinement` | `true` | RANSAC 후 Chamfer distance로 homography 정밀화 |
+| `enable_global_match_fallback` | `true` | semantic match 부족 시 전체 특징 매칭으로 대체 |
+| `enable_chamfer_refinement` | `false` | RANSAC 후 실험적 Chamfer 정밀화 |
 | `chamfer_max_pts` | `400` | 프레임당 EDT lookup에 사용할 lane 픽셀 수 (많을수록 정확, 느림) |
 | `chamfer_score_gate` | `20.0` | 초기 Chamfer score(픽셀)가 이 값 초과 시 refinement 건너뜀 |
+| `chamfer_min_coverage` | `0.8` | 지도 내부에 남아야 하는 투영 lane point 비율 |
+| `chamfer_min_improvement` | `0.25` | 보정을 적용하기 위한 최소 score 개선량 |
+| `chamfer_max_translation_px` | `20.0` | 최대 translation 보정량 |
+| `chamfer_max_rotation_deg` | `5.0` | 최대 yaw 보정량 |
 
-`match_count`는 raw와 lane match의 합이고, `lane_match_count`는 그중 lane
-채널에서 추가된 match 수입니다. `lane_inlier_count`는 결합 RANSAC에서
+Gazebo `track.png`의 image U축은 world Y축과 반대 방향입니다. 따라서
+OpenCV 설정은 `map_swap_xy: true`, `map_flip_x: true`,
+`map_flip_y: true`를 사용합니다. `map_flip_y: false`이면 `/odom_gt`
+대비 추정 위치의 Y와 yaw가 반전되어 x축 대칭 궤적으로 출력됩니다.
+
+`match_count`는 non-lane과 lane match의 합이고, `lane_match_count`는 그중
+lane semantic match 수입니다. `lane_inlier_count`는 결합 RANSAC에서
 실제로 채택된 lane match 수이므로 lane 채널의 기여도를 확인하는 데
-사용합니다. lane 전처리만 끄고 기존 동작과 비교하려면 다음처럼
+사용합니다. semantic gating을 끄고 기존 전체 특징 매칭과 비교하려면
+다음처럼
 설정합니다.
+
+semantic match가 `min_matches`보다 적으면 전체 특징 매칭 결과로
+대체합니다. 두 match 집합을 합치지 않으므로 같은 keypoint가 RANSAC에
+중복 투표하지 않습니다.
 
 ```yaml
 enable_lane_features: false
@@ -110,17 +129,20 @@ enable_lane_features: false
 ### Chamfer Distance Refinement
 
 `enable_chamfer_refinement: true`를 설정하면 RANSAC homography 추정 후
-lane mask 픽셀을 이용해 homography를 추가로 정밀화합니다.
+lane mask 픽셀을 이용해 homography를 추가로 정밀화합니다. 기본값은
+`false`이며 semantic matching을 먼저 검증한 뒤 별도로 비교합니다.
 
 **동작 원리**:
 
 1. 초기화 시 맵 lane mask에 EDT(Euclidean Distance Transform)를 계산합니다.
    각 픽셀 값은 "가장 가까운 lane 픽셀까지의 거리(픽셀)"입니다.
 2. 프레임마다 BEV lane 픽셀을 RANSAC homography로 맵 좌표계에 투영합니다.
-3. 투영된 점들의 EDT 값 평균(= Chamfer score)이 낮을수록 정렬이 좋습니다.
-4. (dx, dy, dθ) 3자유도 보정 행렬을 coarse-to-fine coordinate descent로
-   최적화해 Chamfer score를 최소화합니다.
-5. 개선이 있을 때만 보정 행렬을 적용합니다.
+3. 지도 밖으로 나간 점에는 penalty를 주고, 지도 내부 coverage가 기준보다
+   낮으면 해당 보정을 거부합니다.
+4. 차량 중심을 회전 중심으로 하는 (dx, dy, dθ) 보정 행렬을
+   coarse-to-fine coordinate descent로 최적화합니다.
+5. translation/rotation 한계 안에서 최소 개선량을 충족할 때만 적용합니다.
+6. lane point sampling은 결정적으로 수행되어 같은 입력의 결과가 반복됩니다.
 
 **Chamfer score 해석**:
 
@@ -129,7 +151,9 @@ lane mask 픽셀을 이용해 homography를 추가로 정밀화합니다.
 | `chamfer_score` | RANSAC H를 그대로 투영했을 때의 평균 EDT 값 (픽셀) |
 | `chamfer_refined_score` | refinement 후 평균 EDT 값 (픽셀) |
 
-score가 0에 가까울수록 lane이 맵 lane 위에 정확히 놓입니다. score > `chamfer_score_gate`이면 SIFT H가 너무 부정확한 것으로 판단해 refinement를 건너뜁니다.
+score가 0에 가까울수록 lane이 맵 lane 위에 정확히 놓입니다. score >
+`chamfer_score_gate`이거나 projection coverage가
+`chamfer_min_coverage`보다 낮으면 refinement를 건너뜁니다.
 
 refinement를 일시적으로 비활성화하고 싶을 때:
 
