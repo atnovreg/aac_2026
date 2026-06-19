@@ -26,6 +26,12 @@ target_link_libraries(vehicle_state_publisher_exe
 ament_auto_add_executable(gazebo_ground_truth_publisher
   src/gazebo_ground_truth_publisher.cpp)
 
+ament_auto_add_executable(odom_tf_publisher
+  src/odom_tf_publisher.cpp)
+
+ament_auto_add_executable(scan_frame_relay
+  src/scan_frame_relay.cpp)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)

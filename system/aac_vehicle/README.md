@@ -26,9 +26,11 @@ aac_vehicle/
 ├── urdf/
 │   └── aac_vehicle.urdf.xacro   # 차량 모델 (링크, 조인트, Gazebo 플러그인)
 ├── config/
-│   └── vehicle_params.yaml      # 차량 파라미터 (휠베이스, 조향각 등)
+│   ├── vehicle_params.yaml      # 차량 파라미터 (휠베이스, 조향각 등)
+│   └── slam_mapper_params.yaml  # SLAM 전용 TF 및 mapper 설정
 ├── launch/
-│   └── spawn_vehicle.launch.py  # Gazebo 실행 + 차량 스폰 + 브릿지
+│   ├── spawn_vehicle.launch.py  # Gazebo 실행 + 차량 스폰 + 브릿지
+│   └── slam_mapping.launch.py   # Gazebo/실차 공용 SLAM bringup
 ├── include/aac_vehicle/
 │   └── vehicle_state_publisher.h
 └── src/
@@ -152,10 +154,53 @@ L: 휠베이스, W: 트랙 폭, r: 휠 반지름
 # Ignition Gazebo + 차량 스폰 + 브릿지 + vehicle_state_publisher
 ros2 launch aac_vehicle spawn_vehicle.launch.py
 
+# map -> odom 및 센서 고정 TF
+ros2 launch static_tf_tree static_tf_tree.launch.py use_sim_time:=true
+
+# Gazebo 센서로 SLAM Toolbox 실행
+ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true
+
+# Visual localization 추정값으로 map -> odom 생성
+ros2 launch image_match_node opencv.launch.py use_sim_time:=true
+
 # 조향 입력 테스트 (수동 publish)
 ros2 topic pub /ackermann_drive ackermann_msgs/msg/AckermannDriveStamped \
   "{drive: {speed: 1.0, steering_angle: 0.3}}"
 ```
+
+### SLAM 전용 TF
+
+SLAM은 차량의 기본 TF와 충돌하지 않도록 별도 트리를 사용한다.
+
+```text
+map -> odom -> base_footprint
+map -> odom_lidar -> base_footprint_lidar -> lidar_link_lidar
+```
+
+첫 번째 branch의 `map -> odom`은 현재 실험에서 `static_tf_tree`가 identity
+고정 TF로 발행한다. `odom -> base_footprint`은 로컬 odometry를 사용한다.
+두 번째 branch는 LiDAR SLAM 결과를 비교하거나 보조 odometry로 사용할 수
+있도록 분리되어 있다.
+
+원본 `/scan`은 `/scan_lidar`로 복제되며 `frame_id`도 `lidar_link_lidar`로
+변경된다. 따라서 Gazebo 또는 실차가 사용하는 `base_footprint`, `base_link`,
+LiDAR frame을 SLAM Toolbox가 다시 발행하지 않는다.
+
+실차에서는 Gazebo를 실행하지 않고 실제 odometry와 LaserScan 토픽을 지정한다.
+LiDAR 장착 위치는 `static_tf_tree/config/static_tf_tree.yaml`의
+`lidar_slam_mount`에서 관리한다.
+별도 LiDAR odometry 노드가 `/lidar/odom`을 발행한다면
+`input_odom_topic:=/lidar/odom`으로 지정하면 된다.
+
+```bash
+ros2 launch aac_vehicle slam_mapping.launch.py \
+  use_sim_time:=false \
+  input_odom_topic:=/odom \
+  input_scan_topic:=/scan
+```
+
+실제 localization이 동적인 `map -> odom`을 발행하면 static 설정의
+`map_to_odom.enabled`를 `false`로 바꿔야 한다.
 
 ---
 

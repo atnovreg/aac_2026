@@ -21,3 +21,7 @@
 	path = navigation/image_match_node/EfficientLoFTR
 	url = https://github.com/zju3dv/EfficientLoFTR.git
 	ignore = untracked
+[submodule "navigation/slam_toolbox"]
+	path = navigation/slam_toolbox
+	url = https://github.com/SteveMacenski/slam_toolbox.git
+	branch = humble

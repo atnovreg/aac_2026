@@ -17,6 +17,7 @@
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>ackermann_msgs</depend>
   <depend>visualization_msgs</depend>
   <depend>tf2</depend>
@@ -30,6 +31,7 @@
   <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>ros_gz_bridge</exec_depend>
   <exec_depend>simple_gazebo_track</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

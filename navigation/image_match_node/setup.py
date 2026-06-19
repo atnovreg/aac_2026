@@ -1,7 +1,7 @@
 """Package definition for image_match_node."""
 
-import os
 from glob import glob
+import os
 
 from setuptools import find_packages, setup
 
@@ -37,6 +37,7 @@ setup(
             'prepare_efficientloftr_cache = efficientloftr_node.prepare_cache:main',
             'minima_localization_node = minima_node.image_match_node:main',
             'opencv_localization_node = opencv_node.image_match_node:main',
+            'map_odom_tf_node = localization_tf_node.map_odom_tf_node:main',
         ],
     },
 )

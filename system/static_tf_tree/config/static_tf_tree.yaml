@@ -1,0 +1,23 @@
+transforms:
+  # Experiment fallback. Disable this when localization publishes map -> odom.
+  map_to_odom:
+    enabled: true
+    parent: map
+    child: odom
+    xyz: [0.0, 0.0, 0.0]
+    rpy: [0.0, 0.0, 0.0]
+
+  # Ignition Fortress collapses the fixed LiDAR joint in its frame_id.
+  gazebo_lidar_alias:
+    enabled: true
+    parent: lidar_link
+    child: aac_vehicle/base_footprint/lidar
+    xyz: [0.0, 0.0, 0.0]
+    rpy: [0.0, 0.0, 0.0]
+
+  lidar_slam_mount:
+    enabled: true
+    parent: base_footprint_lidar
+    child: lidar_link_lidar
+    xyz: [0.0, 0.0, 0.41]
+    rpy: [0.0, 0.0, 0.0]

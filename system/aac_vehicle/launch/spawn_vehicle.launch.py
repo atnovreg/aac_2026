@@ -1,18 +1,23 @@
 import os
-import yaml
-import xacro
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    SetEnvironmentVariable,
+    TimerAction,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import EnvironmentVariable, LaunchConfiguration
 from launch_ros.actions import Node
+import xacro
+import yaml
 
 
 def generate_launch_description():
-    pkg_share       = get_package_share_directory('aac_vehicle')
-    gz_sim_pkg      = get_package_share_directory('ros_gz_sim')
+    pkg_share = get_package_share_directory('aac_vehicle')
+    gz_sim_pkg = get_package_share_directory('ros_gz_sim')
     track_pkg_share = get_package_share_directory('simple_gazebo_track')
 
     world_file = os.path.join(track_pkg_share, 'worlds', 'simple_track.world')
@@ -21,6 +26,9 @@ def generate_launch_description():
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time', default_value='true')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    spawn_x = '0.0'
+    spawn_y = '-6.5'
+    spawn_z = '0.15'
 
     # sensor_config.yaml → xacro mappings for sensor TF
     sensor_config_file = os.path.join(pkg_share, 'config', 'sensor_config.yaml')
@@ -31,12 +39,12 @@ def generate_launch_description():
     for sensor, params in sensor_cfg.items():
         x, y, z = params['xyz']
         roll, pitch, yaw = params['rpy']
-        sensor_mappings[f'{sensor}_x']     = str(x)
-        sensor_mappings[f'{sensor}_y']     = str(y)
-        sensor_mappings[f'{sensor}_z']     = str(z)
-        sensor_mappings[f'{sensor}_roll']  = str(roll)
+        sensor_mappings[f'{sensor}_x'] = str(x)
+        sensor_mappings[f'{sensor}_y'] = str(y)
+        sensor_mappings[f'{sensor}_z'] = str(z)
+        sensor_mappings[f'{sensor}_roll'] = str(roll)
         sensor_mappings[f'{sensor}_pitch'] = str(pitch)
-        sensor_mappings[f'{sensor}_yaw']   = str(yaw)
+        sensor_mappings[f'{sensor}_yaw'] = str(yaw)
 
     xacro_file = os.path.join(pkg_share, 'urdf', 'aac_vehicle.urdf.xacro')
     robot_description = xacro.process_file(xacro_file, mappings=sensor_mappings).toxml()
@@ -66,7 +74,7 @@ def generate_launch_description():
             arguments=[
                 '-topic', '/robot_description',
                 '-name',  'aac_vehicle',
-                '-x', '0', '-y', '-6.5', '-z', '0.15',
+                '-x', spawn_x, '-y', spawn_y, '-z', spawn_z,
             ],
             output='screen'
         )]
@@ -102,26 +110,12 @@ def generate_launch_description():
                 '/gazebo/dynamic_pose',
             ),
             ('/world/simple_track_world/model/aac_vehicle/joint_state', '/joint_states'),
+            ('/lidar/scan', '/scan'),
             # Camera: Ignition publishes to /camera_front, remap to ROS convention
             ('/camera_front', '/camera_front/image_raw'),
             ('/camera_rear', '/camera_rear/image_raw'),
         ],
         output='screen'
-    )
-
-    # Ignition Fortress collapses fixed joints in SDF, so the lidar sensor's
-    # scoped frame becomes aac_vehicle/base_footprint/lidar instead of
-    # aac_vehicle/lidar_link. Publish an identity TF alias so RViz2 can
-    # resolve the scan's frame_id to the URDF TF tree.
-    lidar_frame_alias = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        arguments=[
-            '0', '0', '0', '0', '0', '0',
-            'lidar_link',
-            'aac_vehicle/base_footprint/lidar',
-        ],
-        output='screen',
     )
 
     ground_truth_node = Node(
@@ -134,9 +128,24 @@ def generate_launch_description():
             'model_name': 'aac_vehicle',
             'frame_id': 'map',
             'child_frame_id': 'base_footprint',
-            'publish_tf': True,
+            'publish_tf': False,
         }],
         output='screen'
+    )
+
+    # Only publish local wheel odometry here. map -> odom must come from the
+    # navigation localization estimate, just as it will on the real vehicle.
+    gazebo_odom_tf = Node(
+        package='aac_vehicle',
+        executable='odom_tf_publisher',
+        name='gazebo_odom_tf_publisher',
+        parameters=[{
+            'use_sim_time': use_sim_time,
+            'input_topic': '/odom',
+            'odom_frame': 'odom',
+            'base_frame': 'base_footprint',
+        }],
+        output='screen',
     )
 
     vehicle_node = Node(
@@ -171,7 +180,7 @@ def generate_launch_description():
         gz_sim,
         spawn_vehicle,
         bridge,
-        lidar_frame_alias,
         ground_truth_node,
+        gazebo_odom_tf,
         vehicle_node,
     ])

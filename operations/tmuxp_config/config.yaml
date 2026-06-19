@@ -8,6 +8,8 @@ windows:
       - cd /ros_ws/src/aac_2026
     panes:
     - shell_command:
+      - exec ros2 launch static_tf_tree static_tf_tree.launch.py
+    - shell_command:
       - exec ros2 launch aac_vehicle spawn_vehicle.launch.py
     - shell_command:
       - ros2 launch joy_control_node joy_control.launch.py
@@ -15,3 +17,5 @@ windows:
       - ros2 launch ipm_bev_node deploy.launch.py
     - shell_command:
       - ros2 launch image_match_node opencv.launch.py
+    - shell_command:
+      - ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true

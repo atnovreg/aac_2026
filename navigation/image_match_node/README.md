@@ -170,6 +170,18 @@ covariance를 `nav_msgs/Odometry`로 발행합니다. 영상 매칭만으로 속
 직접 측정하지 않으므로 twist 값은 0이고, twist covariance는 미측정을
 나타내도록 크게 설정합니다.
 
+전역 visual localization pose와 로컬 `/odom`으로 동적인 `map -> odom`을
+계산해야 할 때는 `map_odom_tf_node`를 별도로 사용할 수 있습니다.
+
+```text
+T_map_odom = T_map_base_visual * inverse(T_odom_base)
+```
+
+현재 기본 실험 구성에서는 `system/static_tf_tree`가 identity
+`map -> odom`을 발행하므로 `opencv.launch.py`는 이 동적 TF 노드를 자동으로
+실행하지 않습니다. 동적 localization으로 전환할 때는 static 설정의
+`map_to_odom.enabled`를 먼저 `false`로 바꿔야 합니다.
+
 ### 현재 한계
 
 현재 트랙은 비슷한 차선과 도로 texture가 여러 구간에서 반복됩니다.
