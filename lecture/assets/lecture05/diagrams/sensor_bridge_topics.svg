@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .urdf{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .gz{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .bridge{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .ros{fill:#f7f9fc;stroke:#596672;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Gazebo sensor output이 ROS topic이 되는 경로</text>
+
+  <rect class="urdf" x="70" y="150" width="240" height="130" rx="14"/>
+  <text class="label" x="125" y="195">Xacro sensor</text>
+  <text class="mono" x="105" y="232">camera / lidar</text>
+  <text class="mono" x="105" y="258">ultrasonic</text>
+
+  <rect class="gz" x="390" y="150" width="240" height="130" rx="14"/>
+  <text class="label" x="455" y="195">Gazebo</text>
+  <text class="mono" x="425" y="232">/camera_front</text>
+  <text class="mono" x="425" y="258">/lidar/scan</text>
+
+  <rect class="bridge" x="710" y="150" width="240" height="130" rx="14"/>
+  <text class="label" x="765" y="195">ros_gz_bridge</text>
+  <text class="mono" x="745" y="232">parameter_bridge</text>
+  <text class="small" x="745" y="260">Ignition msgs -> ROS msgs</text>
+
+  <rect class="ros" x="1030" y="120" width="190" height="210" rx="14"/>
+  <text class="label" x="1085" y="165">ROS 2</text>
+  <text class="mono" x="1050" y="205">/camera_front</text>
+  <text class="mono" x="1050" y="232">/camera_rear</text>
+  <text class="mono" x="1050" y="259">/scan</text>
+  <text class="mono" x="1050" y="286">/camera_info</text>
+
+  <path d="M315 215 L380 215" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M635 215 L700 215" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M955 215 L1020 215" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="120" y="420" width="1040" height="70" rx="12" fill="#f7f9fc" stroke="#cfd8e3"/>
+  <text class="mono" x="160" y="463">('/lidar/scan', '/scan') · ('/camera_front', '/camera_front/image_raw')</text>
+
+  <rect x="120" y="535" width="1040" height="70" rx="12" fill="#fff6e9" stroke="#e67e22"/>
+  <text class="mono" x="160" y="578">확인: ros2 topic list | grep -E "camera|scan" · rqt_image_view · rviz2</text>
+</svg>

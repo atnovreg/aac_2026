@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .card{fill:#f7f9fc;stroke:#cfd8e3;stroke-width:3}
+      .classic{fill:#eef5ff;stroke:#4f81bd;stroke-width:4}
+      .ai{fill:#fff6e9;stroke:#e67e22;stroke-width:4}
+      .dense{fill:#edf8f1;stroke:#27ae60;stroke-width:4}
+      .label{font:700 25px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .text{font:18px sans-serif;fill:#2f3b46}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">영상 매칭 backend 선택 기준</text>
+
+  <rect class="classic" x="80" y="140" width="330" height="420" rx="18"/>
+  <text class="label" x="145" y="195">OpenCV</text>
+  <text class="mono" x="120" y="240">SIFT / ORB / AKAZE</text>
+  <text class="text" x="120" y="295">장점: 가볍고 해석 쉬움</text>
+  <text class="text" x="120" y="335">장점: 가중치 필요 없음</text>
+  <text class="text" x="120" y="390">약점: 반복 texture에 취약</text>
+  <text class="text" x="120" y="430">수업: 기본 알고리즘 이해</text>
+
+  <rect class="ai" x="475" y="140" width="330" height="420" rx="18"/>
+  <text class="label" x="545" y="195">EfficientLoFTR</text>
+  <text class="mono" x="515" y="240">detector-free matching</text>
+  <text class="text" x="515" y="295">장점: semi-dense match</text>
+  <text class="text" x="515" y="335">장점: 시점 변화에 강함</text>
+  <text class="text" x="515" y="390">약점: cache/GPU 필요</text>
+  <text class="text" x="515" y="430">수업: AI backend 비교</text>
+
+  <rect class="dense" x="870" y="140" width="330" height="420" rx="18"/>
+  <text class="label" x="970" y="195">MINIMA</text>
+  <text class="mono" x="910" y="240">loftr / roma / sp_lg</text>
+  <text class="text" x="910" y="295">장점: 다양한 matcher</text>
+  <text class="text" x="910" y="335">장점: 높은 매칭 수</text>
+  <text class="text" x="910" y="390">약점: 가중치/의존성 관리</text>
+  <text class="text" x="910" y="430">수업: 성능 비교 후보</text>
+
+  <rect class="card" x="160" y="610" width="960" height="55" rx="12"/>
+  <text class="mono" x="205" y="645">공통 후단: matches -> RANSAC homography -> pose/debug topics</text>
+</svg>

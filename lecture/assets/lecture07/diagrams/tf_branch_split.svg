@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#596672"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .base{fill:#f7f9fc;stroke:#596672;stroke-width:3}
+      .vehicle{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .slam{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .sensor{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .edge{stroke:#596672;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">TF branch를 분리해 SLAM 실험 충돌을 피한다</text>
+
+  <rect class="base" x="530" y="95" width="220" height="62" rx="12"/>
+  <text class="mono" x="610" y="134">map</text>
+
+  <rect class="vehicle" x="210" y="235" width="220" height="62" rx="12"/>
+  <text class="mono" x="290" y="274">odom</text>
+  <rect class="vehicle" x="210" y="360" width="220" height="62" rx="12"/>
+  <text class="mono" x="245" y="399">base_footprint</text>
+  <rect class="sensor" x="210" y="485" width="220" height="62" rx="12"/>
+  <text class="mono" x="258" y="524">lidar_link</text>
+
+  <rect class="slam" x="850" y="235" width="220" height="62" rx="12"/>
+  <text class="mono" x="900" y="274">odom_lidar</text>
+  <rect class="slam" x="850" y="360" width="220" height="62" rx="12"/>
+  <text class="mono" x="865" y="399">base_footprint_lidar</text>
+  <rect class="sensor" x="850" y="485" width="220" height="62" rx="12"/>
+  <text class="mono" x="885" y="524">lidar_link_lidar</text>
+
+  <path class="edge" d="M580 155 C460 190 380 205 320 230"/>
+  <path class="edge" d="M320 297 L320 350"/>
+  <path class="edge" d="M320 422 L320 475"/>
+
+  <path class="edge" d="M700 155 C820 190 900 205 960 230"/>
+  <path class="edge" d="M960 297 L960 350"/>
+  <path class="edge" d="M960 422 L960 475"/>
+
+  <text class="label" x="215" y="625">기본 차량 branch</text>
+  <text class="label" x="850" y="625">SLAM 실험 branch</text>
+  <text class="mono" x="420" y="675">/scan -> /scan_lidar로 frame_id도 함께 분리</text>
+</svg>

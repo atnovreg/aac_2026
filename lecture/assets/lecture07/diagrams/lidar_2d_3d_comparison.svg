@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .two{fill:#eef5ff;stroke:#4f81bd;stroke-width:4}
+      .three{fill:#fff6e9;stroke:#e67e22;stroke-width:4}
+      .out{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .label{font:700 24px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .text{font:18px sans-serif;fill:#2f3b46}
+      .pt{fill:#596672}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">2D LaserScan과 3D LiDAR-Inertial Odometry</text>
+
+  <rect class="two" x="80" y="135" width="500" height="410" rx="18"/>
+  <text class="label" x="245" y="185">2D LiDAR</text>
+  <text class="mono" x="125" y="230">sensor_msgs/LaserScan</text>
+  <line x1="155" y1="350" x2="500" y2="350" stroke="#4f81bd" stroke-width="4"/>
+  <circle class="pt" cx="210" cy="330" r="5"/><circle class="pt" cx="250" cy="315" r="5"/>
+  <circle class="pt" cx="305" cy="310" r="5"/><circle class="pt" cx="360" cy="320" r="5"/>
+  <circle class="pt" cx="430" cy="335" r="5"/>
+  <text class="text" x="125" y="430">한 평면의 range 배열</text>
+  <text class="text" x="125" y="465">가볍고 2D map 생성이 쉬움</text>
+  <text class="text" x="125" y="500">높이 정보는 없음</text>
+
+  <rect class="three" x="700" y="135" width="500" height="410" rx="18"/>
+  <text class="label" x="875" y="185">3D LiDAR + IMU</text>
+  <text class="mono" x="745" y="230">PointCloud2 + Imu</text>
+  <g>
+    <circle class="pt" cx="800" cy="310" r="4"/><circle class="pt" cx="840" cy="280" r="4"/>
+    <circle class="pt" cx="880" cy="335" r="4"/><circle class="pt" cx="920" cy="260" r="4"/>
+    <circle class="pt" cx="960" cy="355" r="4"/><circle class="pt" cx="1010" cy="300" r="4"/>
+    <circle class="pt" cx="1060" cy="250" r="4"/><circle class="pt" cx="1100" cy="370" r="4"/>
+    <circle class="pt" cx="835" cy="380" r="4"/><circle class="pt" cx="1015" cy="390" r="4"/>
+  </g>
+  <text class="text" x="745" y="430">3D 구조와 IMU motion compensation</text>
+  <text class="text" x="745" y="465">LIO-SAM, FAST-LIO2 등</text>
+  <text class="text" x="745" y="500">캘리브레이션과 동기화가 중요</text>
+
+  <rect class="out" x="310" y="610" width="660" height="62" rx="14"/>
+  <text class="mono" x="355" y="648">공통 목적: map/odom 추정 -> planner -> /ackermann_auto</text>
+</svg>

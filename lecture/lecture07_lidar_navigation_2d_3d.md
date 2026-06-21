@@ -19,6 +19,7 @@ style: |
   .box.green { background:#27ae60; }
   .arrow { font-size:22pt; color:#aaa; }
   .capture { border:2px dashed #888; border-radius:6px; padding:10px 12px; background:#fbfbfb; font-size:12.5pt; margin:8px 0; }
+  .diagram { width:94%; max-height:560px; display:block; margin:6px auto 0 auto; }
   table { width:100%; border-collapse:collapse; }
   td, th { border:1px solid #cccccc; padding:6px; font-size:12.5pt; }
   th { background:#4f81bd; color:white; }
@@ -43,7 +44,7 @@ style: |
 
 ---
 
-# `2. 오늘의 목표(Cont')`
+# `2. 오늘의 큰 그림`
 
 <div class="flow">
   <div class="box">LiDAR<br>/scan</div>
@@ -60,6 +61,12 @@ style: |
 ```text
 3D LiDAR + IMU -> LiDAR-Inertial Odometry -> local map / odometry / loop closure
 ```
+
+---
+
+# `2-1. 그림: 2D LiDAR SLAM Pipeline`
+
+<img class="diagram" src="assets/lecture07/diagrams/lidar_slam_pipeline.svg">
 
 ---
 
@@ -301,6 +308,12 @@ SLAM Toolbox는 `/scan_lidar`를 사용한다.
 
 ---
 
+# `14-1. 그림: TF Branch 분리`
+
+<img class="diagram" src="assets/lecture07/diagrams/tf_branch_split.svg">
+
+---
+
 # `15. odom_tf_publisher`
 
 ```cpp
@@ -454,6 +467,12 @@ planner/controller -> /ackermann_auto -> joy_control_node -> /ackermann_drive
 | 계산량 | 낮음 | 높음 |
 | 장점 | 단순, 실시간 쉬움 | 복잡한 환경 구조 활용 |
 | 약점 | 높이 정보 없음 | calibration/IMU/GPU 부담 |
+
+---
+
+# `22-1. 그림: 2D vs 3D LiDAR`
+
+<img class="diagram" src="assets/lecture07/diagrams/lidar_2d_3d_comparison.svg">
 
 ---
 

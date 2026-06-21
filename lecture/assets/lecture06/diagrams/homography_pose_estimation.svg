@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .img{fill:#f7f9fc;stroke:#596672;stroke-width:3}
+      .bev{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .map{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+      .pt{fill:#c0392b}
+      .fwd{fill:#e67e22}
+      .line{stroke:#4f81bd;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Homography로 BEV 중심과 전방점을 map에 투영한다</text>
+
+  <rect class="bev" x="120" y="150" width="360" height="360" rx="14"/>
+  <text class="label" x="250" y="132">BEV image</text>
+  <line x1="300" y1="150" x2="300" y2="510" stroke="#b8c7d9"/>
+  <line x1="120" y1="330" x2="480" y2="330" stroke="#b8c7d9"/>
+  <circle class="pt" cx="300" cy="330" r="10"/>
+  <circle class="fwd" cx="300" cy="230" r="10"/>
+  <path d="M300 330 L300 245" stroke="#e67e22" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <text class="mono" x="150" y="555">center=(0,0)</text>
+  <text class="mono" x="150" y="585">forward=(1m,0)</text>
+
+  <rect class="map" x="800" y="130" width="360" height="400" rx="14"/>
+  <text class="label" x="940" y="112">Map image</text>
+  <path d="M845 465 C900 390 1000 330 1120 260" stroke="#ffffff" stroke-width="28" fill="none"/>
+  <path d="M845 465 C900 390 1000 330 1120 260" stroke="#d0d6de" stroke-width="4" fill="none" stroke-dasharray="14 10"/>
+  <circle class="pt" cx="950" cy="365" r="10"/>
+  <circle class="fwd" cx="1030" cy="310" r="10"/>
+  <path d="M950 365 L1018 318" stroke="#e67e22" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <text class="mono" x="805" y="575">x,y = pixel_to_world(center)</text>
+  <text class="mono" x="805" y="605">yaw = atan2(forward - center)</text>
+
+  <path class="line" d="M500 270 C610 220 690 220 780 270"/>
+  <path class="line" d="M500 390 C610 470 690 470 780 390"/>
+  <text class="mono" x="585" y="335">H: BEV pixel -> map pixel</text>
+</svg>

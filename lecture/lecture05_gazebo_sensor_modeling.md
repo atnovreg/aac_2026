@@ -19,6 +19,7 @@ style: |
   .box.green { background:#27ae60; }
   .arrow { font-size:22pt; color:#aaa; }
   .capture { border:2px dashed #888; border-radius:6px; padding:10px 12px; background:#fbfbfb; font-size:12.5pt; margin:8px 0; }
+  .diagram { width:94%; max-height:560px; display:block; margin:6px auto 0 auto; }
   table { width:100%; border-collapse:collapse; }
   td, th { border:1px solid #cccccc; padding:6px; font-size:12.5pt; }
   th { background:#4f81bd; color:white; }
@@ -43,7 +44,7 @@ style: |
 
 ---
 
-# `2. 오늘의 목표(Cont')`
+# `2. 오늘의 큰 그림`
 
 <div class="flow">
   <div class="box">URDF/Xacro<br>sensor links</div>
@@ -60,6 +61,12 @@ style: |
 ```text
 센서 위치와 방향을 바꾸면, ROS topic과 TF에서 무엇이 달라지는가?
 ```
+
+---
+
+# `2-1. 그림: 센서 장착 위치`
+
+<img class="diagram" src="assets/lecture05/diagrams/sensor_mount_layout.svg">
 
 ---
 
@@ -191,6 +198,12 @@ ultrasonic_right_link
 각 link는 `base_link`에 fixed joint로 붙는다.
 
 센서 장착 위치는 link의 `<origin xyz="..." rpy="...">`로 결정된다.
+
+---
+
+# `9-1. 그림: Gazebo Sensor Topic Bridge`
+
+<img class="diagram" src="assets/lecture05/diagrams/sensor_bridge_topics.svg">
 
 ---
 
@@ -431,6 +444,12 @@ AAC의 출력:
 /ipm_bev/fused
 /ipm_bev/debug
 ```
+
+---
+
+# `21-1. 그림: IPM BEV Projection`
+
+<img class="diagram" src="assets/lecture05/diagrams/ipm_bev_projection.svg">
 
 ---
 
@@ -787,4 +806,3 @@ camera_front/rear
 - ROS 2 usb_cam: https://github.com/ros-drivers/usb_cam
 - RPLiDAR SDK: https://github.com/Slamtec/rplidar_sdk
 - Project files: `system/aac_vehicle/urdf/sensors.urdf.xacro`, `perception/ipm_bev_node`
-

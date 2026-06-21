@@ -19,6 +19,7 @@ style: |
   .box.green { background:#27ae60; }
   .arrow { font-size:22pt; color:#aaa; }
   .capture { border:2px dashed #888; border-radius:6px; padding:10px 12px; background:#fbfbfb; font-size:12.5pt; margin:8px 0; }
+  .diagram { width:94%; max-height:560px; display:block; margin:6px auto 0 auto; }
   table { width:100%; border-collapse:collapse; }
   td, th { border:1px solid #cccccc; padding:6px; font-size:12.5pt; }
   th { background:#4f81bd; color:white; }
@@ -60,6 +61,12 @@ style: |
 ```text
 simple_gazebo_track/models/simple_track/materials/textures/track.png
 ```
+
+---
+
+# `2-1. 그림: Image Matching Pipeline`
+
+<img class="diagram" src="assets/lecture06/diagrams/image_matching_pipeline.svg">
 
 ---
 
@@ -450,6 +457,12 @@ BEV pixel -> map pixel
 
 ---
 
+# `23-1. 그림: Homography Pose Estimation`
+
+<img class="diagram" src="assets/lecture06/diagrams/homography_pose_estimation.svg">
+
+---
+
 # `24. RANSAC Inlier`
 
 ```python
@@ -710,6 +723,12 @@ rqt_image_view /visual_localization/debug_matches
 
 ---
 
+# `37-1. 그림: Backend 선택 기준`
+
+<img class="diagram" src="assets/lecture06/diagrams/vision_backend_comparison.svg">
+
+---
+
 # `38. 한계`
 
 현재 track texture는 유사한 차선과 도로 패턴이 반복된다.
@@ -829,4 +848,3 @@ EfficientLoFTR cache 개념을 확인했다.
 - EfficientLoFTR project: https://zju3dv.github.io/efficientloftr/
 - Hugging Face EfficientLoFTR docs: https://huggingface.co/docs/transformers/en/model_doc/efficientloftr
 - Project package: `src/aac_2026/navigation/image_match_node`
-

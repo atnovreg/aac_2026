@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .car{fill:#eef5ff;stroke:#4f81bd;stroke-width:4}
+      .hood{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .sensor{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .ultra{fill:#f7f9fc;stroke:#596672;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+      .axis{stroke:#c0392b;stroke-width:5;fill:none;marker-end:url(#arrow)}
+      .yaxis{stroke:#27ae60;stroke-width:5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">센서 장착 위치: base_link 기준 xyz/rpy</text>
+
+  <rect class="car" x="390" y="170" width="500" height="340" rx="36"/>
+  <rect class="hood" x="720" y="210" width="130" height="260" rx="18"/>
+  <text class="label" x="755" y="350">Front</text>
+
+  <circle class="sensor" cx="640" cy="330" r="42"/>
+  <text class="mono" x="594" y="336">LiDAR</text>
+  <text class="small" x="570" y="390">xyz [0,0,0.33]</text>
+
+  <rect class="sensor" x="790" y="310" width="92" height="55" rx="10"/>
+  <text class="mono" x="802" y="344">Cam F</text>
+  <text class="small" x="910" y="335">camera_front</text>
+  <text class="small" x="910" y="360">x=0.45 z=0.70 pitch=0.2617</text>
+
+  <rect class="sensor" x="398" y="310" width="92" height="55" rx="10"/>
+  <text class="mono" x="410" y="344">Cam R</text>
+  <text class="small" x="115" y="335">camera_rear</text>
+  <text class="small" x="115" y="360">x=-0.45 yaw=pi</text>
+
+  <rect class="ultra" x="875" y="330" width="40" height="70" rx="8"/>
+  <rect class="ultra" x="365" y="330" width="40" height="70" rx="8"/>
+  <rect class="ultra" x="615" y="145" width="70" height="40" rx="8"/>
+  <rect class="ultra" x="615" y="495" width="70" height="40" rx="8"/>
+  <text class="small" x="955" y="410">ultrasonic_front/rear/left/right</text>
+
+  <circle cx="640" cy="340" r="6" fill="#1f2d3d"/>
+  <path class="axis" d="M640 340 L795 340"/>
+  <text class="mono" x="805" y="348">+X forward</text>
+  <path class="yaxis" d="M640 340 L640 200"/>
+  <text class="mono" x="655" y="210">+Y left</text>
+
+  <rect x="150" y="585" width="980" height="58" rx="12" fill="#f7f9fc" stroke="#cfd8e3"/>
+  <text class="mono" x="185" y="622">system/aac_vehicle/config/sensor_config.yaml -> xacro mappings -> robot_description</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .cam{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .ground{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .bev{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+      .ray{stroke:#4f81bd;stroke-width:3;fill:none;stroke-dasharray:8 6}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">IPM BEV: camera image를 지면 평면으로 역투영</text>
+
+  <rect class="cam" x="90" y="145" width="270" height="160" rx="14"/>
+  <text class="label" x="140" y="195">Camera image</text>
+  <text class="mono" x="125" y="235">/camera_front</text>
+  <text class="mono" x="125" y="263">/camera_rear</text>
+
+  <path class="ray" d="M360 225 C500 170 590 160 685 245"/>
+  <path class="ray" d="M360 260 C500 360 585 390 685 325"/>
+
+  <polygon class="ground" points="660,250 1010,170 1110,500 580,540"/>
+  <text class="label" x="770" y="365">ground plane</text>
+  <text class="mono" x="742" y="398">base_footprint z=0</text>
+
+  <rect class="bev" x="755" y="250" width="210" height="210" rx="8"/>
+  <line x1="860" y1="250" x2="860" y2="460" stroke="#e67e22" stroke-width="2"/>
+  <line x1="755" y1="355" x2="965" y2="355" stroke="#e67e22" stroke-width="2"/>
+  <text class="label" x="790" y="235">BEV image</text>
+  <text class="mono" x="785" y="495">/ipm_bev/fused</text>
+
+  <path d="M970 355 L1110 355" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <rect class="cam" x="1120" y="285" width="120" height="135" rx="12"/>
+  <text class="mono" x="1140" y="330">debug</text>
+  <text class="mono" x="1130" y="360">grid</text>
+  <text class="mono" x="1130" y="390">mask</text>
+
+  <rect x="120" y="600" width="1040" height="55" rx="12" fill="#f7f9fc" stroke="#cfd8e3"/>
+  <text class="mono" x="160" y="635">필요 입력: Image + CameraInfo + TF(camera_link -> base_footprint) + ground_z</text>
+</svg>
