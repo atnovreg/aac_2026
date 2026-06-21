@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#596672"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .link{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .joint{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .sensor{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .label{font:700 22px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .edge{stroke:#596672;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">AAC Vehicle link / joint tree</text>
+
+  <rect class="link" x="500" y="95" width="280" height="70" rx="12"/>
+  <text class="mono" x="565" y="140">base_footprint</text>
+  <rect class="joint" x="520" y="205" width="240" height="58" rx="10"/>
+  <text class="mono" x="555" y="242">fixed joint</text>
+  <rect class="link" x="500" y="305" width="280" height="70" rx="12"/>
+  <text class="mono" x="590" y="350">base_link</text>
+
+  <path class="edge" d="M640 165 L640 195"/>
+  <path class="edge" d="M640 263 L640 295"/>
+
+  <rect class="joint" x="90" y="450" width="230" height="58" rx="10"/>
+  <text class="mono" x="115" y="487">front_left_steer</text>
+  <rect class="link" x="90" y="555" width="230" height="58" rx="10"/>
+  <text class="mono" x="125" y="592">front_left_wheel</text>
+
+  <rect class="joint" x="365" y="450" width="230" height="58" rx="10"/>
+  <text class="mono" x="385" y="487">front_right_steer</text>
+  <rect class="link" x="365" y="555" width="230" height="58" rx="10"/>
+  <text class="mono" x="395" y="592">front_right_wheel</text>
+
+  <rect class="link" x="685" y="500" width="210" height="58" rx="10"/>
+  <text class="mono" x="710" y="537">rear_left_wheel</text>
+  <rect class="link" x="940" y="500" width="220" height="58" rx="10"/>
+  <text class="mono" x="960" y="537">rear_right_wheel</text>
+
+  <rect class="sensor" x="930" y="315" width="230" height="58" rx="10"/>
+  <text class="mono" x="955" y="352">sensor links</text>
+  <text class="mono" x="930" y="405">lidar / camera / ultrasonic</text>
+
+  <path class="edge" d="M510 375 C360 415 290 420 210 445"/>
+  <path class="edge" d="M570 375 C520 420 495 420 480 445"/>
+  <path class="edge" d="M690 375 C745 430 770 455 790 490"/>
+  <path class="edge" d="M750 375 C890 430 1000 430 1050 490"/>
+  <path class="edge" d="M780 340 L920 340"/>
+  <path class="edge" d="M205 508 L205 545"/>
+  <path class="edge" d="M480 508 L480 545"/>
+
+  <text class="label" x="90" y="675">전륜: steering joint + wheel joint</text>
+  <text class="label" x="690" y="675">후륜: drive wheel joint</text>
+</svg>

@@ -84,6 +84,65 @@ style: |
     color:#aaa;
   }
 
+  .arch {
+    display:grid;
+    grid-template-columns:1.1fr 1.1fr 0.9fr;
+    gap:14px;
+    margin-top:12px;
+  }
+
+  .archcol {
+    border:2px solid #cccccc;
+    border-radius:6px;
+    padding:10px;
+    background:#fafafa;
+  }
+
+  .archcol h2 {
+    margin:0 0 8px 0;
+    font-size:15pt;
+  }
+
+  .archbox {
+    border:1px solid #b8c7d9;
+    border-left:6px solid #4f81bd;
+    background:white;
+    padding:8px 10px;
+    margin:8px 0;
+    border-radius:4px;
+    font-size:11.5pt;
+  }
+
+  .archbox span {
+    font-size:9.5pt;
+    color:#666;
+  }
+
+  .archbox.orange {
+    border-left-color:#e67e22;
+  }
+
+  .archbox.green {
+    border-left-color:#27ae60;
+  }
+
+  .archbox.gray {
+    border-left-color:#777;
+  }
+
+  .capture {
+    border:2px dashed #888;
+    border-radius:6px;
+    padding:10px 12px;
+    background:#fbfbfb;
+    font-size:12.5pt;
+    margin:8px 0;
+  }
+
+  .capture strong {
+    color:#4f81bd;
+  }
+
   table {
     width:100%;
     border-collapse:collapse;
@@ -126,7 +185,7 @@ style: |
 
 ---
 
-# `2. 오늘의 큰 그림`
+# `2. 오늘 수업 내용`
 
 <div class="flow">
   <div class="box">Ubuntu<br>기본 설정</div>
@@ -149,6 +208,27 @@ style: |
 
 ---
 
+# `2-1. 캡처 샘플: Host GPU`
+
+Host Ubuntu에서 `nvidia-smi`가 정상 출력되는 화면이다.
+
+<img src="assets/lecture01/captures/01_host_nvidia_smi.png" style="width:94%;border:1px solid #cccccc;">
+
+---
+
+# `2-2. 캡처 샘플: GPU Container`
+
+Docker container 안에서도 GPU가 보이는지 확인하는 화면이다.
+
+<img src="assets/lecture01/captures/06_docker_gpu_nvidia_smi.png" style="width:94%;border:1px solid #cccccc;">
+
+
+```text
+docker run --gpus all ... nvidia-smi 명령이 성공한다.
+```
+
+---
+
 # `3. 왜 Docker를 쓰는가?`
 
 자율주행 개발환경은 의존성이 많다.
@@ -158,7 +238,6 @@ style: |
 - CUDA / cuDNN
 - PyTorch
 - OpenCV CUDA build
-- 센서 드라이버
 - SLAM / Perception 패키지
 
 문제:
@@ -185,7 +264,6 @@ style: |
 - 실제 컴퓨터
 - NVIDIA driver 설치
 - Docker daemon 실행
-- USB, 카메라, 조이스틱 연결
 - 프로젝트 파일 편집
 
 </div>
@@ -207,6 +285,41 @@ style: |
 ```text
 GPU kernel driver는 host에 있고,
 CUDA/PyTorch 개발환경은 container에 있다.
+```
+
+---
+
+# `4-1. 개발환경 구조 그림`
+
+<div class="arch">
+<div class="archcol">
+  <h2>Host Ubuntu</h2>
+  <div class="archbox gray">NVIDIA Driver<br><span class="tiny">GPU kernel module, nvidia-smi</span></div>
+  <div class="archbox gray">Docker Engine<br><span class="tiny">container 생성/시작/재접속</span></div>
+  <div class="archbox">Editor<br><span class="tiny">VS Code, terminal, browser</span></div>
+</div>
+
+<div class="archcol">
+  <h2>Git Source</h2>
+  <div class="archbox green">Workspace Root<br><span class="tiny">/home/${USER}/ros_ws</span></div>
+  <div class="archbox green">Project Source<br><span class="tiny">src/aac_2026</span></div>
+  <div class="archbox">Git 관리<br><span class="tiny">commit, branch, submodule</span></div>
+  <div class="archbox">Host에서 편집<br><span class="tiny">수정 파일은 Git으로 추적</span></div>
+</div>
+
+<div class="archcol">
+  <h2>AAC Container</h2>
+  <div class="archbox green">Mounted Workspace<br><span class="tiny">/ros_ws = host ros_ws bind mount</span></div>
+  <div class="archbox orange">ROS 2 Humble<br><span class="tiny">ros2, colcon, launch, topic</span></div>
+  <div class="archbox orange">Runtime<br><span class="tiny">CUDA, Python, C++, Gazebo/RViz</span></div>
+  <div class="archbox">Build Output<br><span class="tiny">/ros_ws/build, /ros_ws/install, /ros_ws/log</span></div>
+</div>
+</div>
+
+핵심:
+
+```text
+소스코드는 host에 있고, container는 그 소스코드를 mount해서 실행한다.
 ```
 
 ---
@@ -565,15 +678,12 @@ git submodule update --init --recursive
 
 ---
 
-# `18. 프로젝트 구조 보기`
+# `18. 오늘 볼 프로젝트 구조`
 
 ```text
 aac_2026/
 ├── control/       # joystick, vehicle command
-├── sensors/       # usb_cam, rplidar
 ├── system/        # vehicle model, Gazebo, TF
-├── perception/    # IPM, road mask, segmentation
-├── navigation/    # SLAM, image matching
 ├── operations/    # tmuxp orchestration
 ├── docker/        # Dockerfile, run script
 ├── build.sh
@@ -648,7 +758,6 @@ host는 얇게, container는 두껍게.
 
 - `/home/${USER}/ros_ws`를 container의 `/ros_ws`로 mount
 - host GPU를 container에 전달
-- `/dev/video*`, `/dev/ttyUSB*`, joystick 장치를 전달
 - X11 socket을 전달해서 GUI 실행 준비
 - ROS/DDS 환경변수를 container로 전달
 
@@ -805,9 +914,8 @@ operations/tmuxp_config/config.yaml
 - `static_tf_tree`
 - `aac_vehicle`
 - `joy_control_node`
-- `ipm_bev_node`
-- `image_match_node`
-- `slam_mapping`
+
+영상 센서, LiDAR, 인지/항법 노드는 후속 강의에서 따로 실행하고 튜닝한다.
 
 ---
 
@@ -825,8 +933,7 @@ ROS topic 확인:
 ```bash
 # 실행 위치: AAC Container
 ros2 topic list
-ros2 topic list | grep camera
-ros2 topic list | grep scan
+ros2 node list
 ```
 
 Gazebo/ROS 종료:
@@ -876,17 +983,6 @@ df -h
 free -h
 nvidia-smi
 ```
-
-센서 장치를 사용할 학생은 host에서 추가 확인:
-
-```bash
-# 실행 위치: Host Ubuntu
-ls /dev/video* 2>/dev/null || echo "no camera"
-ls /dev/input/js* 2>/dev/null || echo "no joystick"
-ls /dev/ttyUSB* 2>/dev/null || echo "no USB serial"
-```
-
----
 
 # `30. 실습 체크표`
 
@@ -1000,10 +1096,11 @@ image가 만들어졌다면 다음 수업부터는 매번 새로 build하지 않
 
 - host `/home/${USER}/ros_ws`를 container `/ros_ws`로 mount
 - NVIDIA GPU를 container에 전달
-- `/dev/video*`, `/dev/input/js*`, `/dev/ttyUSB*` 장치를 전달
 - X11 display와 `/tmp/.X11-unix`를 전달
 - `ROS_DOMAIN_ID`, `DDS_INTERFACE`, `CYCLONEDDS_URI` 설정
 - Hugging Face cache를 `.hf_home`에 유지
+
+하드웨어 장치 전달은 이후 센서 수업에서 다시 다룬다.
 
 ---
 
@@ -1105,7 +1202,7 @@ cd /ros_ws/src/aac_2026
 source /ros_ws/install/setup.bash
 ros2 pkg list | grep aac_vehicle
 ros2 pkg list | grep joy_control_node
-ros2 pkg list | grep ipm_bev_node
+ros2 pkg list | grep static_tf_tree
 ```
 
 ---
@@ -1132,7 +1229,7 @@ source /ros_ws/install/setup.bash
 # 실행 위치: AAC Container
 colcon build --packages-select joy_control_node
 colcon build --packages-select aac_vehicle
-colcon build --packages-select ipm_bev_node
+colcon build --packages-select static_tf_tree
 ```
 
 ---
@@ -1217,9 +1314,9 @@ AAC_2026
 | Static TF | `ros2 launch static_tf_tree static_tf_tree.launch.py` |
 | Vehicle/Gazebo | `ros2 launch aac_vehicle spawn_vehicle.launch.py` |
 | Joystick | `ros2 launch joy_control_node joy_control.launch.py` |
-| IPM BEV | `ros2 launch ipm_bev_node deploy.launch.py` |
-| Image matching | `ros2 launch image_match_node opencv.launch.py` |
-| SLAM | `ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true` |
+
+오늘은 tmux가 여러 프로세스를 한 번에 묶어 실행한다는 구조만 확인한다.
+센서, 인지, 항법 pane의 의미와 파라미터는 후속 강의에서 다룬다.
 
 ---
 
@@ -1262,18 +1359,10 @@ aac_enter
 ```bash
 # 실행 위치: AAC Container
 ros2 topic list
-ros2 topic list | grep camera
-ros2 topic list | grep scan
-ros2 topic list | grep ipm_bev
 ros2 node list
 ```
 
-이미지 확인:
-
-```bash
-# 실행 위치: AAC Container
-rqt_image_view /ipm_bev/debug
-```
+오늘은 topic과 node 목록이 출력되는지만 확인한다.
 
 ---
 
@@ -1304,113 +1393,7 @@ operations/harnesses/tmux_shutdown_harness.sh --live
 
 ---
 
-# `48. USB Camera 실차 확인`
-
-host에서 장치 확인:
-
-```bash
-# 실행 위치: Host Ubuntu
-ls /dev/video*
-v4l2-ctl --list-devices
-```
-
-container 안에서 실행:
-
-```bash
-# 실행 위치: AAC Container
-ros2 launch usb_cam camera.launch.py
-```
-
-기본 topic:
-
-```text
-/camera1/image_raw
-/camera1/image_compressed
-/camera1/camera_info
-/camera2/image_raw
-/camera2/image_compressed
-/camera2/camera_info
-```
-
----
-
-# `49. USB Camera 설정 파일`
-
-파일:
-
-```text
-sensors/usb_cam/config/params_1.yaml
-sensors/usb_cam/config/params_2.yaml
-```
-
-주요 값:
-
-```yaml
-video_device: "/dev/video0"
-framerate: 30.0
-image_width: 640
-image_height: 480
-pixel_format: "mjpeg2rgb"
-```
-
-장치 번호가 다르면 `video_device`를 수정한다.
-
----
-
-# `50. RPLiDAR 실차 확인`
-
-host에서 장치 확인:
-
-```bash
-# 실행 위치: Host Ubuntu
-ls /dev/ttyUSB*
-dmesg | grep tty | tail -10
-```
-
-container 안에서 실행:
-
-```bash
-# 실행 위치: AAC Container
-ros2 launch rplidar_ros rplidar_a3.launch.py
-```
-
-확인:
-
-```bash
-# 실행 위치: AAC Container
-ros2 topic hz /scan
-ros2 topic echo /scan --once
-rviz2
-```
-
----
-
-# `51. RPLiDAR 설정`
-
-기본 설정:
-
-```text
-serial_port: /dev/ttyUSB0
-serial_baudrate: 256000
-frame_id: lidar_link
-scan_mode: Sensitivity
-```
-
-udev rule:
-
-```text
-sensors/rplidar_ros2/scripts/rplidar.rules
-```
-
-목표:
-
-```text
-매번 /dev/ttyUSB0 번호가 바뀌지 않도록 /dev/rplidar symlink를 만든다.
-```
-
----
-
-# `52. Mac에서 GUI를 쓸 때`
+# `48. Mac에서 GUI를 쓸 때`
 
 Mac Docker Desktop은 Linux VM 안에서 container를 실행한다.
 
@@ -1441,7 +1424,7 @@ rviz2
 
 ---
 
-# `53. 자주 나는 오류`
+# `49. 자주 나는 오류`
 
 | 증상 | 확인 |
 |---|---|
@@ -1451,12 +1434,10 @@ rviz2
 | `Cannot connect to X server` | `DISPLAY`, `/tmp/.X11-unix`, `xhost` 확인 |
 | submodule 폴더가 비어 있음 | `git submodule update --init --recursive` |
 | colcon이 외부 ML repo를 빌드함 | `perception/setup_colcon_ignores.sh` 확인 |
-| camera topic 없음 | `/dev/video*`, `run_x86.sh` device 전달 확인 |
-| LiDAR topic 없음 | `/dev/ttyUSB*`, baudrate, launch file 확인 |
 
 ---
 
-# `54. 디버깅 순서`
+# `50. 디버깅 순서`
 
 문제가 생기면 아래 순서로 좁힌다.
 
@@ -1469,7 +1450,6 @@ rviz2
 6. AAC container
 7. ROS workspace build
 8. ROS launch/topic
-9. sensor device
 ```
 
 ```text
@@ -1478,7 +1458,7 @@ rviz2
 
 ---
 
-# `55. 수업 중 제출할 로그`
+# `51. 수업 중 제출할 로그`
 
 학생은 아래 결과를 캡처하거나 텍스트로 제출한다.
 
@@ -1496,7 +1476,7 @@ rviz2
 
 ---
 
-# `56. 오늘의 최종 미션`
+# `52. 오늘의 최종 미션`
 
 최종 목표:
 
@@ -1521,13 +1501,29 @@ ros2 pkg list | grep aac_vehicle
 ```bash
 # 실행 위치: AAC Container
 ./start.sh
-ros2 topic list | grep ipm_bev
+ros2 node list | head
 ./stop.sh
 ```
 
 ---
 
-# `57. 참고 문서`
+# `53. 다음 강의로 넘기는 내용`
+
+오늘 다루지 않는 것:
+
+```text
+카메라 장치 연결
+LiDAR 장치 연결
+센서별 udev rule
+센서별 ROS topic 확인
+센서 파라미터 튜닝
+```
+
+이 내용은 Gazebo 센서 모델링과 실차 센서 셋업 강의에서 다시 다룬다.
+
+---
+
+# `54. 참고 문서`
 
 - Docker Engine Ubuntu install: https://docs.docker.com/engine/install/ubuntu/
 - Docker Linux post-install: https://docs.docker.com/engine/install/linux-postinstall/

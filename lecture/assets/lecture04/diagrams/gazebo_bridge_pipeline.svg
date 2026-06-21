@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .ros{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .bridge{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .gz{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .label{font:700 23px sans-serif;fill:#1f2d3d}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">ROS command와 Gazebo feedback의 왕복 경로</text>
+
+  <rect class="ros" x="70" y="135" width="260" height="105" rx="14"/>
+  <text class="label" x="115" y="180">joy/control</text>
+  <text class="mono" x="105" y="215">/ackermann_drive</text>
+
+  <rect class="ros" x="410" y="135" width="270" height="105" rx="14"/>
+  <text class="label" x="435" y="180">vehicle_state</text>
+  <text class="mono" x="450" y="215">/ackermann_cmd</text>
+
+  <rect class="bridge" x="760" y="135" width="220" height="105" rx="14"/>
+  <text class="label" x="815" y="180">ros_gz_bridge</text>
+  <text class="mono" x="800" y="215">Twist -> Gazebo</text>
+
+  <rect class="gz" x="1050" y="135" width="170" height="105" rx="14"/>
+  <text class="label" x="1080" y="180">Gazebo</text>
+  <text class="mono" x="1075" y="215">Ackermann</text>
+
+  <path d="M335 188 L400 188" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M685 188 L750 188" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M985 188 L1040 188" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+
+  <rect class="gz" x="1050" y="440" width="170" height="105" rx="14"/>
+  <text class="label" x="1080" y="485">Gazebo</text>
+  <text class="mono" x="1075" y="520">odometry</text>
+
+  <rect class="bridge" x="760" y="440" width="220" height="105" rx="14"/>
+  <text class="label" x="815" y="485">ros_gz_bridge</text>
+  <text class="mono" x="810" y="520">Odometry -> ROS</text>
+
+  <rect class="ros" x="410" y="440" width="270" height="105" rx="14"/>
+  <text class="label" x="492" y="485">ROS topic</text>
+  <text class="mono" x="500" y="520">/odom</text>
+
+  <rect class="ros" x="70" y="440" width="260" height="105" rx="14"/>
+  <text class="label" x="135" y="485">TF/RViz</text>
+  <text class="mono" x="110" y="520">odom -> base</text>
+
+  <path d="M1045 493 L990 493" stroke="#27ae60" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M755 493 L690 493" stroke="#27ae60" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M405 493 L340 493" stroke="#27ae60" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+
+  <text class="small" x="120" y="640">명령 방향: ROS -> Gazebo, 상태 방향: Gazebo -> ROS. Bridge의 방향 기호 ] [ @ 를 읽을 수 있어야 한다.</text>
+</svg>

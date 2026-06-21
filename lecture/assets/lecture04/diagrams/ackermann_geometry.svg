@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .car{fill:#eef5ff;stroke:#4f81bd;stroke-width:4}
+      .wheel{fill:#333b45;stroke:#111820;stroke-width:3}
+      .label{font:700 24px sans-serif;fill:#1f2d3d}
+      .mono{font:19px monospace;fill:#2f3b46}
+      .small{font:17px sans-serif;fill:#596672}
+      .line{stroke:#596672;stroke-width:4;fill:none}
+      .turn{stroke:#e67e22;stroke-width:5;fill:none}
+      .green{stroke:#27ae60;stroke-width:4;fill:none}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Ackermann steering geometry</text>
+
+  <rect class="car" x="470" y="210" width="360" height="250" rx="28"/>
+  <line class="line" x1="515" y1="245" x2="785" y2="245"/>
+  <line class="line" x1="515" y1="425" x2="785" y2="425"/>
+  <text class="mono" x="610" y="198">wheelbase L</text>
+  <path class="green" d="M530 200 L530 205 L770 205 L770 200"/>
+  <text class="mono" x="845" y="345">track width W</text>
+  <path class="green" d="M855 245 L850 245 L850 425 L855 425"/>
+
+  <rect class="wheel" x="500" y="185" width="40" height="95" rx="8" transform="rotate(-22 520 232)"/>
+  <rect class="wheel" x="760" y="185" width="40" height="95" rx="8" transform="rotate(-12 780 232)"/>
+  <rect class="wheel" x="500" y="390" width="40" height="95" rx="8"/>
+  <rect class="wheel" x="760" y="390" width="40" height="95" rx="8"/>
+
+  <circle cx="250" cy="600" r="9" fill="#c0392b"/>
+  <text class="label" x="135" y="640">Instantaneous Center of Rotation</text>
+  <path class="turn" d="M250 600 C360 395 420 275 520 232"/>
+  <path class="turn" d="M250 600 C470 405 605 285 780 232"/>
+  <path class="line" d="M520 232 L380 600"/>
+  <path class="line" d="M780 232 L380 600"/>
+
+  <rect x="875" y="480" width="330" height="145" rx="14" fill="#fff6e9" stroke="#e67e22" stroke-width="3"/>
+  <text class="mono" x="910" y="525">R = L / tan(delta)</text>
+  <text class="mono" x="910" y="562">inner angle > outer angle</text>
+  <text class="mono" x="910" y="599">wheel speed도 좌/우 다름</text>
+
+  <text class="small" x="470" y="525">delta는 /ackermann_drive.drive.steering_angle</text>
+</svg>

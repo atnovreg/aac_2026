@@ -57,9 +57,18 @@
   입력하고 어떤 결과를 확인해야 하는지까지 포함한다.
 - 개념 슬라이드 뒤에는 가능하면 바로 "따라하기", "확인", "실패 시 점검" 슬라이드를
   둔다. 특히 host에서 실행할 명령과 container에서 실행할 명령을 분리한다.
+- `lecture01_dev_environment_setup.md`는 Ubuntu, NVIDIA driver, Docker,
+  NVIDIA Container Toolkit, AAC container, ROS 2 workspace build까지만 다룬다.
+  카메라, LiDAR, joystick device 등 하드웨어/센서 셋업은 초반 환경설정 자료에
+  넣지 말고 후속 센서/Gazebo 강의에서 다시 다룬다.
 - 모든 `bash` 코드블록은 첫 줄에 실행 위치를 주석으로 표시한다.
   예: `# 실행 위치: Host Ubuntu`, `# 실행 위치: AAC Container`,
   `# 실행 위치: Host Ubuntu에서 시작, 이후 AAC Container`.
+- 실습 강의에는 중간중간 캡처 후보를 제안한다. 캡처 후보는 `CAPTURE SLOT`
+  형태로 넣고, 캡처 대상, 실행 위치, 확인 명령, 학생이 봐야 할 성공 신호를 적는다.
+- 복잡한 환경/시스템 설명에는 구조 그림을 넣는다. 특히 Ubuntu host, Docker
+  Engine, AAC container, mounted source tree, GPU/USB devices, ROS 2 workspace의
+  관계는 반복해서 시각화한다.
 - 장표 수는 제한하지 않는다. 코드 리뷰, 실습 명령, 디버깅 명령이 필요하면
   긴 슬라이드덱으로 작성한다.
 - 영상은 교수가 직접 삽입하므로 슬라이드에는 다음 형식으로 placeholder만 둔다.
@@ -210,6 +219,15 @@ cd /ros_ws/src/aac_2026
 ```
 
 - 학생이 실패할 가능성이 높은 지점은 별도의 troubleshooting slide로 만든다.
+- 캡처를 넣을 만한 지점은 별도 slide 또는 작은 placeholder로 표시한다.
+
+```text
+[CAPTURE SLOT]
+대상: docker run --gpus all ... nvidia-smi 성공 화면
+실행 위치: Host Ubuntu
+확인: container 안에서도 GPU 이름과 Driver/CUDA Version이 보인다.
+```
+
 - 실제 주행 안전과 관련된 항목은 STOP/RUN/E-STOP 개념을 분리해서 설명한다.
 - 시험/평가가 없는 수업이므로 "평가", "채점", "시험 대비"라는 표현은 피하고,
   "실습 체크포인트", "확인 질문", "선택 과제", "데모 목표"라는 표현을 사용한다.

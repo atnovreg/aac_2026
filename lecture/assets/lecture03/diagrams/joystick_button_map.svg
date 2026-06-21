@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .label{font:700 24px sans-serif;fill:#1f2d3d}
+      .text{font:19px sans-serif;fill:#2f3b46}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .call{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .run{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .stop{fill:#fff0f0;stroke:#c0392b;stroke-width:3}
+      .blue{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .pad{fill:#323b46;stroke:#1f2d3d;stroke-width:4}
+      .stick{fill:#606c76;stroke:#111820;stroke-width:4}
+      .btn{fill:#f8fafc;stroke:#111820;stroke-width:4}
+      .line{stroke:#596672;stroke-width:3;fill:none}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Joystick button / axis mapping</text>
+
+  <path class="pad" d="M330 230 C260 230 225 290 210 370 C195 455 225 515 285 520 C330 524 360 485 390 440 L890 440 C920 485 950 524 995 520 C1055 515 1085 455 1070 370 C1055 290 1020 230 950 230 C865 230 830 275 790 290 L490 290 C450 275 415 230 330 230 Z"/>
+
+  <circle class="stick" cx="405" cy="385" r="55"/>
+  <circle class="stick" cx="710" cy="385" r="55"/>
+  <circle class="btn" cx="898" cy="330" r="25"/><text class="label" x="890" y="339">△</text>
+  <circle class="btn" cx="954" cy="386" r="25"/><text class="label" x="945" y="395">○</text>
+  <circle class="btn" cx="842" cy="386" r="25"/><text class="label" x="834" y="395">□</text>
+  <circle class="btn" cx="898" cy="442" r="25"/><text class="label" x="889" y="451">×</text>
+  <rect class="btn" x="350" y="215" width="110" height="34" rx="17"/>
+  <text class="mono" x="392" y="239">L1</text>
+  <rect class="btn" x="820" y="215" width="110" height="34" rx="17"/>
+  <text class="mono" x="862" y="239">R1</text>
+
+  <rect class="run" x="970" y="115" width="230" height="70" rx="12"/>
+  <text class="label" x="1000" y="150">○ RUN MODE</text>
+  <text class="mono" x="1000" y="176">buttons[1]</text>
+  <path class="line" d="M1010 185 L958 360"/>
+
+  <rect class="stop" x="970" y="545" width="230" height="70" rx="12"/>
+  <text class="label" x="1000" y="580">× E-STOP</text>
+  <text class="mono" x="1000" y="606">buttons[0]</text>
+  <path class="line" d="M968 545 L914 455"/>
+
+  <rect class="blue" x="120" y="115" width="270" height="78" rx="12"/>
+  <text class="label" x="150" y="150">Left stick</text>
+  <text class="mono" x="150" y="178">axes[0] steering</text>
+  <path class="line" d="M365 193 L410 330"/>
+
+  <rect class="call" x="80" y="545" width="300" height="82" rx="12"/>
+  <text class="label" x="110" y="580">R1 hold</text>
+  <text class="mono" x="110" y="607">buttons[5] manual</text>
+  <path class="line" d="M380 545 L845 250"/>
+
+  <rect class="blue" x="455" y="545" width="300" height="82" rx="12"/>
+  <text class="label" x="485" y="580">Right stick vertical</text>
+  <text class="mono" x="485" y="607">axes[4] speed</text>
+  <path class="line" d="M625 545 L705 440"/>
+
+  <text class="text" x="330" y="675">컨트롤러 종류에 따라 index가 다를 수 있으므로 /joy echo로 반드시 확인한다.</text>
+</svg>

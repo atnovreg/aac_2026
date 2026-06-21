@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .label{font:700 24px sans-serif;fill:#1f2d3d}
+      .text{font:19px sans-serif;fill:#2f3b46}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .small{font:16px sans-serif;fill:#596672}
+      .host{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .cont{fill:#fff6e9;stroke:#e67e22;stroke-width:3}
+      .green{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .chip{fill:white;stroke:#b8c7d9;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Docker는 환경, src는 Git 프로젝트</text>
+
+  <rect class="host" x="70" y="110" width="500" height="470" rx="14"/>
+  <text class="label" x="105" y="155">Host Ubuntu</text>
+  <text class="mono" x="105" y="190">/home/${USER}/ros_ws</text>
+  <rect class="chip" x="105" y="225" width="400" height="55" rx="8"/>
+  <text class="mono" x="130" y="260">src/aac_2026</text>
+  <text class="small" x="330" y="260">Git으로 관리</text>
+  <rect class="chip" x="105" y="305" width="400" height="55" rx="8"/>
+  <text class="mono" x="130" y="340">lecture/</text>
+  <text class="small" x="245" y="340">Marp 원본과 PPTX</text>
+  <rect class="chip" x="105" y="385" width="400" height="55" rx="8"/>
+  <text class="mono" x="130" y="420">docker/</text>
+  <text class="small" x="245" y="420">image/run script</text>
+  <text class="text" x="105" y="500">학생이 수정하는 코드는 host filesystem에 남는다.</text>
+  <text class="text" x="105" y="532">commit, diff, branch는 여기서 관리한다.</text>
+
+  <rect class="cont" x="710" y="110" width="500" height="470" rx="14"/>
+  <text class="label" x="745" y="155">AAC Container</text>
+  <text class="mono" x="745" y="190">/ros_ws</text>
+  <rect class="chip" x="745" y="225" width="400" height="55" rx="8"/>
+  <text class="mono" x="770" y="260">src/aac_2026</text>
+  <text class="small" x="945" y="260">same files</text>
+  <rect class="chip" x="745" y="305" width="400" height="55" rx="8"/>
+  <text class="mono" x="770" y="340">build/</text>
+  <text class="small" x="890" y="340">colcon 중간 결과</text>
+  <rect class="chip" x="745" y="385" width="400" height="55" rx="8"/>
+  <text class="mono" x="770" y="420">install/</text>
+  <text class="small" x="900" y="420">실행 가능한 ROS overlay</text>
+  <text class="text" x="745" y="500">ROS 2, Gazebo, CUDA, OpenCV는 image가 제공한다.</text>
+  <text class="text" x="745" y="532">실행과 build는 container 안에서 수행한다.</text>
+
+  <path d="M575 300 C625 265, 655 265, 705 300" fill="none" stroke="#4f81bd" stroke-width="5" marker-end="url(#arrow)"/>
+  <text class="label" x="585" y="255" fill="#4f81bd">bind mount</text>
+  <path d="M705 370 C655 405, 625 405, 575 370" fill="none" stroke="#27ae60" stroke-width="5" marker-end="url(#arrow)"/>
+  <text class="label" x="585" y="455" fill="#27ae60">same source tree</text>
+
+  <rect class="green" x="350" y="610" width="580" height="70" rx="12"/>
+  <text class="label" x="390" y="654">수정은 Host에서 해도 되고, 실행은 Container에서 한다</text>
+</svg>

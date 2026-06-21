@@ -1,0 +1,3 @@
+$ docker images | grep aac-2026
+WARNING: This output is designed for human readability. For machine-readable output, please use --format.
+aac-2026-image:x86         47e54f5b2bd1        126GB         48.1GB   U    

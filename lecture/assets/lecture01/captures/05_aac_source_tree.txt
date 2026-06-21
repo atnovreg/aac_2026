@@ -1,0 +1,12 @@
+$ find /home/leedk/ros_ws/src/aac_2026 -maxdepth 1 -mindepth 1 -type d -printf "%f\\n" | sort
+.git
+.hf_home
+control
+docker
+example_cpp_node
+lecture
+navigation
+operations
+perception
+sensors
+system

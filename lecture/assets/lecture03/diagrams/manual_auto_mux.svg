@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4f81bd"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .src{fill:#eef5ff;stroke:#4f81bd;stroke-width:3}
+      .mux{fill:#fff6e9;stroke:#e67e22;stroke-width:4}
+      .out{fill:#edf8f1;stroke:#27ae60;stroke-width:3}
+      .stop{fill:#fff0f0;stroke:#c0392b;stroke-width:3}
+      .label{font:700 24px sans-serif;fill:#1f2d3d}
+      .mono{font:19px monospace;fill:#2f3b46}
+      .text{font:18px sans-serif;fill:#2f3b46}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">Manual override와 Auto command mux</text>
+
+  <rect class="src" x="90" y="145" width="300" height="115" rx="14"/>
+  <text class="label" x="140" y="190">Manual input</text>
+  <text class="mono" x="125" y="225">/joy axes + R1</text>
+
+  <rect class="src" x="90" y="450" width="300" height="115" rx="14"/>
+  <text class="label" x="135" y="495">Autonomous input</text>
+  <text class="mono" x="125" y="530">/ackermann_auto</text>
+
+  <rect class="mux" x="505" y="255" width="280" height="190" rx="18"/>
+  <text class="label" x="565" y="310">joy_control_node</text>
+  <text class="text" x="545" y="350">RUN MODE?</text>
+  <text class="text" x="545" y="382">R1 hold?</text>
+  <text class="text" x="545" y="414">auto cmd exists?</text>
+
+  <rect class="out" x="910" y="290" width="280" height="125" rx="14"/>
+  <text class="label" x="965" y="340">Final command</text>
+  <text class="mono" x="950" y="378">/ackermann_drive</text>
+
+  <rect class="stop" x="505" y="525" width="280" height="90" rx="14"/>
+  <text class="label" x="570" y="562">E-STOP</text>
+  <text class="mono" x="545" y="590">speed=0, steer=0</text>
+
+  <path d="M395 202 L495 310" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M395 508 L495 390" stroke="#4f81bd" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M790 350 L900 350" stroke="#27ae60" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M650 450 L650 515" stroke="#c0392b" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+
+  <text class="mono" x="820" y="322">one output topic</text>
+  <text class="mono" x="210" y="330">priority: E-STOP > Manual > Auto > Zero</text>
+</svg>

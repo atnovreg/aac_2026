@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#596672"/>
+    </marker>
+    <style>
+      .title{font:700 34px sans-serif;fill:#1f2d3d}
+      .state{fill:#eef5ff;stroke:#4f81bd;stroke-width:4}
+      .run{fill:#edf8f1;stroke:#27ae60;stroke-width:4}
+      .stop{fill:#fff0f0;stroke:#c0392b;stroke-width:4}
+      .manual{fill:#fff6e9;stroke:#e67e22;stroke-width:4}
+      .label{font:700 26px sans-serif;fill:#1f2d3d}
+      .text{font:19px sans-serif;fill:#2f3b46}
+      .mono{font:18px monospace;fill:#2f3b46}
+      .edge{stroke:#596672;stroke-width:5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text class="title" x="60" y="58">joy_control_node 상태 전이</text>
+
+  <rect class="stop" x="90" y="250" width="260" height="145" rx="18"/>
+  <text class="label" x="180" y="300">STOP</text>
+  <text class="text" x="125" y="340">speed = 0</text>
+  <text class="text" x="125" y="370">steer = 0</text>
+
+  <rect class="run" x="510" y="120" width="280" height="145" rx="18"/>
+  <text class="label" x="585" y="170">RUN MODE</text>
+  <text class="text" x="545" y="210">명령 publish 허용</text>
+  <text class="mono" x="545" y="240">buttons[1] ○</text>
+
+  <rect class="manual" x="930" y="120" width="270" height="145" rx="18"/>
+  <text class="label" x="990" y="170">MANUAL</text>
+  <text class="text" x="965" y="210">R1 hold</text>
+  <text class="mono" x="965" y="240">axes -> ackermann</text>
+
+  <rect class="state" x="930" y="430" width="270" height="145" rx="18"/>
+  <text class="label" x="980" y="480">AUTO PASS</text>
+  <text class="text" x="965" y="520">R1 released</text>
+  <text class="mono" x="965" y="550">/ackermann_auto</text>
+
+  <path class="edge" d="M350 300 C420 220 440 190 500 190"/>
+  <text class="mono" x="380" y="225">○ pressed</text>
+
+  <path class="edge" d="M510 235 C430 350 430 370 360 370"/>
+  <text class="mono" x="395" y="390">× E-STOP</text>
+
+  <path class="edge" d="M795 190 L920 190"/>
+  <text class="mono" x="820" y="165">R1 hold</text>
+
+  <path class="edge" d="M795 230 C870 330 880 480 920 500"/>
+  <text class="mono" x="805" y="405">auto cmd exists</text>
+
+  <path class="edge" d="M1065 430 C1070 350 1070 315 1065 275"/>
+  <text class="mono" x="1085" y="355">R1 hold</text>
+
+  <path class="edge" d="M930 505 C715 585 465 505 350 380"/>
+  <text class="mono" x="520" y="560">× E-STOP always returns STOP</text>
+</svg>
