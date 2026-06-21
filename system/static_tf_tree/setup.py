@@ -28,7 +28,6 @@ setup(
         ('share/' + package_name, ['README.md']),
     ],
     install_requires=['setuptools'],
-    tests_require=['pytest'],
     zip_safe=True,
     maintainer='etri',
     maintainer_email='lee.dk@etri.re.kr',

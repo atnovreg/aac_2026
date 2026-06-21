@@ -30,7 +30,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     python3.10 python3-pip python3.10-dev python3.10-venv git wget curl ca-certificates unzip && \
     ln -sf python3.10 /usr/bin/python3 && \
-    pip3 install --upgrade pip
+    pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir --force-reinstall --no-deps 'setuptools==59.6.0'
 
 # PyTorch install for RTX 50-series / Blackwell sm_120.
 # Keep the global Python usable even when WildGS-SLAM's venv is not activated.
@@ -77,16 +78,28 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
 # Python runtime dependencies, including Transformers for EfficientLoFTR.
 # ROS 2 Humble colcon-python-setup-py is incompatible with setuptools 80+.
 COPY requirements.txt /tmp
-RUN cd /tmp && pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir --force-reinstall --no-deps 'numpy==1.26.4' && \
-    pip install --no-cache-dir --force-reinstall 'setuptools==59.6.0' && \
-    python3 - <<'PY'
+# Ubuntu installs blinker through distutils, so pip cannot uninstall it cleanly
+# when open3d pulls a newer Flask stack. Install only that package with
+# --ignore-installed, then keep normal dependency resolution for everything
+# else so the existing cu128 PyTorch wheel is not replaced.
+RUN pip install --ignore-installed --no-cache-dir --no-deps 'blinker==1.9.0'
+RUN cd /tmp && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --force-reinstall --no-deps \
+    'numpy==1.26.4' \
+    'setuptools==59.6.0'
+RUN python3 - <<'PY'
+import setuptools
 import torch
 
+assert setuptools.__version__ == '59.6.0', (
+    f'Expected setuptools==59.6.0 for ROS 2 Humble ament_python, '
+    f'found {setuptools.__version__} at {setuptools.__file__}'
+)
 assert torch.version.cuda == '12.8', (
     f'Expected the cu128 PyTorch build, found torch={torch.__version__}, '
     f'torch.version.cuda={torch.version.cuda}'
 )
+print(f'setuptools dependency check: {setuptools.__version__}')
 print(f'PyTorch dependency check: {torch.__version__}, CUDA {torch.version.cuda}')
 PY
 
