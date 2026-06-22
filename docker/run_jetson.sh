@@ -124,6 +124,7 @@ done
 # docker arguments
 DOCKER_ARGS=(
   -v "${AAC_DIR}/../../":"/ros_ws/":z
+  -p 8765:8765 # foxglove
 
   --runtime nvidia
   --network host
