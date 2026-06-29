@@ -1,0 +1,45 @@
+arduino_mega_control_node:
+  ros__parameters:
+    # ROS interface
+    command_topic: /ackermann_drive
+
+    # Arduino Mega USB/serial interface
+    usb_interface: arduino_mega
+    serial_port: /dev/ttyACM0
+    baud_rate: 9600
+    auto_connect: true
+    reconnect_period_sec: 1.0
+    command_protocol: pwm_line      # pwm_line: <S:...,L:...,R:...>, legacy_char: F/B/L/R/G/I/H/J/S
+    append_newline: true
+
+    # Command timing
+    command_rate_hz: 50.0
+    command_timeout_sec: 0.3
+
+    # Vehicle geometry
+    wheelbase: 0.80
+    track_width: 0.46
+    max_speed: 3.0
+    max_steering_angle: 0.524
+    speed_deadband: 0.05
+    steering_deadband: 0.05
+
+    # pwm_line protocol only. Signed PWM limits sent to Arduino: -limit ~ +limit.
+    # If the motor does not move below a certain duty, set *_pwm_min.
+    steering_pwm_min: 0
+    steering_pwm_max: 255
+    left_motor_pwm_min: 0
+    left_motor_pwm_max: 255
+    right_motor_pwm_min: 0
+    right_motor_pwm_max: 255
+
+    # Use -1 if wiring or motor controller direction is reversed.
+    steering_direction: 1
+    left_motor_direction: 1
+    right_motor_direction: 1
+
+    # Serial command format:
+    #   <S:steering_pwm,L:left_pwm,R:right_pwm>
+    command_prefix: "<"
+    command_suffix: ">"
+    field_separator: ","

@@ -1,0 +1,21 @@
+arduino_mega_control_node:
+  ros__parameters:
+    # Arduino sketch key-mapping/wiring test mode:
+    # Serial.read() consumes one byte, so do not append newline.
+    command_topic: /ackermann_drive
+
+    usb_interface: arduino_mega
+    serial_port: /dev/ttyACM0
+    baud_rate: 9600
+    auto_connect: true
+    reconnect_period_sec: 1.0
+    command_protocol: legacy_char
+    append_newline: false
+
+    command_rate_hz: 20.0
+    command_timeout_sec: 0.3
+
+    max_speed: 3.0
+    max_steering_angle: 0.524
+    speed_deadband: 0.05
+    steering_deadband: 0.05
