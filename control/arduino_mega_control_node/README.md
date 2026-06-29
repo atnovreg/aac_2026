@@ -20,6 +20,8 @@ Arduino Mega에 연결된 조향 DC motor, left in-wheel motor, right in-wheel m
 
 각 값은 signed PWM입니다. `*_pwm_min`, `*_pwm_max`, `*_direction`으로 하드웨어의 최소 구동 듀티, 최대 듀티, 방향을 config에서 맞춥니다.
 
+이 모드를 쓰려면 Arduino Mega에도 같은 프로토콜을 파싱하는 firmware가 업로드되어 있어야 합니다. 기본 sketch는 `arduino/mega_pwm_control/mega_pwm_control.ino`에 있습니다. 기존 `F/B/L/R/G/I/H/J/S` 테스트 sketch가 보드에 남아 있으면 ROS 노드가 실행되어도 그 기존 sketch가 serial byte를 해석합니다.
+
 Arduino sketch의 `F/B/L/R/G/I/H/J/S` 키 매핑 테스트는 `key_mapping_test_params.yaml`을 launch 파라미터로 넘겨서 사용합니다.
 
 | Command | Meaning |
