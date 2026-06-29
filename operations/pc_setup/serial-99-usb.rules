@@ -1,0 +1,8 @@
+# serial-99-usb.rules
+# /etc/udev/rules.d/serial-99-usb.rules
+# Arduino / USB Serial permission rules
+# ttyACM: Arduino Mega, Uno, Leonardo 등
+# ttyUSB: CH340, CP210x, LiDAR USB-Serial 등
+
+KERNEL=="ttyACM[0-9]*", MODE="0666", GROUP="dialout"
+KERNEL=="ttyUSB[0-9]*", MODE="0666", GROUP="dialout"
