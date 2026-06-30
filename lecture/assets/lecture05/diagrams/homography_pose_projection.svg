@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .dark { fill:#1f2937; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Pose from homography: project BEV center and forward probe</text>
+<rect x="110" y="145" width="420" height="420" fill="#eef2f7" stroke="#94a3b8" stroke-width="4"/>
+<text x="225" y="120" class="label">BEV image</text>
+<line x1="320" y1="530" x2="320" y2="190" stroke="#64748b" stroke-width="3" stroke-dasharray="12 10"/>
+<line x1="145" y1="355" x2="495" y2="355" stroke="#64748b" stroke-width="3" stroke-dasharray="12 10"/>
+<circle cx="320" cy="355" r="13" fill="#ef4444"/>
+<circle cx="320" cy="250" r="13" fill="#22c55e"/>
+<text x="340" y="365" class="small">center</text>
+<text x="340" y="258" class="small">forward probe</text>
+<path d="M550 355 H720" class="arrow"/>
+<text x="590" y="330" class="label">H</text>
+<rect x="750" y="145" width="420" height="420" fill="#f0fdf4" stroke="#86efac" stroke-width="4"/>
+<text x="870" y="120" class="label">Map image</text>
+<path d="M890 470 C925 380 1010 340 1055 235" stroke="#475569" stroke-width="10" fill="none"/>
+<circle cx="925" cy="380" r="13" fill="#ef4444"/>
+<circle cx="975" cy="310" r="13" fill="#22c55e"/>
+<line x1="925" y1="380" x2="975" y2="310" stroke="#ef4444" stroke-width="5"/>
+<text x="945" y="392" class="small">x, y</text>
+<text x="995" y="320" class="small">yaw</text>
+<rect x="225" y="612" width="850" height="58" class="box"/>
+<text x="270" y="650" class="small">center_uv and forward_uv are converted to world coordinates with map_swap_xy / map_flip_x / map_flip_y.</text>
+</svg>

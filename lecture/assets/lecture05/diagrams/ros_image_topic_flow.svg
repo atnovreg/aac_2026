@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .dark { fill:#1f2937; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">ROS image topic flow in AAC2026</text>
+<rect x="60" y="130" width="230" height="120" class="box blue"/>
+<text x="94" y="178" class="label">Gazebo cameras</text>
+<text x="94" y="213" class="small">/camera_front/image_raw</text>
+<text x="94" y="240" class="small">/camera_rear/image_raw</text>
+<path d="M300 190 H390" class="arrow"/>
+<rect x="405" y="130" width="230" height="120" class="box orange"/>
+<text x="455" y="178" class="label">IPM BEV node</text>
+<text x="452" y="213" class="small">perspective warp</text>
+<text x="452" y="240" class="small">front + rear fusion</text>
+<path d="M645 190 H735" class="arrow"/>
+<rect x="750" y="130" width="230" height="120" class="box green"/>
+<text x="795" y="178" class="label">/ipm_bev/fused</text>
+<text x="790" y="213" class="small">sensor_msgs/Image</text>
+<text x="790" y="240" class="small">bgr8, 480 x 800</text>
+<path d="M990 190 H1080" class="arrow"/>
+<rect x="1090" y="130" width="150" height="120" class="box purple"/>
+<text x="1126" y="178" class="label">Matcher</text>
+<text x="1120" y="213" class="small">OpenCV</text>
+<text x="1120" y="240" class="small">Deep</text>
+<rect x="140" y="390" width="260" height="120" class="box"/>
+<text x="190" y="438" class="label">Image checks</text>
+<text x="178" y="473" class="small">rqt_image_view</text>
+<text x="178" y="500" class="small">ros2 topic hz</text>
+<path d="M865 260 C865 330 380 310 300 390" class="arrow"/>
+<rect x="520" y="390" width="260" height="120" class="box"/>
+<text x="580" y="438" class="label">Debug image</text>
+<text x="560" y="473" class="small">/visual_localization</text>
+<text x="560" y="500" class="small">/debug_matches</text>
+<path d="M1165 260 C1165 360 820 340 705 390" class="arrow"/>
+<rect x="900" y="390" width="260" height="120" class="box"/>
+<text x="970" y="438" class="label">Pose output</text>
+<text x="940" y="473" class="small">PoseWithCovariance</text>
+<text x="940" y="500" class="small">homography, counts</text>
+<path d="M1165 260 C1165 365 1110 350 1060 390" class="arrow"/>
+</svg>

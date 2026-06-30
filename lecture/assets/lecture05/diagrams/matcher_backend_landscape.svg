@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .dark { fill:#1f2937; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Matcher backend landscape for this lecture</text>
+<rect x="70" y="135" width="300" height="380" class="box blue"/>
+<text x="116" y="190" class="label">Classical sparse</text>
+<text x="110" y="245" class="small">SIFT: robust float descriptors</text>
+<text x="110" y="285" class="small">ORB: fast binary descriptors</text>
+<text x="110" y="325" class="small">AKAZE: nonlinear scale space</text>
+<text x="110" y="390" class="small">Good for code tracing and CPU tests</text>
+<rect x="490" y="135" width="300" height="380" class="box orange"/>
+<text x="545" y="190" class="label">Detector-free deep</text>
+<text x="530" y="245" class="small">LoFTR family: coarse-to-fine</text>
+<text x="530" y="285" class="small">EfficientLoFTR: faster semi-dense</text>
+<text x="530" y="325" class="small">Works in low texture areas</text>
+<text x="530" y="390" class="small">Needs GPU/cache planning</text>
+<rect x="910" y="135" width="300" height="380" class="box purple"/>
+<text x="964" y="190" class="label">Generalizable / modal</text>
+<text x="950" y="245" class="small">OmniGlue: foundation guidance</text>
+<text x="950" y="285" class="small">MINIMA: cross-modal training</text>
+<text x="950" y="325" class="small">RoMa / SP+LightGlue options</text>
+<text x="950" y="390" class="small">Best explored in WebUI first</text>
+<path d="M370 330 H490" class="arrow"/>
+<path d="M790 330 H910" class="arrow"/>
+<text x="180" y="590" class="small">Debug first with OpenCV, then compare deep matchers under the same ROS topic contract.</text>
+</svg>

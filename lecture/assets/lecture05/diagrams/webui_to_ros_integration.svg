@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .dark { fill:#1f2937; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">From Image Matching WebUI to AAC ROS integration</text>
+<rect x="70" y="130" width="340" height="430" class="box blue"/>
+<text x="115" y="180" class="label">Image Matching WebUI</text>
+<rect x="105" y="220" width="125" height="95" fill="#e5e7eb" stroke="#94a3b8" stroke-width="3"/>
+<rect x="250" y="220" width="125" height="95" fill="#e5e7eb" stroke="#94a3b8" stroke-width="3"/>
+<text x="120" y="348" class="small">upload image A/B</text>
+<rect x="105" y="380" width="270" height="48" fill="#ffffff" stroke="#94a3b8" stroke-width="2" rx="8"/>
+<text x="128" y="412" class="small">matcher: OmniGlue / ELoFTR / MINIMA</text>
+<rect x="105" y="450" width="270" height="60" fill="#111827" rx="8"/>
+<text x="140" y="488" class="small" fill="#ffffff">visualize correspondences</text>
+<path d="M430 345 H550" class="arrow"/>
+<rect x="570" y="130" width="270" height="430" class="box orange"/>
+<text x="615" y="180" class="label">Integration choice</text>
+<text x="615" y="232" class="small">1. select backend</text>
+<text x="615" y="270" class="small">2. define input format</text>
+<text x="615" y="308" class="small">3. add checkpoint/cache</text>
+<text x="615" y="346" class="small">4. convert matches to H</text>
+<text x="615" y="384" class="small">5. publish ROS topics</text>
+<path d="M860 345 H980" class="arrow"/>
+<rect x="1000" y="130" width="220" height="430" class="box green"/>
+<text x="1048" y="180" class="label">AAC ROS node</text>
+<text x="1040" y="232" class="small">subscribe Image</text>
+<text x="1040" y="270" class="small">run matcher</text>
+<text x="1040" y="308" class="small">findHomography</text>
+<text x="1040" y="346" class="small">publish pose</text>
+<text x="1040" y="384" class="small">publish debug</text>
+<text x="1040" y="422" class="small">optional TF</text>
+</svg>
