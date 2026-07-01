@@ -1,0 +1,36 @@
+pure_pursuit_node:
+  ros__parameters:
+    # Input: body-frame local path from local_path_planner_node
+    local_path_topic: "/local_path/body"
+
+    # Input: matching map-frame local path for RViz markers
+    global_path_topic: "/local_path/global"
+
+    # Output: autonomous command consumed by joy_control_node
+    command_topic: "/ackermann_auto"
+    command_frame: "base_footprint"
+
+    # Pure pursuit geometry
+    wheel_base: 0.80
+    lookahead_distance: 3.5
+    max_steering_angle: 0.524
+
+    # Curvature-limited speed command
+    max_speed: 1.5
+    min_speed: 0.0
+    lateral_accel_limit: 0.8
+    curvature_epsilon: 0.0001
+    curvature_preview_distance: 4.0
+    curvature_preview_points: 30
+
+    # RViz visualization
+    visualize_markers: true
+    target_marker_topic: "/pure_pursuit/target_point"
+    curvature_marker_topic: "/pure_pursuit/curvature_markers"
+    target_marker_scale: 0.18
+    curvature_marker_scale: 0.10
+    curvature_marker_height: 0.06
+    max_visualized_curvature: 2.0
+
+    # Runtime
+    min_forward_x: 0.05

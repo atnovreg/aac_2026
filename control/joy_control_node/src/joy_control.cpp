@@ -20,7 +20,7 @@ JoyControl::JoyControl(const std::string & node_name)
     std::bind(&JoyControl::autoCallback, this, std::placeholders::_1));
 
   timer_ = create_wall_timer(
-    25ms, std::bind(&JoyControl::timerCallback, this));
+    10ms, std::bind(&JoyControl::timerCallback, this));
 }
 
 JoyControl::~JoyControl()
