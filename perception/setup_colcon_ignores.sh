@@ -8,6 +8,7 @@ external_dirs=(
   "${repo_root}/navigation/WildGS-SLAM"
   "${repo_root}/perception/BiSeNet"
   "${repo_root}/perception/PIDNet"
+  "${repo_root}/perception/YOLOP"
   "${repo_root}/perception/sam3"
   "${workspace_root}/wildgs-env"
 )

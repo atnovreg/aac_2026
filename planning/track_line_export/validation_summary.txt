@@ -1,0 +1,6 @@
+rows: 500
+seq_unique: 500
+seq_min: 0
+seq_max: 499
+any_nan: False
+line convention: left_line=inner, center_line=midpoint, right_line=outer

@@ -1,0 +1,26 @@
+local_path_planner_node:
+  ros__parameters:
+    # Forward lookahead distance to extract from the global path [m]
+    lookahead_dist: 5.0
+
+    # Cost weight [m/rad] for matching the vehicle heading to path heading
+    heading_error_weight: 0.5
+
+    # Planner update rate [Hz]
+    update_rate: 10.0
+
+    # Frames used for output headers when input messages do not provide them
+    global_frame: "map"
+    body_frame:   "base_footprint"
+
+    # Input: current vehicle pose in the same global frame as global_path_topic
+    odom_topic: "/odom_gt" #SHOULD BE CHANGED TO /odom_estimated WHEN USING REAL VEHICLE
+
+    # Input: static global center line (transient_local QoS)
+    global_path_topic: "/path/center"
+
+    # Output: local path in map frame
+    local_global_topic: "/local_path/global"
+
+    # Output: same local path in body (base_footprint) frame
+    local_body_topic: "/local_path/body"

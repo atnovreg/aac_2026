@@ -1,0 +1,17 @@
+road_seg_node:
+  ros__parameters:
+    task: semantic
+    model_path: /ros_ws/src/aac_2026/models/yolo26n-sem.pt
+    image_topic: /camera_front/image_raw
+    mask_topic: /road_seg/mask
+    overlay_topic: /road_seg/overlay
+    class_map_topic: /road_seg/class_map
+    stats_topic: /road_seg/stats
+    device: cuda
+    imgsz: 1024
+    road_class_names: road
+    road_class_ids: ""
+    overlay_alpha: 0.45
+    process_every_n: 1
+    publish_class_map: true
+    publish_stats: true

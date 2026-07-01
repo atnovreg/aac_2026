@@ -1,0 +1,28 @@
+track_path_publisher:
+  ros__parameters:
+    # CSV file or track_line_export directory. Leave empty to use the installed
+    # share/track_path_publisher/data/track_line_export directory.
+    csv_path: ""
+
+    # Resample interval between consecutive waypoints [m]
+    waypoint_sampling_dist: 0.2
+
+    # Publish rate [Hz]
+    publish_rate: 1.0
+
+    # Output TF frame for all three Path messages
+    frame_id: "map"
+
+    # Map world-coordinate bounds — must match image_match_node config
+    map_x_min: -5.5
+    map_x_max:  5.5
+    map_y_min: -8.0
+    map_y_max:  8.0
+    map_swap_xy: true   # image u (col) → world +Y, image v (row) → world +X
+    map_flip_x:  true
+    map_flip_y:  true
+
+    # Drawing scale used when extracting the CSV (mm)
+    # Must match --scale-width-mm / --scale-height-mm in the export script.
+    scale_width_mm:  16000.0
+    scale_height_mm: 11000.0

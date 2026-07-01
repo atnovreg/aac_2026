@@ -1,0 +1,7 @@
+# ROS 2 Humble cv_bridge is built against the NumPy 1.x ABI.
+numpy==1.26.4
+
+# opencv-python 4.12+ declares numpy>=2 on Python 3.10, which breaks cv_bridge.
+opencv-python<4.12
+
+ultralytics

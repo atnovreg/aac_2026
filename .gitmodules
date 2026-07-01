@@ -25,3 +25,7 @@
 	path = navigation/slam_toolbox
 	url = https://github.com/SteveMacenski/slam_toolbox.git
 	branch = humble
+[submodule "perception/YOLOP"]
+	path = perception/YOLOP
+	url = https://github.com/hustvl/YOLOP.git
+	ignore = untracked

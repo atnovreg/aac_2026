@@ -49,8 +49,8 @@ opencv_localization:
     chamfer_max_translation_px: 20.0
     chamfer_max_rotation_deg: 5.0
 
-    map_x_min: -6.0
-    map_x_max: 6.0
+    map_x_min: -5.5
+    map_x_max: 5.5
     map_y_min: -8.0
     map_y_max: 8.0
     # Gazebo texture UV:

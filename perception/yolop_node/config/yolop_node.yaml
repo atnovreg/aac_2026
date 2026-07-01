@@ -1,0 +1,22 @@
+yolop_node:
+  ros__parameters:
+    yolop_dir: /ros_ws/src/aac_2026/perception/YOLOP
+    weights_path: /ros_ws/src/aac_2026/perception/YOLOP/weights/End-to-end.pth
+    image_topic: /camera_front/image_raw
+    drivable_mask_topic: /yolop/drivable_mask
+    lane_mask_topic: /yolop/lane_mask
+    overlay_topic: /yolop/overlay
+    stats_topic: /yolop/stats
+    detections_topic: /yolop/detections
+    device: "0"
+    img_size: 640
+    conf_thres: 0.25
+    iou_thres: 0.45
+    overlay_alpha: 0.55
+    process_every_n: 1
+    queue_size: 1
+    reliable: false
+    half_precision: true
+    publish_overlay: true
+    publish_detections: true
+    draw_boxes: true

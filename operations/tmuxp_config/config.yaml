@@ -19,3 +19,9 @@ windows:
       - ros2 launch image_match_node opencv.launch.py
     - shell_command:
       - ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true
+    - shell_command:
+      - ros2 launch track_path_publisher track_path_publisher.launch.py
+    - shell_command:
+      - ros2 launch local_path_planner_node local_path_planner.launch.py
+    - shell_command:
+      - exec rviz2 -d /ros_ws/src/aac_2026/rviz/planner.rviz
