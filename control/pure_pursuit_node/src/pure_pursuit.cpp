@@ -1,12 +1,16 @@
 #include "pure_pursuit/pure_pursuit.h"
 
 #include <cmath>
+#include <functional>
 #include <limits>
 
 PurePursuit::PurePursuit(const std::string & node_name)
 : Node(node_name)
 {
   getParams();
+
+  param_callback_handle_ = add_on_set_parameters_callback(
+    std::bind(&PurePursuit::onParamsChanged, this, std::placeholders::_1));
 
   sub_local_path_ = create_subscription<nav_msgs::msg::Path>(
     local_path_topic_, rclcpp::QoS(10),
@@ -82,6 +86,196 @@ void PurePursuit::getParams()
   curvature_marker_scale_ = std::max(0.01, curvature_marker_scale_);
   max_visualized_curvature_ = std::max(curvature_epsilon_, max_visualized_curvature_);
   curvature_preview_points_ = std::max(3, curvature_preview_points_);
+}
+
+rcl_interfaces::msg::SetParametersResult PurePursuit::onParamsChanged(
+  const std::vector<rclcpp::Parameter> & parameters)
+{
+  rcl_interfaces::msg::SetParametersResult result;
+  result.successful = true;
+
+  double wheel_base = wheel_base_;
+  double lookahead_distance = lookahead_distance_;
+  double max_steering_angle = max_steering_angle_;
+  double max_speed = max_speed_;
+  double min_speed = min_speed_;
+  double lateral_accel_limit = lateral_accel_limit_;
+  double curvature_epsilon = curvature_epsilon_;
+  double curvature_preview_distance = curvature_preview_distance_;
+  double target_marker_scale = target_marker_scale_;
+  double curvature_marker_scale = curvature_marker_scale_;
+  double curvature_marker_height = curvature_marker_height_;
+  double max_visualized_curvature = max_visualized_curvature_;
+  double min_forward_x = min_forward_x_;
+  int curvature_preview_points = curvature_preview_points_;
+  bool visualize_markers = visualize_markers_;
+  std::string command_frame = command_frame_;
+
+  auto reject = [&result](const std::string & reason) {
+      result.successful = false;
+      result.reason = reason;
+      return result;
+    };
+
+  auto read_double = [&reject](const rclcpp::Parameter & parameter, double & value) {
+      if (parameter.get_type() != rclcpp::ParameterType::PARAMETER_DOUBLE) {
+        reject(parameter.get_name() + " must be a double");
+        return false;
+      }
+      value = parameter.as_double();
+      return true;
+    };
+
+  for (const auto & parameter : parameters) {
+    const auto & name = parameter.get_name();
+
+    if (name == "wheel_base") {
+      if (!read_double(parameter, wheel_base)) {
+        return result;
+      }
+      if (wheel_base <= 0.0) {
+        return reject("wheel_base must be greater than 0");
+      }
+    } else if (name == "lookahead_distance") {
+      if (!read_double(parameter, lookahead_distance)) {
+        return result;
+      }
+      if (lookahead_distance <= 0.0) {
+        return reject("lookahead_distance must be greater than 0");
+      }
+    } else if (name == "max_steering_angle") {
+      if (!read_double(parameter, max_steering_angle)) {
+        return result;
+      }
+      if (max_steering_angle <= 0.0) {
+        return reject("max_steering_angle must be greater than 0");
+      }
+    } else if (name == "max_speed") {
+      if (!read_double(parameter, max_speed)) {
+        return result;
+      }
+      if (max_speed < 0.0) {
+        return reject("max_speed must be greater than or equal to 0");
+      }
+    } else if (name == "min_speed") {
+      if (!read_double(parameter, min_speed)) {
+        return result;
+      }
+      if (min_speed < 0.0) {
+        return reject("min_speed must be greater than or equal to 0");
+      }
+    } else if (name == "lateral_accel_limit") {
+      if (!read_double(parameter, lateral_accel_limit)) {
+        return result;
+      }
+      if (lateral_accel_limit < 0.0) {
+        return reject("lateral_accel_limit must be greater than or equal to 0");
+      }
+    } else if (name == "curvature_epsilon") {
+      if (!read_double(parameter, curvature_epsilon)) {
+        return result;
+      }
+      if (curvature_epsilon <= 0.0) {
+        return reject("curvature_epsilon must be greater than 0");
+      }
+    } else if (name == "curvature_preview_distance") {
+      if (!read_double(parameter, curvature_preview_distance)) {
+        return result;
+      }
+      if (curvature_preview_distance < 0.0) {
+        return reject("curvature_preview_distance must be greater than or equal to 0");
+      }
+    } else if (name == "target_marker_scale") {
+      if (!read_double(parameter, target_marker_scale)) {
+        return result;
+      }
+      if (target_marker_scale <= 0.0) {
+        return reject("target_marker_scale must be greater than 0");
+      }
+    } else if (name == "curvature_marker_scale") {
+      if (!read_double(parameter, curvature_marker_scale)) {
+        return result;
+      }
+      if (curvature_marker_scale <= 0.0) {
+        return reject("curvature_marker_scale must be greater than 0");
+      }
+    } else if (name == "curvature_marker_height") {
+      if (!read_double(parameter, curvature_marker_height)) {
+        return result;
+      }
+    } else if (name == "max_visualized_curvature") {
+      if (!read_double(parameter, max_visualized_curvature)) {
+        return result;
+      }
+      if (max_visualized_curvature <= 0.0) {
+        return reject("max_visualized_curvature must be greater than 0");
+      }
+    } else if (name == "min_forward_x") {
+      if (!read_double(parameter, min_forward_x)) {
+        return result;
+      }
+      if (min_forward_x < 0.0) {
+        return reject("min_forward_x must be greater than or equal to 0");
+      }
+    } else if (name == "curvature_preview_points") {
+      if (parameter.get_type() != rclcpp::ParameterType::PARAMETER_INTEGER) {
+        return reject("curvature_preview_points must be an integer");
+      }
+      curvature_preview_points = static_cast<int>(parameter.as_int());
+      if (curvature_preview_points < 3) {
+        return reject("curvature_preview_points must be at least 3");
+      }
+    } else if (name == "visualize_markers") {
+      if (parameter.get_type() != rclcpp::ParameterType::PARAMETER_BOOL) {
+        return reject("visualize_markers must be a bool");
+      }
+      visualize_markers = parameter.as_bool();
+    } else if (name == "command_frame") {
+      if (parameter.get_type() != rclcpp::ParameterType::PARAMETER_STRING) {
+        return reject("command_frame must be a string");
+      }
+      command_frame = parameter.as_string();
+      if (command_frame.empty()) {
+        return reject("command_frame must not be empty");
+      }
+    } else if (
+      name == "local_path_topic" ||
+      name == "global_path_topic" ||
+      name == "command_topic" ||
+      name == "target_marker_topic" ||
+      name == "curvature_marker_topic")
+    {
+      return reject(name + " requires node restart");
+    }
+  }
+
+  if (min_speed > max_speed) {
+    return reject("min_speed must be less than or equal to max_speed");
+  }
+
+  wheel_base_ = wheel_base;
+  lookahead_distance_ = lookahead_distance;
+  max_steering_angle_ = max_steering_angle;
+  max_speed_ = max_speed;
+  min_speed_ = min_speed;
+  lateral_accel_limit_ = lateral_accel_limit;
+  curvature_epsilon_ = curvature_epsilon;
+  curvature_preview_distance_ = curvature_preview_distance;
+  target_marker_scale_ = target_marker_scale;
+  curvature_marker_scale_ = curvature_marker_scale;
+  curvature_marker_height_ = curvature_marker_height;
+  max_visualized_curvature_ = std::max(curvature_epsilon_, max_visualized_curvature);
+  min_forward_x_ = min_forward_x;
+  curvature_preview_points_ = curvature_preview_points;
+  visualize_markers_ = visualize_markers;
+  command_frame_ = command_frame;
+
+  RCLCPP_INFO(
+    get_logger(),
+    "Updated pure pursuit params: lookahead=%.2f m, max_speed=%.2f m/s, lateral_accel=%.2f m/s^2",
+    lookahead_distance_, max_speed_, lateral_accel_limit_);
+
+  return result;
 }
 
 void PurePursuit::localPathCallback(const nav_msgs::msg::Path::SharedPtr msg)

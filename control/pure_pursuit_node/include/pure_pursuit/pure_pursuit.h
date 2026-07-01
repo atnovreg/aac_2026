@@ -4,6 +4,7 @@
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <nav_msgs/msg/path.hpp>
+#include <rcl_interfaces/msg/set_parameters_result.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
@@ -26,6 +27,8 @@ private:
   };
 
   void getParams();
+  rcl_interfaces::msg::SetParametersResult onParamsChanged(
+    const std::vector<rclcpp::Parameter> & parameters);
   void localPathCallback(const nav_msgs::msg::Path::SharedPtr msg);
   void globalPathCallback(const nav_msgs::msg::Path::SharedPtr msg);
 
@@ -89,4 +92,5 @@ private:
   rclcpp::Publisher<ackermann_msgs::msg::AckermannDriveStamped>::SharedPtr pub_command_;
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr pub_target_marker_;
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_curvature_markers_;
+  rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
 };

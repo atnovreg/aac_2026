@@ -12,15 +12,15 @@ pure_pursuit_node:
 
     # Pure pursuit geometry
     wheel_base: 0.80
-    lookahead_distance: 3.5
+    lookahead_distance: 2.0
     max_steering_angle: 0.524
 
     # Curvature-limited speed command
-    max_speed: 1.5
+    max_speed: 1.0
     min_speed: 0.0
-    lateral_accel_limit: 0.8
+    lateral_accel_limit: 0.25
     curvature_epsilon: 0.0001
-    curvature_preview_distance: 4.0
+    curvature_preview_distance: 2.5
     curvature_preview_points: 30
 
     # RViz visualization
