@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .pref { fill:#dcfce7; stroke:#22c55e; stroke-width:4; rx:10; }
+    .neighbor { fill:#eff6ff; stroke:#60a5fa; stroke-width:4; rx:10; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Autoware LaneletRoute: Route Sections</text>
+<rect x="80" y="125" width="1120" height="420" class="box"/>
+<text x="125" y="175" class="label">Route section</text>
+<text x="125" y="218" class="small">A section bundles lanes that can be used around the preferred lane.</text>
+<rect x="170" y="300" width="190" height="90" class="neighbor"/>
+<rect x="420" y="300" width="190" height="90" class="pref"/>
+<rect x="670" y="300" width="190" height="90" class="neighbor"/>
+<rect x="920" y="300" width="190" height="90" class="neighbor"/>
+<text x="204" y="356" class="small">primitive</text>
+<text x="456" y="340" class="small">preferred</text>
+<text x="456" y="367" class="small">primitive</text>
+<text x="704" y="356" class="small">primitive</text>
+<text x="954" y="356" class="small">primitive</text>
+<path d="M420 250 H610" class="arrow"/>
+<text x="648" y="257" class="small">route direction</text>
+<text x="125" y="465" class="small">preferred_primitive: lanelet chosen as the main route lane</text>
+<text x="125" y="500" class="small">primitives: neighbor lanes in the same direction, used by behavior planning for lane changes</text>
+</svg>

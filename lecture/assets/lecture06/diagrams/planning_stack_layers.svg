@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tiny { font-size:15px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .red { fill:#fef2f2; stroke:#f87171; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Planning stack: route, behavior, motion, control</text>
+<rect x="90" y="125" width="230" height="135" class="box blue"/>
+<text x="130" y="175" class="label">Mission / Route</text>
+<text x="130" y="212" class="small">road graph</text>
+<text x="130" y="240" class="small">start -> goal</text>
+<path d="M330 192 H420" class="arrow"/>
+<rect x="435" y="125" width="230" height="135" class="box green"/>
+<text x="475" y="175" class="label">Behavior</text>
+<text x="475" y="212" class="small">lane keep/change</text>
+<text x="475" y="240" class="small">stop/yield</text>
+<path d="M675 192 H765" class="arrow"/>
+<rect x="780" y="125" width="230" height="135" class="box orange"/>
+<text x="820" y="175" class="label">Motion</text>
+<text x="820" y="212" class="small">smooth path</text>
+<text x="820" y="240" class="small">velocity profile</text>
+<path d="M1020 192 H1110" class="arrow"/>
+<rect x="1120" y="125" width="110" height="135" class="box purple"/>
+<text x="1140" y="175" class="label">Control</text>
+<text x="1140" y="212" class="small">steer</text>
+<text x="1140" y="240" class="small">speed</text>
+<rect x="140" y="370" width="1000" height="100" class="box"/>
+<text x="180" y="410" class="label">AAC2026 lecture scope</text>
+<text x="180" y="445" class="small">Road graph concept first. Current simulator uses extracted waypoint centerline as a simplified global path.</text>
+<rect x="195" y="535" width="220" height="80" class="box blue"/>
+<text x="230" y="584" class="small">track_path_publisher</text>
+<path d="M425 575 H505" class="arrow"/>
+<rect x="520" y="535" width="230" height="80" class="box green"/>
+<text x="552" y="584" class="small">local_path_planner</text>
+<path d="M760 575 H840" class="arrow"/>
+<rect x="855" y="535" width="210" height="80" class="box orange"/>
+<text x="900" y="584" class="small">pure_pursuit</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tiny { font-size:15px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .red { fill:#fef2f2; stroke:#f87171; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">From map-frame path to body-frame local path</text>
+<rect x="80" y="120" width="520" height="420" class="box green"/>
+<text x="120" y="165" class="label">map frame</text>
+<path d="M150 430 C230 300 380 290 510 380" stroke="#facc15" stroke-width="9" fill="none"/>
+<circle cx="285" cy="348" r="14" fill="#ef4444"/>
+<text x="300" y="342" class="small">ego pose (rx, ry, ryaw)</text>
+<path d="M285 348 L430 322" stroke="#06b6d4" stroke-width="8"/>
+<path d="M610 330 H735" class="arrow"/>
+<rect x="755" y="120" width="440" height="420" class="box blue"/>
+<text x="800" y="165" class="label">body frame</text>
+<circle cx="930" cy="390" r="14" fill="#ef4444"/>
+<line x1="930" y1="390" x2="1110" y2="390" stroke="#16a34a" stroke-width="6"/>
+<polygon points="1133,390 1098,372 1098,408" fill="#16a34a"/>
+<text x="1060" y="420" class="small">+X forward</text>
+<line x1="930" y1="390" x2="930" y2="230" stroke="#2563eb" stroke-width="6"/>
+<polygon points="930,207 912,242 948,242" fill="#2563eb"/>
+<text x="950" y="230" class="small">+Y left</text>
+<path d="M930 390 C990 355 1045 330 1115 315" stroke="#06b6d4" stroke-width="8" fill="none"/>
+<rect x="235" y="600" width="820" height="62" class="box"/>
+<text x="270" y="640" class="small">body_x = cos(yaw) dx + sin(yaw) dy, body_y = -sin(yaw) dx + cos(yaw) dy</text>
+</svg>

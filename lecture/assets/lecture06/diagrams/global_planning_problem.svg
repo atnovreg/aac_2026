@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tiny { font-size:15px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .red { fill:#fef2f2; stroke:#f87171; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Global planning problem in map frame</text>
+<rect x="70" y="115" width="760" height="500" class="box green"/>
+<text x="105" y="165" class="label">map frame</text>
+<line x1="135" y1="550" x2="355" y2="550" stroke="#2563eb" stroke-width="6"/>
+<polygon points="378,550 343,532 343,568" fill="#2563eb"/>
+<text x="390" y="560" class="small">+Y_map</text>
+<line x1="135" y1="550" x2="135" y2="310" stroke="#16a34a" stroke-width="6"/>
+<polygon points="135,286 117,321 153,321" fill="#16a34a"/>
+<text x="158" y="300" class="small">+X_map</text>
+<path d="M205 430 C245 240 445 220 610 310 C725 375 720 505 565 555 C410 610 230 555 205 430"
+  stroke="#475569" stroke-width="32" fill="none" stroke-linecap="round"/>
+<path d="M205 430 C245 240 445 220 610 310 C725 375 720 505 565 555 C410 610 230 555 205 430"
+  stroke="#fde047" stroke-width="8" fill="none" stroke-linecap="round"/>
+<circle cx="276" cy="475" r="18" fill="#ef4444"/>
+<text x="235" y="515" class="small">start</text>
+<circle cx="650" cy="318" r="18" fill="#22c55e"/>
+<text x="615" y="290" class="small">goal</text>
+<path d="M276 475 C335 555 520 545 650 318" stroke="#06b6d4" stroke-width="9" fill="none"/>
+<rect x="880" y="150" width="325" height="385" class="box"/>
+<text x="920" y="205" class="label">Given</text>
+<text x="920" y="248" class="small">ego pose in map</text>
+<text x="920" y="286" class="small">map / road graph</text>
+<text x="920" y="324" class="small">goal or mission</text>
+<text x="920" y="386" class="label">Find</text>
+<text x="920" y="428" class="small">route / path in map</text>
+<text x="920" y="466" class="small">then local path</text>
+<text x="920" y="504" class="small">then control target</text>
+</svg>

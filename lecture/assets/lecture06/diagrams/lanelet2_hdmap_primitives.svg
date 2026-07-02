@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">Lanelet2 HD Map Primitives</text>
+<rect x="70" y="105" width="710" height="500" class="box green"/>
+<path d="M190 505 C240 360 335 235 470 175 C555 135 645 135 715 168" stroke="#1f2937" stroke-width="8" fill="none"/>
+<path d="M285 545 C340 405 430 300 540 250 C620 214 695 218 765 250" stroke="#1f2937" stroke-width="8" fill="none"/>
+<path d="M238 525 C292 380 382 267 505 212 C588 174 671 176 740 209" stroke="#facc15" stroke-width="7" fill="none" stroke-dasharray="16 12"/>
+<g fill="#ffffff" stroke="#2563eb" stroke-width="4">
+  <circle cx="190" cy="505" r="11"/><circle cx="470" cy="175" r="11"/><circle cx="715" cy="168" r="11"/>
+  <circle cx="285" cy="545" r="11"/><circle cx="540" cy="250" r="11"/><circle cx="765" cy="250" r="11"/>
+</g>
+<text x="115" y="155" class="label">Lanelet</text>
+<text x="115" y="196" class="small">left boundary linestring</text>
+<text x="115" y="226" class="small">right boundary linestring</text>
+<text x="115" y="256" class="small">derived centerline</text>
+<text x="115" y="286" class="small">attributes and regulatory elements</text>
+<rect x="835" y="125" width="365" height="390" class="box"/>
+<text x="880" y="180" class="label">HD map stores</text>
+<text x="880" y="225" class="small">geometry: where lanes are</text>
+<text x="880" y="265" class="small">topology: which lanes connect</text>
+<text x="880" y="305" class="small">rules: passable, speed, signs</text>
+<text x="880" y="345" class="small">relations: lane change/conflict</text>
+<rect x="880" y="390" width="270" height="54" class="box orange"/>
+<text x="910" y="425" class="small">Planning reads semantics, not just pixels.</text>
+</svg>

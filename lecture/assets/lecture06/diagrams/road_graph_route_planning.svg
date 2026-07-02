@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tiny { font-size:15px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .red { fill:#fef2f2; stroke:#f87171; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Road graph route planning</text>
+<rect x="70" y="110" width="1140" height="500" class="box"/>
+<path d="M150 410 C240 290 380 285 485 380" stroke="#94a3b8" stroke-width="42" fill="none" stroke-linecap="round"/>
+<path d="M480 380 C600 475 760 475 895 365" stroke="#94a3b8" stroke-width="42" fill="none" stroke-linecap="round"/>
+<path d="M485 380 C575 255 720 235 880 260" stroke="#cbd5e1" stroke-width="38" fill="none" stroke-linecap="round"/>
+<path d="M895 365 C970 305 1030 250 1120 200" stroke="#cbd5e1" stroke-width="38" fill="none" stroke-linecap="round"/>
+<path d="M150 410 C240 290 380 285 485 380 C600 475 760 475 895 365" stroke="#facc15" stroke-width="10" fill="none" stroke-linecap="round"/>
+<g fill="#ffffff" stroke="#1f2937" stroke-width="4">
+  <circle cx="150" cy="410" r="20"/><circle cx="485" cy="380" r="20"/>
+  <circle cx="895" cy="365" r="20"/><circle cx="880" cy="260" r="20"/>
+  <circle cx="1120" cy="200" r="20"/>
+</g>
+<circle cx="150" cy="410" r="12" fill="#ef4444"/>
+<circle cx="895" cy="365" r="12" fill="#22c55e"/>
+<text x="112" y="455" class="small">start lanelet</text>
+<text x="852" y="410" class="small">goal lanelet</text>
+<text x="508" y="420" class="small">edge cost = length + turn + rule penalty</text>
+<rect x="155" y="545" width="930" height="46" class="orange box"/>
+<text x="185" y="575" class="small">Search over directed lane/road segments: Dijkstra, A*, time cost, rule-aware route.</text>
+</svg>

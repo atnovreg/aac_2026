@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .lane { fill:#f8fafc; stroke:#94a3b8; stroke-width:4; rx:10; }
+    .route { fill:#ecfdf5; stroke:#22c55e; stroke-width:5; rx:10; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+    .lanechange { stroke:#ef4444; stroke-width:4; fill:none; marker-end:url(#arrow); stroke-dasharray:12 10; }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Lanelet2 Routing Relations</text>
+<rect x="120" y="145" width="210" height="95" class="route"/>
+<rect x="390" y="145" width="210" height="95" class="route"/>
+<rect x="660" y="145" width="210" height="95" class="route"/>
+<rect x="930" y="145" width="210" height="95" class="route"/>
+<text x="188" y="202" class="label">L1</text>
+<text x="458" y="202" class="label">L2</text>
+<text x="728" y="202" class="label">L3</text>
+<text x="998" y="202" class="label">L4</text>
+<path d="M335 192 H382" class="arrow"/>
+<path d="M605 192 H652" class="arrow"/>
+<path d="M875 192 H922" class="arrow"/>
+<rect x="390" y="330" width="210" height="95" class="lane"/>
+<rect x="660" y="330" width="210" height="95" class="lane"/>
+<text x="458" y="388" class="label">L2R</text>
+<text x="728" y="388" class="label">L3R</text>
+<path d="M605 377 H652" class="arrow"/>
+<path d="M495 248 C500 285 500 300 495 322" class="lanechange"/>
+<path d="M765 322 C760 292 760 280 765 248" class="lanechange"/>
+<text x="150" y="515" class="small">succeeding: lanelets connected forward in driving direction</text>
+<text x="150" y="555" class="small">left/right: reachable by lane change if traffic rules allow it</text>
+<text x="150" y="595" class="small">adjacent: neighboring lanelet that may not be reachable by lane change</text>
+<text x="150" y="635" class="small">conflicting: lanelets or areas whose geometry intersects</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Autoware Mission Planner with Lanelet2 HD Map</text>
+<rect x="70" y="120" width="225" height="145" class="box blue"/>
+<text x="104" y="170" class="label">Inputs</text>
+<text x="104" y="210" class="small">ego pose in map</text>
+<text x="104" y="238" class="small">goal / checkpoints</text>
+<path d="M305 192 H385" class="arrow"/>
+<rect x="400" y="92" width="250" height="200" class="box green"/>
+<text x="440" y="145" class="label">Lanelet2 Map</text>
+<text x="440" y="185" class="small">left/right bounds</text>
+<text x="440" y="213" class="small">centerlines</text>
+<text x="440" y="241" class="small">regulatory elements</text>
+<text x="440" y="269" class="small">traffic rules</text>
+<path d="M660 192 H740" class="arrow"/>
+<rect x="755" y="92" width="260" height="200" class="box orange"/>
+<text x="790" y="145" class="label">Routing Graph</text>
+<text x="790" y="185" class="small">passable lanelets</text>
+<text x="790" y="213" class="small">succeeding relation</text>
+<text x="790" y="241" class="small">lane-change relation</text>
+<text x="790" y="269" class="small">routing cost modules</text>
+<path d="M1025 192 H1105" class="arrow"/>
+<rect x="1120" y="120" width="110" height="145" class="box purple"/>
+<text x="1143" y="175" class="label">Route</text>
+<text x="1142" y="212" class="small">Lanelet</text>
+<text x="1142" y="240" class="small">Route</text>
+<rect x="170" y="405" width="940" height="135" class="box"/>
+<text x="210" y="455" class="label">Algorithmic flow</text>
+<text x="210" y="495" class="small">1. Convert ego pose and goal pose to closest start/goal lanelets.</text>
+<text x="210" y="523" class="small">2. Query Lanelet2 routing graph for shortest lanelet path.</text>
+<text x="210" y="551" class="small">3. Expand route sections with preferred lane and lane-changeable neighbors.</text>
+</svg>

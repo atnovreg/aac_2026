@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tiny { font-size:15px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .purple { fill:#faf5ff; stroke:#c084fc; }
+    .red { fill:#fef2f2; stroke:#f87171; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Real vehicle navigation inputs for map-frame planning</text>
+<rect x="95" y="130" width="230" height="120" class="box blue"/>
+<text x="140" y="180" class="label">GNSS / RTK</text>
+<text x="135" y="217" class="small">global position</text>
+<rect x="385" y="130" width="230" height="120" class="box green"/>
+<text x="450" y="180" class="label">IMU</text>
+<text x="430" y="217" class="small">orientation, accel</text>
+<rect x="675" y="130" width="230" height="120" class="box orange"/>
+<text x="730" y="180" class="label">Wheel odom</text>
+<text x="720" y="217" class="small">local motion</text>
+<rect x="965" y="130" width="230" height="120" class="box purple"/>
+<text x="1035" y="180" class="label">Map</text>
+<text x="1005" y="217" class="small">road graph / lanes</text>
+<path d="M210 260 C350 335 480 350 640 380" class="arrow"/>
+<path d="M500 260 C555 310 605 340 640 380" class="arrow"/>
+<path d="M790 260 C735 315 690 345 640 380" class="arrow"/>
+<path d="M1080 260 C960 340 800 370 640 380" class="arrow"/>
+<rect x="450" y="390" width="390" height="120" class="box"/>
+<text x="505" y="440" class="label">Localization / Fusion</text>
+<text x="500" y="477" class="small">ego pose in map frame</text>
+<path d="M645 520 V600" class="arrow"/>
+<rect x="430" y="610" width="430" height="70" class="box red"/>
+<text x="475" y="654" class="small">Planner needs reliable T_map_base</text>
+</svg>
