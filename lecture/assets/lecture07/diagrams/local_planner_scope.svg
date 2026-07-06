@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .gray { fill:#f8fafc; stroke:#94a3b8; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Local path planning scope in AAC2026</text>
+<rect x="75" y="145" width="230" height="130" class="box blue"/>
+<text x="112" y="195" class="label">Global Path</text>
+<text x="112" y="235" class="small">/path/center</text>
+<path d="M315 210 H405" class="arrow"/>
+<rect x="420" y="120" width="320" height="180" class="box orange"/>
+<text x="458" y="175" class="label">local_path_planner_node</text>
+<text x="458" y="215" class="small">closest waypoint</text>
+<text x="458" y="245" class="small">forward crop</text>
+<text x="458" y="275" class="small">body transform</text>
+<path d="M750 210 H840" class="arrow"/>
+<rect x="855" y="145" width="260" height="130" class="box green"/>
+<text x="895" y="195" class="label">Local Path</text>
+<text x="895" y="235" class="small">/local_path/global</text>
+<text x="895" y="263" class="small">/local_path/body</text>
+<rect x="150" y="405" width="980" height="115" class="box gray"/>
+<text x="190" y="455" class="label">This lecture extends the idea</text>
+<text x="190" y="495" class="small">Current implementation: take the front segment of the global path.</text>
+<text x="190" y="525" class="small">Planning concept: generate/select a safer local path around constraints in Frenet or Cartesian space.</text>
+</svg>

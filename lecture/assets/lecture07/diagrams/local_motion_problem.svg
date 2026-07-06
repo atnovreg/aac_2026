@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+    .orange { fill:#fff7ed; stroke:#fb923c; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Local path / motion planning problem</text>
+<rect x="70" y="125" width="300" height="220" class="box blue"/>
+<text x="110" y="180" class="label">Inputs</text>
+<text x="110" y="225" class="small">reference line / route</text>
+<text x="110" y="255" class="small">ego state</text>
+<text x="110" y="285" class="small">drivable corridor</text>
+<text x="110" y="315" class="small">obstacles / prediction</text>
+<path d="M382 235 H462" class="arrow"/>
+<rect x="475" y="105" width="330" height="260" class="box orange"/>
+<text x="515" y="160" class="label">Planner</text>
+<text x="515" y="205" class="small">generate candidates</text>
+<text x="515" y="235" class="small">check feasibility</text>
+<text x="515" y="265" class="small">evaluate cost</text>
+<text x="515" y="295" class="small">choose best path/trajectory</text>
+<path d="M818 235 H898" class="arrow"/>
+<rect x="910" y="125" width="300" height="220" class="box green"/>
+<text x="950" y="180" class="label">Outputs</text>
+<text x="950" y="225" class="small">local path</text>
+<text x="950" y="255" class="small">trajectory</text>
+<text x="950" y="285" class="small">target corridor</text>
+<text x="950" y="315" class="small">controller reference</text>
+<rect x="185" y="455" width="910" height="105" class="box"/>
+<text x="225" y="505" class="label">Core question</text>
+<text x="225" y="545" class="small">Among many possible short-term motions, which one is safe, feasible, smooth, and useful for the controller?</text>
+</svg>

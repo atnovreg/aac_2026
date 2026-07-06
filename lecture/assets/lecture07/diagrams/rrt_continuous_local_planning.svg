@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .tree { stroke:#2563eb; stroke-width:4; fill:none; }
+    .goal { fill:#22c55e; }
+    .start { fill:#ef4444; }
+    .obs { fill:#334155; opacity:.85; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">RRT-style continuous local planning</text>
+<rect x="80" y="110" width="760" height="500" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3" rx="14"/>
+<circle cx="170" cy="525" r="18" class="start"/>
+<circle cx="755" cy="170" r="26" class="goal"/>
+<rect x="380" y="250" width="130" height="170" rx="18" class="obs"/>
+<rect x="570" y="390" width="150" height="95" rx="18" class="obs"/>
+<path class="tree" d="M170 525 L235 470 L290 430 L345 382"/>
+<path class="tree" d="M235 470 L260 545 L330 580"/>
+<path class="tree" d="M290 430 L315 330 L360 270"/>
+<path class="tree" d="M345 382 L470 455"/>
+<path class="tree" d="M360 270 L455 190 L560 185"/>
+<path class="tree" d="M560 185 L645 180 L725 165"/>
+<path class="tree" d="M470 455 L540 525 L660 540"/>
+<g fill="#ffffff" stroke="#2563eb" stroke-width="3">
+  <circle cx="235" cy="470" r="8"/><circle cx="290" cy="430" r="8"/>
+  <circle cx="345" cy="382" r="8"/><circle cx="360" cy="270" r="8"/>
+  <circle cx="455" cy="190" r="8"/><circle cx="560" cy="185" r="8"/>
+  <circle cx="645" cy="180" r="8"/><circle cx="470" cy="455" r="8"/>
+  <circle cx="540" cy="525" r="8"/>
+</g>
+<text x="890" y="160" class="label">Loop</text>
+<text x="890" y="205" class="small">1. sample random state</text>
+<text x="890" y="245" class="small">2. nearest tree node</text>
+<text x="890" y="285" class="small">3. steer toward sample</text>
+<text x="890" y="325" class="small">4. collision check</text>
+<text x="890" y="365" class="small">5. add node / rewire</text>
+<text x="890" y="450" class="label">Vehicle issue</text>
+<text x="890" y="495" class="small">steering must respect</text>
+<text x="890" y="525" class="small">nonholonomic dynamics</text>
+</svg>

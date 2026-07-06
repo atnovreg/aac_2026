@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .road { stroke:#64748b; stroke-width:84; fill:none; stroke-linecap:round; }
+    .center { stroke:#facc15; stroke-width:8; fill:none; stroke-dasharray:18 14; }
+    .cand { stroke-width:5; fill:none; opacity:.85; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">Sampling candidates in Frenet space</text>
+<path class="road" d="M130 500 C320 260 590 220 835 320 C985 380 1080 465 1160 555"/>
+<path class="center" d="M130 500 C320 260 590 220 835 320 C985 380 1080 465 1160 555"/>
+<path class="cand" d="M220 462 C390 350 605 336 800 386 C960 427 1048 496 1120 560" stroke="#22c55e"/>
+<path class="cand" d="M220 462 C390 312 610 282 818 334 C980 374 1070 458 1150 535" stroke="#06b6d4"/>
+<path class="cand" d="M220 462 C395 402 602 414 780 455 C930 490 1015 535 1090 585" stroke="#ef4444"/>
+<circle cx="220" cy="462" r="17" fill="#111827"/>
+<g fill="#ffffff" stroke="#111827" stroke-width="3">
+  <circle cx="800" cy="386" r="9"/><circle cx="818" cy="334" r="9"/><circle cx="780" cy="455" r="9"/>
+</g>
+<text x="160" y="615" class="label">Sample terminal states</text>
+<text x="160" y="655" class="small">d_target, T, target speed, collision check, comfort cost, lane boundary cost</text>
+</svg>

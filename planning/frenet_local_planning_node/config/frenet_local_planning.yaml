@@ -1,0 +1,56 @@
+frenet_local_planning_node:
+  ros__parameters:
+    # Input: body-frame local path from local_path_planner_node.
+    local_path_topic: "/local_path/body"
+
+    # Input: vehicle pose in map frame used only for map visualization outputs.
+    odom_topic: "/odom_gt" #SHOULD BE CHANGED TO /odom_estimated WHEN USING REAL VEHICLE
+
+    # Output: all generated Frenet motion primitives with lightweight costs.
+    motion_primitives_topic: "/frenet/motion_primitives"
+
+    # Output: minimum-cost primitive selected without obstacle/costmap terms.
+    optimal_path_topic: "/frenet/optimal_path"
+
+    # RViz/debug outputs.
+    candidate_cloud_topic: "/frenet/candidate_cloud"
+    reference_boundary_topic: "/frenet/reference_boundary"
+
+    # Extra RViz-only outputs. Body-frame Frenet candidates are transformed into
+    # map coordinates using odom_topic, while the control/planning outputs remain
+    # in the incoming local path frame.
+    publish_map_visualization: true
+    visualization_frame_id: "map"
+    optimal_path_visualization_topic: "/frenet/map_visualization/optimal_path"
+    candidate_cloud_visualization_topic: "/frenet/map_visualization/candidate_cloud"
+    reference_boundary_visualization_topic: "/frenet/map_visualization/reference_boundary"
+
+    # Planner update rate [Hz].
+    update_rate: 50.0
+
+    # Used when input path has no frame id.
+    fallback_frame_id: "base_footprint"
+
+    # Downsample the incoming path before spline fitting.
+    input_stride: 2
+    min_path_points: 4
+
+    # Parallel reference paths sampled around the incoming local path.
+    parallel_path_count: 7
+    parallel_scale: 3.0
+
+    # Candidate lateral offsets around each parallel reference path [m].
+    left_width_margin: -0.5
+    right_width_margin: 0.5
+    width_delta: 0.5
+
+    # Frenet prediction horizon [s].
+    min_prediction_time: 1.4
+    max_prediction_time: 1.51
+    prediction_time_step: 0.1
+
+    # Longitudinal speed used for spatial sampling [m/s].
+    planning_speed_mps: 1.0
+
+    # Optional x offset applied only to the debug point cloud.
+    visualization_x_offset: 0.0

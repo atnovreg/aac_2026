@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .blue { fill:#eff6ff; stroke:#60a5fa; }
+    .green { fill:#ecfdf5; stroke:#34d399; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">AAC implementation vs Frenet local planner</text>
+<rect x="80" y="120" width="520" height="430" class="box blue"/>
+<text x="130" y="180" class="label">Current AAC node</text>
+<text x="130" y="230" class="small">1. find closest waypoint</text>
+<text x="130" y="265" class="small">2. copy forward along path</text>
+<text x="130" y="300" class="small">3. transform to body frame</text>
+<text x="130" y="365" class="small">Output follows reference exactly</text>
+<text x="130" y="400" class="small">No candidate generation</text>
+<text x="130" y="435" class="small">No obstacle avoidance</text>
+<rect x="680" y="120" width="520" height="430" class="box green"/>
+<text x="730" y="180" class="label">Frenet-capable planner</text>
+<text x="730" y="230" class="small">1. project ego to s,d</text>
+<text x="730" y="265" class="small">2. sample or optimize d(s,t), s(t)</text>
+<text x="730" y="300" class="small">3. convert candidates to x,y</text>
+<text x="730" y="365" class="small">Can deviate around obstacles</text>
+<text x="730" y="400" class="small">Can score comfort/safety</text>
+<text x="730" y="435" class="small">Needs collision model and constraints</text>
+</svg>

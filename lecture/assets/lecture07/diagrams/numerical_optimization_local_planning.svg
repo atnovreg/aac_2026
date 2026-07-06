@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .arrow { stroke:#334155; stroke-width:4; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#334155" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Numerical optimization local planner</text>
+<rect x="90" y="135" width="300" height="150" class="box"/>
+<text x="130" y="190" class="label">Decision variables</text>
+<text x="130" y="230" class="small">x_0 ... x_N or s,d</text>
+<path d="M400 210 H480" class="arrow"/>
+<rect x="495" y="105" width="300" height="210" class="box"/>
+<text x="535" y="160" class="label">Objective</text>
+<text x="535" y="200" class="small">tracking error</text>
+<text x="535" y="230" class="small">smoothness / jerk</text>
+<text x="535" y="260" class="small">obstacle penalty</text>
+<path d="M805 210 H885" class="arrow"/>
+<rect x="900" y="135" width="300" height="150" class="box"/>
+<text x="940" y="190" class="label">Constraints</text>
+<text x="940" y="230" class="small">dynamics, bounds, collision</text>
+<rect x="225" y="410" width="830" height="120" class="box"/>
+<text x="265" y="462" class="label">Solve repeatedly in a receding horizon</text>
+<text x="265" y="502" class="small">Good: smooth constraints and vehicle dynamics. Hard: initialization, local minima, compute budget.</text>
+</svg>

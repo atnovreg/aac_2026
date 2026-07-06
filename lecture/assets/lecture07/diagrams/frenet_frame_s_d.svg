@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .road { stroke:#64748b; stroke-width:82; fill:none; stroke-linecap:round; }
+    .center { stroke:#facc15; stroke-width:8; fill:none; stroke-dasharray:18 14; }
+    .traj { stroke:#06b6d4; stroke-width:9; fill:none; }
+    .axis { stroke:#111827; stroke-width:5; fill:none; marker-end:url(#arrow); }
+  </style>
+  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L10,4 L0,8 z" fill="#111827" />
+  </marker>
+</defs>
+<text x="48" y="62" class="title">Frenet coordinates: longitudinal s and lateral d</text>
+<path class="road" d="M155 510 C300 245 560 175 820 270 C970 325 1045 435 1115 530"/>
+<path class="center" d="M155 510 C300 245 560 175 820 270 C970 325 1045 435 1115 530"/>
+<path class="traj" d="M230 478 C365 314 545 277 756 333 C887 368 985 438 1065 520"/>
+<circle cx="682" cy="313" r="16" fill="#ef4444"/>
+<line x1="682" y1="313" x2="645" y2="388" stroke="#ef4444" stroke-width="5"/>
+<circle cx="645" cy="388" r="11" fill="#111827"/>
+<path class="axis" d="M645 388 C700 310 742 292 802 305"/>
+<path class="axis" d="M645 388 L610 462"/>
+<text x="805" y="302" class="label">+s tangent</text>
+<text x="535" y="482" class="label">+d normal</text>
+<text x="690" y="355" class="small">vehicle point x</text>
+<text x="500" y="395" class="small">projection r(s)</text>
+<text x="705" y="430" class="small">x(s,d) = r(s) + d n(s)</text>
+</svg>

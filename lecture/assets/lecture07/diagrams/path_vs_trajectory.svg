@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .path { stroke:#06b6d4; stroke-width:9; fill:none; }
+    .traj { stroke:#22c55e; stroke-width:9; fill:none; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">Path vs Trajectory</text>
+<rect x="90" y="130" width="500" height="430" class="box"/>
+<text x="135" y="185" class="label">Path</text>
+<path class="path" d="M150 425 C240 280 380 265 500 360"/>
+<g fill="#ffffff" stroke="#06b6d4" stroke-width="4">
+  <circle cx="150" cy="425" r="12"/><circle cx="260" cy="320" r="12"/>
+  <circle cx="390" cy="300" r="12"/><circle cx="500" cy="360" r="12"/>
+</g>
+<text x="135" y="505" class="small">geometry only</text>
+<text x="135" y="535" class="small">(x, y, yaw) sequence</text>
+<rect x="690" y="130" width="500" height="430" class="box"/>
+<text x="735" y="185" class="label">Trajectory</text>
+<path class="traj" d="M750 425 C840 280 980 265 1100 360"/>
+<g fill="#ffffff" stroke="#22c55e" stroke-width="4">
+  <circle cx="750" cy="425" r="12"/><circle cx="860" cy="320" r="12"/>
+  <circle cx="990" cy="300" r="12"/><circle cx="1100" cy="360" r="12"/>
+</g>
+<text x="735" y="505" class="small">geometry + timing</text>
+<text x="735" y="535" class="small">(x, y, yaw, v, a, t)</text>
+<text x="300" y="625" class="small">Local path planning often chooses the geometric corridor; motion planning adds speed and time.</text>
+</svg>

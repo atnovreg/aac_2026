@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <style>
+    text { font-family: DejaVu Sans, Arial, sans-serif; fill:#111827; }
+    .title { font-size:34px; font-weight:700; }
+    .label { font-size:23px; font-weight:700; }
+    .small { font-size:18px; }
+    .box { fill:#ffffff; stroke:#cbd5e1; stroke-width:3; rx:14; }
+    .good { fill:#ecfdf5; stroke:#34d399; }
+    .hard { fill:#fef2f2; stroke:#f87171; }
+    .soft { fill:#fff7ed; stroke:#fb923c; }
+  </style>
+</defs>
+<text x="48" y="62" class="title">Planning objective and constraints</text>
+<rect x="85" y="125" width="340" height="425" class="box hard"/>
+<text x="130" y="180" class="label">Hard constraints</text>
+<text x="130" y="230" class="small">no collision</text>
+<text x="130" y="265" class="small">stay in drivable area</text>
+<text x="130" y="300" class="small">curvature limit</text>
+<text x="130" y="335" class="small">steering / acceleration limit</text>
+<text x="130" y="370" class="small">start state consistency</text>
+<rect x="470" y="125" width="340" height="425" class="box soft"/>
+<text x="515" y="180" class="label">Soft costs</text>
+<text x="515" y="230" class="small">reference tracking</text>
+<text x="515" y="265" class="small">clearance</text>
+<text x="515" y="300" class="small">smoothness / jerk</text>
+<text x="515" y="335" class="small">speed preference</text>
+<text x="515" y="370" class="small">lane preference</text>
+<rect x="855" y="125" width="340" height="425" class="box good"/>
+<text x="900" y="180" class="label">Selected motion</text>
+<text x="900" y="230" class="small">feasible first</text>
+<text x="900" y="265" class="small">then low cost</text>
+<text x="900" y="300" class="small">stable under replanning</text>
+<text x="900" y="335" class="small">easy to track</text>
+<text x="900" y="370" class="small">safe margin</text>
+</svg>
