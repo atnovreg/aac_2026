@@ -26,4 +26,6 @@ windows:
     - shell_command:
       - ros2 launch stanley_node stanley.launch.py
     - shell_command:
+      - ros2 launch frenet_local_planning_node frenet_local_planning.launch.py 
+    - shell_command:
       - exec rviz2 -d /ros_ws/src/aac_2026/rviz/planner.rviz
