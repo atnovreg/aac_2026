@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .line{stroke:#455a64;stroke-width:3;fill:none}
+      .thin{stroke:#90a4ae;stroke-width:2;fill:none}
+      .arrow{stroke:#455a64;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Path Tracking in the Body Frame</text>
+
+  <g transform="translate(180 300)">
+    <line x1="0" y1="0" x2="650" y2="0" class="arrow"/>
+    <line x1="0" y1="0" x2="0" y2="-220" class="arrow"/>
+    <text x="665" y="6" class="label">x forward</text>
+    <text x="-45" y="-235" class="label">y left</text>
+
+    <rect x="-46" y="-24" width="92" height="48" rx="7" fill="#ffffff" stroke="#4f81bd" stroke-width="3"/>
+    <line x1="-22" y1="-32" x2="-22" y2="32" stroke="#4f81bd" stroke-width="3"/>
+    <line x1="22" y1="-32" x2="22" y2="32" stroke="#4f81bd" stroke-width="3"/>
+    <circle cx="0" cy="0" r="7" fill="#e67e22"/>
+    <text x="-58" y="55" class="small">base_footprint</text>
+
+    <path d="M45 -12 C160 -70, 275 -112, 390 -102 C505 -92, 590 -40, 645 40" stroke="#27ae60" stroke-width="6" fill="none"/>
+    <path d="M45 -12 C160 -70, 275 -112, 390 -102 C505 -92, 590 -40, 645 40" stroke="#ffffff" stroke-width="2" fill="none" stroke-dasharray="8 9"/>
+    <text x="500" y="-105" class="label" fill="#1b5e20">/local_path/body</text>
+
+    <circle cx="250" cy="-102" r="8" fill="#c0392b"/>
+    <line x1="250" y1="0" x2="250" y2="-102" stroke="#c0392b" stroke-width="3" stroke-dasharray="8 6"/>
+    <text x="265" y="-45" class="label" fill="#c0392b">e_y</text>
+
+    <line x1="250" y1="-102" x2="340" y2="-104" stroke="#263238" stroke-width="3" marker-end="url(#arrow)"/>
+    <line x1="250" y1="-102" x2="337" y2="-59" stroke="#e67e22" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M293 -101 A62 62 0 0 1 307 -78" stroke="#e67e22" stroke-width="3" fill="none"/>
+    <text x="320" y="-76" class="label" fill="#e67e22">e_psi</text>
+  </g>
+
+  <rect x="790" y="155" width="280" height="170" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="820" y="193" class="label">Controller inputs</text>
+  <text x="820" y="228" class="small">1. local path points</text>
+  <text x="820" y="256" class="small">2. vehicle frame origin</text>
+  <text x="820" y="284" class="small">3. wheelbase and limits</text>
+
+  <text x="70" y="492" class="small">Because the path is already in body frame, the vehicle is at the origin and steering geometry becomes simple.</text>
+</svg>

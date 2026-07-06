@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <style>
+    .title{font:700 30px Arial,sans-serif;fill:#263238}
+    .head{font:700 20px Arial,sans-serif;fill:#ffffff}
+    .label{font:700 18px Arial,sans-serif;fill:#263238}
+    .small{font:15px Arial,sans-serif;fill:#455a64}
+    .eq{font:700 17px Arial,sans-serif;fill:#1565c0}
+  </style>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Pure Pursuit vs Stanley</text>
+
+  <rect x="65" y="100" width="455" height="60" rx="8" fill="#e67e22"/>
+  <rect x="600" y="100" width="455" height="60" rx="8" fill="#4f81bd"/>
+  <text x="292" y="138" text-anchor="middle" class="head">Pure Pursuit</text>
+  <text x="827" y="138" text-anchor="middle" class="head">Stanley</text>
+
+  <rect x="65" y="160" width="455" height="275" rx="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  <rect x="600" y="160" width="455" height="275" rx="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+
+  <text x="95" y="205" class="label">Core idea</text>
+  <text x="95" y="233" class="small">Chase a lookahead point with an arc</text>
+  <text x="95" y="276" class="label">Main parameter</text>
+  <text x="95" y="304" class="small">lookahead distance L_d</text>
+  <text x="95" y="347" class="label">Formula</text>
+  <text x="95" y="375" class="eq">delta = atan(L * 2y_t / L_d^2)</text>
+  <text x="95" y="417" class="small">Simple, smooth, sensitive to lookahead tuning</text>
+
+  <text x="630" y="205" class="label">Core idea</text>
+  <text x="630" y="233" class="small">Combine heading and cross-track correction</text>
+  <text x="630" y="276" class="label">Main parameter</text>
+  <text x="630" y="304" class="small">cross-track gain k</text>
+  <text x="630" y="347" class="label">Formula</text>
+  <text x="630" y="375" class="eq">delta = psi_e + atan(k e_y / (v + eps))</text>
+  <text x="630" y="417" class="small">Good convergence, needs stable nearest point</text>
+
+  <rect x="210" y="465" width="700" height="45" rx="8" fill="#eef3f8" stroke="#cfd8dc"/>
+  <text x="560" y="493" text-anchor="middle" class="small">Both are geometric path trackers. Neither replaces local planning or vehicle safety logic.</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .eq{font:700 18px Arial,sans-serif;fill:#1565c0}
+      .arrow{stroke:#455a64;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .thin{stroke:#90a4ae;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Pure Pursuit Geometry</text>
+
+  <g transform="translate(160 305)">
+    <line x1="0" y1="0" x2="650" y2="0" class="arrow"/>
+    <line x1="0" y1="0" x2="0" y2="-235" class="arrow"/>
+    <text x="665" y="6" class="label">x</text>
+    <text x="-25" y="-248" class="label">y</text>
+
+    <path d="M40 -2 C120 -55, 230 -95, 340 -95 C460 -95, 575 -40, 650 35" stroke="#27ae60" stroke-width="6" fill="none"/>
+    <path d="M0 0 C160 -165, 405 -205, 600 -60" stroke="#b0bec5" stroke-width="3" fill="none" stroke-dasharray="9 9"/>
+    <text x="442" y="-200" class="small">candidate circle</text>
+
+    <circle cx="285" cy="-92" r="10" fill="#c0392b"/>
+    <text x="307" y="-105" class="label">target P(x_t, y_t)</text>
+    <line x1="0" y1="0" x2="285" y2="-92" stroke="#c0392b" stroke-width="3"/>
+    <text x="138" y="-65" class="label" fill="#c0392b">L_d</text>
+
+    <path d="M65 0 A65 65 0 0 0 59 -21" stroke="#e67e22" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+    <text x="75" y="-25" class="label" fill="#e67e22">alpha</text>
+
+    <rect x="-43" y="-24" width="86" height="48" rx="7" fill="#ffffff" stroke="#4f81bd" stroke-width="3"/>
+    <line x1="0" y1="0" x2="90" y2="0" stroke="#4f81bd" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="-47" y="55" class="small">vehicle</text>
+  </g>
+
+  <rect x="780" y="125" width="300" height="250" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="810" y="166" class="eq">L_d^2 = x_t^2 + y_t^2</text>
+  <text x="810" y="216" class="eq">kappa = 2 y_t / L_d^2</text>
+  <text x="810" y="266" class="eq">delta = atan(L kappa)</text>
+  <line x1="810" y1="294" x2="1048" y2="294" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="810" y="330" class="small">larger lookahead: smoother, slower response</text>
+  <text x="810" y="356" class="small">smaller lookahead: sharper, can oscillate</text>
+
+  <text x="70" y="492" class="small">AAC code uses body-frame target.y directly, so left target means positive curvature and positive steering.</text>
+</svg>

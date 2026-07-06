@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5b677a"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .box{rx:8;stroke-width:2}
+      .arrow{stroke:#5b677a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">AAC2026 Path Tracking Control Pipeline</text>
+
+  <rect x="50" y="115" width="185" height="105" class="box" fill="#e8f1fb" stroke="#4f81bd"/>
+  <text x="142" y="150" text-anchor="middle" class="label">Global / Local</text>
+  <text x="142" y="175" text-anchor="middle" class="label">Planner</text>
+  <text x="142" y="202" text-anchor="middle" class="small">/local_path/body</text>
+
+  <rect x="305" y="100" width="230" height="135" class="box" fill="#fff5e8" stroke="#e67e22"/>
+  <text x="420" y="136" text-anchor="middle" class="label">Path Tracking</text>
+  <text x="420" y="162" text-anchor="middle" class="label">Controller</text>
+  <text x="420" y="191" text-anchor="middle" class="small">Pure Pursuit now</text>
+  <text x="420" y="214" text-anchor="middle" class="small">Stanley as alternative</text>
+
+  <rect x="610" y="115" width="180" height="105" class="box" fill="#eaf8ef" stroke="#27ae60"/>
+  <text x="700" y="151" text-anchor="middle" class="label">Auto Cmd</text>
+  <text x="700" y="183" text-anchor="middle" class="small">/ackermann_auto</text>
+  <text x="700" y="205" text-anchor="middle" class="tiny">speed, steering</text>
+
+  <rect x="860" y="100" width="205" height="135" class="box" fill="#f0f2f5" stroke="#6b7280"/>
+  <text x="962" y="136" text-anchor="middle" class="label">joy_control_node</text>
+  <text x="962" y="165" text-anchor="middle" class="small">manual / run gate</text>
+  <text x="962" y="193" text-anchor="middle" class="small">/ackermann_drive</text>
+  <text x="962" y="216" text-anchor="middle" class="tiny">to vehicle interface</text>
+
+  <path d="M235 167 L305 167" class="arrow"/>
+  <path d="M535 167 L610 167" class="arrow"/>
+  <path d="M790 167 L860 167" class="arrow"/>
+
+  <rect x="90" y="315" width="250" height="88" class="box" fill="#ffffff" stroke="#b0bec5"/>
+  <text x="215" y="347" text-anchor="middle" class="label">Input frame</text>
+  <text x="215" y="375" text-anchor="middle" class="small">base_footprint body frame</text>
+  <text x="215" y="396" text-anchor="middle" class="tiny">x forward, y left</text>
+
+  <rect x="435" y="315" width="250" height="88" class="box" fill="#ffffff" stroke="#b0bec5"/>
+  <text x="560" y="347" text-anchor="middle" class="label">Controller job</text>
+  <text x="560" y="375" text-anchor="middle" class="small">choose steering angle</text>
+  <text x="560" y="396" text-anchor="middle" class="tiny">limit speed from curvature</text>
+
+  <rect x="780" y="315" width="250" height="88" class="box" fill="#ffffff" stroke="#b0bec5"/>
+  <text x="905" y="347" text-anchor="middle" class="label">Output contract</text>
+  <text x="905" y="375" text-anchor="middle" class="small">AckermannDriveStamped</text>
+  <text x="905" y="396" text-anchor="middle" class="tiny">not throttle PWM directly</text>
+
+  <path d="M340 359 L435 359" class="arrow"/>
+  <path d="M685 359 L780 359" class="arrow"/>
+
+  <text x="50" y="485" class="small">Control is a local problem: given a short path near the vehicle, publish one feasible command now.</text>
+</svg>
