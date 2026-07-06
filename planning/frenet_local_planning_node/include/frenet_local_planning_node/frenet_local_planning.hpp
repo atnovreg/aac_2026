@@ -41,6 +41,10 @@ private:
   std::vector<FrenetPathPtr>
   generateForReferencePath(const std::vector<double> &ref_x,
                            const std::vector<double> &ref_y);
+  geometry_msgs::msg::PolygonStamped
+  makeReferenceBoundary(const std::vector<double> &ref_x,
+                        const std::vector<double> &ref_y,
+                        const std_msgs::msg::Header &header) const;
 
   aac_msgs::msg::PathWithCost
   makePathWithCost(const FrenetPath &frenet_path,
@@ -121,18 +125,19 @@ private:
   std::string fallback_frame_id_;
 
   bool publish_map_visualization_ = true;
+  bool republish_cached_map_visualization_ = false;
   double update_rate_ = 50.0;
   int input_stride_ = 2;
   int min_path_points_ = 4;
-  int parallel_path_count_ = 7;
-  double parallel_scale_ = 3.0;
+  int parallel_path_count_ = 1;
+  double parallel_scale_ = 0.0;
   double left_width_margin_ = -0.5;
   double right_width_margin_ = 0.5;
-  double width_delta_ = 0.5;
-  double min_prediction_time_ = 1.4;
-  double max_prediction_time_ = 1.51;
-  double prediction_time_step_ = 0.1;
-  double planning_speed_mps_ = 1.0;
+  double width_delta_ = 0.25;
+  double min_prediction_time_ = 3.0;
+  double max_prediction_time_ = 3.21;
+  double prediction_time_step_ = 0.2;
+  double planning_speed_mps_ = 1.5;
   double visualization_x_offset_ = 0.0;
 };
 

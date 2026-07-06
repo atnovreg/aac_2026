@@ -1,0 +1,44 @@
+stanley_node:
+  ros__parameters:
+    # Input: body-frame local path from local_path_planner_node
+    local_path_topic: "/local_path/body"
+
+    # Output: autonomous command consumed by joy_control_node
+    command_topic: "/ackermann_auto"
+    command_frame: "base_footprint"
+
+    # Stanley geometry
+    stanley_gain: 1.0
+    softening_speed: 0.20
+    max_steering_angle: 0.524
+
+    # Speed command
+    target_speed: 1.0
+    max_speed: 1.0
+    min_speed: 0.0
+    cte_speed_reduction_gain: 0.35
+    heading_speed_reduction_gain: 0.40
+
+    # PID for cross-track error before Stanley atan correction
+    cte_kp: 1.0
+    cte_ki: 0.0
+    cte_kd: 0.0
+    cte_integral_limit: 1.0
+
+    # PID for heading error
+    heading_kp: 1.0
+    heading_ki: 0.0
+    heading_kd: 0.0
+    heading_integral_limit: 0.6
+
+    # Runtime
+    default_dt: 0.02
+    max_dt: 0.20
+    min_segment_length: 0.02
+    min_segment_forward_x: -0.20
+
+    # RViz visualization in the local path frame
+    visualize_markers: true
+    error_marker_topic: "/stanley/error_markers"
+    marker_scale: 0.12
+    marker_height: 0.05

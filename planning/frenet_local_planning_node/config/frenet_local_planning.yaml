@@ -24,6 +24,7 @@ frenet_local_planning_node:
     optimal_path_visualization_topic: "/frenet/map_visualization/optimal_path"
     candidate_cloud_visualization_topic: "/frenet/map_visualization/candidate_cloud"
     reference_boundary_visualization_topic: "/frenet/map_visualization/reference_boundary"
+    republish_cached_map_visualization: false
 
     # Planner update rate [Hz].
     update_rate: 50.0
@@ -36,21 +37,23 @@ frenet_local_planning_node:
     min_path_points: 4
 
     # Parallel reference paths sampled around the incoming local path.
-    parallel_path_count: 7
-    parallel_scale: 3.0
+    # Keep this centered by default; lateral candidates below cover the lane width.
+    parallel_path_count: 1
+    parallel_scale: 0.0
 
-    # Candidate lateral offsets around each parallel reference path [m].
+    # Candidate lateral offsets around the center reference path [m].
+    # For the small AAC track, this keeps candidates inside the lane width.
     left_width_margin: -0.5
     right_width_margin: 0.5
-    width_delta: 0.5
+    width_delta: 0.25
 
     # Frenet prediction horizon [s].
-    min_prediction_time: 1.4
-    max_prediction_time: 1.51
-    prediction_time_step: 0.1
+    min_prediction_time: 3.0
+    max_prediction_time: 3.21
+    prediction_time_step: 0.2
 
     # Longitudinal speed used for spatial sampling [m/s].
-    planning_speed_mps: 1.0
+    planning_speed_mps: 1.5
 
     # Optional x offset applied only to the debug point cloud.
     visualization_x_offset: 0.0

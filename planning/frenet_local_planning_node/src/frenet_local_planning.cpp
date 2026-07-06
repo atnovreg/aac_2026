@@ -75,19 +75,20 @@ void FrenetLocalPlanning::getParams()
                                  "/frenet/map_visualization/candidate_cloud");
   declare_parameter<std::string>("reference_boundary_visualization_topic",
                                  "/frenet/map_visualization/reference_boundary");
+  declare_parameter<bool>("republish_cached_map_visualization", false);
   declare_parameter<std::string>("fallback_frame_id", "base_footprint");
   declare_parameter<double>("update_rate", 50.0);
   declare_parameter<int>("input_stride", 2);
   declare_parameter<int>("min_path_points", 4);
-  declare_parameter<int>("parallel_path_count", 7);
-  declare_parameter<double>("parallel_scale", 3.0);
+  declare_parameter<int>("parallel_path_count", 1);
+  declare_parameter<double>("parallel_scale", 0.0);
   declare_parameter<double>("left_width_margin", -0.5);
   declare_parameter<double>("right_width_margin", 0.5);
-  declare_parameter<double>("width_delta", 0.5);
-  declare_parameter<double>("min_prediction_time", 1.4);
-  declare_parameter<double>("max_prediction_time", 1.51);
-  declare_parameter<double>("prediction_time_step", 0.1);
-  declare_parameter<double>("planning_speed_mps", 1.0);
+  declare_parameter<double>("width_delta", 0.25);
+  declare_parameter<double>("min_prediction_time", 3.0);
+  declare_parameter<double>("max_prediction_time", 3.21);
+  declare_parameter<double>("prediction_time_step", 0.2);
+  declare_parameter<double>("planning_speed_mps", 1.5);
   declare_parameter<double>("visualization_x_offset", 0.0);
 
   local_path_topic_ = get_parameter("local_path_topic").as_string();
@@ -104,6 +105,8 @@ void FrenetLocalPlanning::getParams()
       get_parameter("candidate_cloud_visualization_topic").as_string();
   reference_boundary_visualization_topic_ =
       get_parameter("reference_boundary_visualization_topic").as_string();
+  republish_cached_map_visualization_ =
+      get_parameter("republish_cached_map_visualization").as_bool();
   fallback_frame_id_ = get_parameter("fallback_frame_id").as_string();
   update_rate_ = get_parameter("update_rate").as_double();
   input_stride_ = std::max(1, static_cast<int>(get_parameter("input_stride").as_int()));
@@ -145,6 +148,9 @@ void FrenetLocalPlanning::odomCallback(const nav_msgs::msg::Odometry::SharedPtr 
 void FrenetLocalPlanning::publishCachedMapVisualization()
 {
   if (!publish_map_visualization_) {
+    return;
+  }
+  if (!republish_cached_map_visualization_) {
     return;
   }
 
@@ -210,8 +216,7 @@ void FrenetLocalPlanning::timerCallback()
     header.frame_id = fallback_frame_id_;
   }
 
-  geometry_msgs::msg::PolygonStamped reference_boundary;
-  reference_boundary.header = header;
+  const auto reference_boundary = makeReferenceBoundary(local_x, local_y, header);
 
   std::vector<FrenetPathPtr> frenet_paths;
   for (int parallel_step = 0; parallel_step < parallel_path_count_; ++parallel_step) {
@@ -225,8 +230,6 @@ void FrenetLocalPlanning::timerCallback()
     std::vector<double> parallel_y;
     frenet_utils::GetParallelRefPath(local_x, local_y, parallel_offset,
                                      parallel_x, parallel_y);
-    frenet_utils::DrawParallelPathPolygon(parallel_x, parallel_y, parallel_offset,
-                                          reference_boundary, parallel_scale_);
 
     auto generated_paths = generateForReferencePath(parallel_x, parallel_y);
     frenet_paths.insert(frenet_paths.end(), generated_paths.begin(), generated_paths.end());
@@ -393,6 +396,47 @@ FrenetLocalPlanning::generateForReferencePath(const std::vector<double> &ref_x,
                          "Failed to generate Frenet paths: %s", e.what());
     return {};
   }
+}
+
+geometry_msgs::msg::PolygonStamped FrenetLocalPlanning::makeReferenceBoundary(
+    const std::vector<double> &ref_x,
+    const std::vector<double> &ref_y,
+    const std_msgs::msg::Header &header) const
+{
+  geometry_msgs::msg::PolygonStamped boundary;
+  boundary.header = header;
+
+  if (ref_x.size() < 2 || ref_x.size() != ref_y.size()) {
+    return boundary;
+  }
+
+  std::vector<double> left_x;
+  std::vector<double> left_y;
+  std::vector<double> right_x;
+  std::vector<double> right_y;
+
+  const double left_offset = std::min(left_width_margin_, right_width_margin_);
+  const double right_offset = std::max(left_width_margin_, right_width_margin_);
+
+  frenet_utils::GetParallelRefPath(ref_x, ref_y, left_offset, left_x, left_y);
+  frenet_utils::GetParallelRefPath(ref_x, ref_y, right_offset, right_x, right_y);
+
+  for (std::size_t i = 0; i < left_x.size() && i < left_y.size(); ++i) {
+    geometry_msgs::msg::Point32 point;
+    point.x = static_cast<float>(left_x[i]);
+    point.y = static_cast<float>(left_y[i]);
+    boundary.polygon.points.push_back(point);
+  }
+
+  const std::size_t right_count = std::min(right_x.size(), right_y.size());
+  for (std::size_t i = right_count; i > 0; --i) {
+    geometry_msgs::msg::Point32 point;
+    point.x = static_cast<float>(right_x[i - 1]);
+    point.y = static_cast<float>(right_y[i - 1]);
+    boundary.polygon.points.push_back(point);
+  }
+
+  return boundary;
 }
 
 aac_msgs::msg::PathWithCost

@@ -20,16 +20,16 @@ Outputs:
 - `/frenet/map_visualization/candidate_cloud` (`sensor_msgs/msg/PointCloud2`)
 - `/frenet/map_visualization/reference_boundary` (`geometry_msgs/msg/PolygonStamped`)
 
-The node samples several parallel reference paths around the incoming local
-path, generates lateral Frenet candidates for each reference, assigns lightweight
-cost values, and publishes the minimum-cost candidate. Obstacle/costmap terms
-are not included yet; `collision_cost` is set to `0.0`.
+The node samples Frenet lateral candidates around the incoming local path,
+assigns lightweight cost values, and publishes the minimum-cost candidate.
+Obstacle/costmap terms are not included yet; `collision_cost` is set to `0.0`.
 
 The `map_visualization` topics are RViz-only outputs. They transform the
 body-frame candidate coordinates into the configured visualization frame using
 the latest odometry pose, so they appear in front of the vehicle on the map.
-After the first valid visualization is produced, the node republishes the last
-valid map visualization if a later cycle has a temporary missing/invalid input.
+The last valid map visualization is kept by transient-local QoS. Cached
+republishing is disabled by default so stale map coordinates do not appear as
+fresh data when a later cycle has a temporary missing/invalid input.
 
 ## Run
 
@@ -52,6 +52,7 @@ Key parameters:
 - `left_width_margin`, `right_width_margin`, `width_delta`: Frenet lateral samples [m]
 - `planning_speed_mps`: speed used for longitudinal candidate sampling [m/s]
 - `publish_map_visualization`: enable fixed-frame RViz-only debug topics
+- `republish_cached_map_visualization`: republish cached map debug topics on invalid cycles
 - `visualization_frame_id`: frame id used by the RViz-only debug topics
 
 ## Build
