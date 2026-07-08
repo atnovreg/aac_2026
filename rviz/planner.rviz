@@ -79,6 +79,27 @@ Visualization Manager:
         Value: /map_updates
       Use Timestamp: false
       Value: true
+    - Alpha: 0.44999998807907104
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
+      Draw Behind: true
+      Enabled: true
+      Name: ParkingMissionMap
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /parking_map
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /parking_map_updates
+      Use Timestamp: false
+      Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz_default_plugins/Odometry
       Covariance:
@@ -230,13 +251,7 @@ Visualization Manager:
           Enabled: true
           Name: HybridVis
           Namespaces:
-            hybrid_astar_expanded: true
-            hybrid_astar_forward_segments: true
-            hybrid_astar_goal: true
-            hybrid_astar_path: true
-            hybrid_astar_reverse_segments: true
-            hybrid_astar_start: true
-            hybrid_astar_tree: true
+            {}
           Topic:
             Depth: 5
             Durability Policy: Volatile
@@ -398,10 +413,7 @@ Visualization Manager:
           Enabled: true
           Name: MarkerArray
           Namespaces:
-            mppi_best_sampled: true
-            mppi_diagnostics: false
-            mppi_optimal: true
-            mppi_rollouts: true
+            {}
           Topic:
             Depth: 5
             Durability Policy: Volatile
@@ -486,25 +498,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 28.74677848815918
+      Distance: 22.483718872070312
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.24977067112922668
-        Y: -1.3688381910324097
-        Z: -0.8426165580749512
+        X: -0.5365018248558044
+        Y: -1.163730263710022
+        Z: -1.0697680711746216
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2797963619232178
+      Pitch: 1.2197964191436768
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.2535691261291504
+      Yaw: 4.568573951721191
     Saved: ~
 Window Geometry:
   Displays:

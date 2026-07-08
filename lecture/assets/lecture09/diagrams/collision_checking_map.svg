@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .grid{stroke:#cfd8dc;stroke-width:1}
+      .arrow{stroke:#455a64;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Collision Checking with /parking_map</text>
+
+  <g transform="translate(120 100)">
+    <rect x="0" y="0" width="520" height="340" fill="#ffffff" stroke="#90a4ae" stroke-width="3"/>
+    <g>
+      <line x1="52" y1="0" x2="52" y2="340" class="grid"/>
+      <line x1="104" y1="0" x2="104" y2="340" class="grid"/>
+      <line x1="156" y1="0" x2="156" y2="340" class="grid"/>
+      <line x1="208" y1="0" x2="208" y2="340" class="grid"/>
+      <line x1="260" y1="0" x2="260" y2="340" class="grid"/>
+      <line x1="312" y1="0" x2="312" y2="340" class="grid"/>
+      <line x1="364" y1="0" x2="364" y2="340" class="grid"/>
+      <line x1="416" y1="0" x2="416" y2="340" class="grid"/>
+      <line x1="468" y1="0" x2="468" y2="340" class="grid"/>
+      <line x1="0" y1="57" x2="520" y2="57" class="grid"/>
+      <line x1="0" y1="114" x2="520" y2="114" class="grid"/>
+      <line x1="0" y1="171" x2="520" y2="171" class="grid"/>
+      <line x1="0" y1="228" x2="520" y2="228" class="grid"/>
+      <line x1="0" y1="285" x2="520" y2="285" class="grid"/>
+    </g>
+    <rect x="310" y="57" width="104" height="114" fill="#263238" opacity="0.35"/>
+    <rect x="104" y="228" width="156" height="57" fill="#263238" opacity="0.35"/>
+    <path d="M75 285 C170 210, 260 200, 360 95" stroke="#27ae60" stroke-width="5" fill="none"/>
+    <circle cx="164" cy="219" r="34" fill="none" stroke="#c0392b" stroke-width="4"/>
+    <circle cx="240" cy="197" r="34" fill="none" stroke="#c0392b" stroke-width="4"/>
+    <circle cx="315" cy="140" r="34" fill="none" stroke="#c0392b" stroke-width="4"/>
+    <text x="190" y="330" class="small">collision_radius sampled along segment</text>
+  </g>
+
+  <rect x="720" y="120" width="340" height="245" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="750" y="160" class="label">AAC implementation</text>
+  <text x="750" y="200" class="small">map_topic: /parking_map</text>
+  <text x="750" y="228" class="small">use_occupancy_grid: true</text>
+  <text x="750" y="256" class="small">occupied_threshold: 50</text>
+  <text x="750" y="284" class="small">collision_radius: 0.35 m</text>
+  <text x="750" y="312" class="small">collision_check_step: 0.08 m</text>
+  <text x="750" y="340" class="tiny">static OccupancyGrid provides bounds and obstacles</text>
+
+  <text x="70" y="492" class="small">A path is valid only if every sampled pose is inside bounds and its footprint avoids occupied cells.</text>
+</svg>

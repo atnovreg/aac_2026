@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .line{stroke-width:8;stroke-linecap:round}
+      .arrow{stroke:#455a64;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Parking Lot as a Global Planning Problem</text>
+
+  <g transform="translate(120 90)">
+    <rect x="0" y="0" width="560" height="360" rx="10" fill="#eceff1" stroke="#90a4ae" stroke-width="3"/>
+    <line x1="60" y1="68" x2="455" y2="68" class="line" stroke="#fdd835"/>
+    <line x1="60" y1="235" x2="455" y2="235" class="line" stroke="#fdd835"/>
+    <line x1="60" y1="300" x2="455" y2="300" class="line" stroke="#fdd835"/>
+    <line x1="60" y1="68" x2="60" y2="180" class="line" stroke="#29b6f6"/>
+    <line x1="155" y1="68" x2="155" y2="180" class="line" stroke="#29b6f6"/>
+    <line x1="250" y1="68" x2="250" y2="180" class="line" stroke="#29b6f6"/>
+    <line x1="345" y1="68" x2="345" y2="180" class="line" stroke="#29b6f6"/>
+    <line x1="455" y1="68" x2="455" y2="180" class="line" stroke="#29b6f6"/>
+    <line x1="60" y1="235" x2="60" y2="300" class="line" stroke="#00c853"/>
+    <line x1="155" y1="235" x2="155" y2="300" class="line" stroke="#00c853"/>
+    <line x1="250" y1="235" x2="250" y2="300" class="line" stroke="#00c853"/>
+    <line x1="345" y1="235" x2="345" y2="300" class="line" stroke="#00c853"/>
+    <line x1="455" y1="235" x2="455" y2="300" class="line" stroke="#00c853"/>
+    <line x1="8" y1="45" x2="8" y2="280" class="line" stroke="#ef5350"/>
+    <line x1="552" y1="45" x2="552" y2="280" class="line" stroke="#ef5350"/>
+    <line x1="515" y1="145" x2="515" y2="250" class="line" stroke="#ff8f00"/>
+
+    <rect x="383" y="92" width="60" height="82" rx="6" fill="#ffffff" stroke="#263238" stroke-width="2"/>
+    <text x="413" y="135" text-anchor="middle" class="tiny">target</text>
+    <path d="M413 174 L413 205" class="arrow"/>
+
+    <g transform="translate(500 318) rotate(180)">
+      <rect x="-32" y="-18" width="64" height="36" rx="5" fill="#ffffff" stroke="#4f81bd" stroke-width="3"/>
+      <line x1="0" y1="0" x2="56" y2="0" stroke="#4f81bd" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <text x="415" y="340" class="small">start pose</text>
+  </g>
+
+  <rect x="760" y="118" width="300" height="255" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="790" y="156" class="label">Global planner must solve</text>
+  <text x="790" y="194" class="small">1. reach the chosen parking slot</text>
+  <text x="790" y="222" class="small">2. match final yaw</text>
+  <text x="790" y="250" class="small">3. respect turning radius</text>
+  <text x="790" y="278" class="small">4. allow reverse maneuvers</text>
+  <text x="790" y="306" class="small">5. avoid occupied cells / bounds</text>
+  <text x="790" y="334" class="small">6. publish a trackable global path</text>
+
+  <text x="70" y="492" class="small">A parking mission is not just “go to a point”; it is “arrive at a pose with feasible vehicle motion.”</text>
+</svg>

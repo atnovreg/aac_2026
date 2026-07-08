@@ -13,6 +13,9 @@
     scan_topic: /scan_lidar
     use_map_saver: true
     mode: mapping
+    # Fresh mapping starts from the odometry pose provided by
+    # odom_lidar -> base_footprint_lidar. slam_mapping.launch.py waits for the
+    # first odometry message before starting SLAM Toolbox.
 
     debug_logging: false
     throttle_scans: 1

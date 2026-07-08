@@ -8,7 +8,7 @@ hybrid_a_star_planner_node:
     # RViz-compatible inputs.
     goal_topic: "/goal_pose"
     initial_pose_topic: "/initialpose"
-    map_topic: "/map"
+    map_topic: "/parking_map"
 
     # Outputs.
     path_topic: "/hybrid_astar/path"

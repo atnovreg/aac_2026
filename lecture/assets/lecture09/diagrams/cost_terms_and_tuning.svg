@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <style>
+    .title{font:700 30px Arial,sans-serif;fill:#263238}
+    .label{font:700 18px Arial,sans-serif;fill:#263238}
+    .small{font:15px Arial,sans-serif;fill:#455a64}
+    .eq{font:700 18px Arial,sans-serif;fill:#1565c0}
+  </style>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Search Cost: Short Path Is Not the Only Preference</text>
+
+  <rect x="70" y="105" width="455" height="300" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="100" y="150" class="eq">f = g + heuristic_weight * h</text>
+  <text x="100" y="205" class="label">g cost includes</text>
+  <text x="100" y="238" class="small">step_size * direction_cost</text>
+  <text x="100" y="266" class="small">reverse_penalty</text>
+  <text x="100" y="294" class="small">direction_change_penalty</text>
+  <text x="100" y="322" class="small">steering_penalty</text>
+  <text x="100" y="350" class="small">steering_change_penalty</text>
+
+  <rect x="595" y="105" width="455" height="300" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="625" y="150" class="eq">h = distance + w_yaw * yaw_error</text>
+  <text x="625" y="205" class="label">Tuning intuition</text>
+  <text x="625" y="238" class="small">higher reverse penalty: avoids backing up</text>
+  <text x="625" y="266" class="small">higher direction-change penalty: fewer cusps</text>
+  <text x="625" y="294" class="small">higher steering-change penalty: smoother tree</text>
+  <text x="625" y="322" class="small">higher yaw heuristic: respects goal direction earlier</text>
+  <text x="625" y="350" class="small">too high penalties can block tight parking solutions</text>
+
+  <text x="70" y="492" class="small">For parking, reverse is necessary but should not be free; gear changes should happen only when they are useful.</text>
+</svg>

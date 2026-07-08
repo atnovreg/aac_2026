@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .path{fill:none;stroke-width:5;stroke-linecap:round;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Successor Generation with Motion Primitives</text>
+
+  <g transform="translate(155 280)">
+    <rect x="-44" y="-26" width="88" height="52" rx="7" fill="#ffffff" stroke="#4f81bd" stroke-width="3"/>
+    <line x1="0" y1="0" x2="70" y2="0" stroke="#4f81bd" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="-55" y="58" class="small">current state</text>
+
+    <path d="M40 -8 C120 -82, 210 -88, 290 -45" class="path" stroke="#27ae60"/>
+    <path d="M40 0 C135 -8, 220 -5, 305 0" class="path" stroke="#27ae60"/>
+    <path d="M40 8 C120 82, 210 88, 290 45" class="path" stroke="#27ae60"/>
+    <text x="245" y="-106" class="label" fill="#1b5e20">forward</text>
+
+    <path d="M-40 -8 C-120 -82, -210 -88, -290 -45" class="path" stroke="#ef6c00"/>
+    <path d="M-40 0 C-135 -8, -220 -5, -305 0" class="path" stroke="#ef6c00"/>
+    <path d="M-40 8 C-120 82, -210 88, -290 45" class="path" stroke="#ef6c00"/>
+    <text x="-315" y="-106" class="label" fill="#ef6c00">reverse</text>
+  </g>
+
+  <rect x="700" y="130" width="350" height="245" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="730" y="170" class="label">AAC parameters</text>
+  <text x="730" y="210" class="small">step_size: 0.28 m</text>
+  <text x="730" y="238" class="small">wheel_base: 0.80 m</text>
+  <text x="730" y="266" class="small">max_steering_angle: 0.52 rad</text>
+  <text x="730" y="294" class="small">steering_sample_count: 9</text>
+  <text x="730" y="322" class="small">reverse_enabled: true</text>
+  <text x="730" y="350" class="tiny">directions = {+1, -1} when reverse is enabled</text>
+
+  <text x="70" y="492" class="small">Each successor is produced by simulating the bicycle model for one short step, not by drawing arbitrary grid lines.</text>
+</svg>

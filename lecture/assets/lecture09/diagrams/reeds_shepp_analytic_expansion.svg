@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#455a64"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .eq{font:700 18px Arial,sans-serif;fill:#1565c0}
+      .path{fill:none;stroke-width:6;stroke-linecap:round}
+      .arrow{stroke:#455a64;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Reeds-Shepp as Analytic Expansion</text>
+
+  <g transform="translate(120 100)">
+    <rect x="0" y="0" width="620" height="350" rx="10" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+    <path d="M70 285 C140 220, 210 205, 285 205 C360 205, 420 160, 485 100" class="path" stroke="#b0bec5" stroke-dasharray="10 9"/>
+    <path d="M70 285 C135 235, 198 232, 250 252" class="path" stroke="#27ae60"/>
+    <path d="M250 252 C318 278, 372 258, 410 207" class="path" stroke="#ef6c00"/>
+    <path d="M410 207 C444 162, 470 122, 520 85" class="path" stroke="#27ae60"/>
+    <g transform="translate(70 285) rotate(-35)">
+      <rect x="-30" y="-17" width="60" height="34" rx="5" fill="#ffffff" stroke="#4f81bd" stroke-width="3"/>
+      <line x1="0" y1="0" x2="48" y2="0" class="arrow"/>
+    </g>
+    <g transform="translate(520 85) rotate(-42)">
+      <rect x="-32" y="-19" width="64" height="38" rx="5" fill="#ffffff" stroke="#c0392b" stroke-width="3"/>
+      <line x1="0" y1="0" x2="52" y2="0" stroke="#c0392b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <text x="54" y="325" class="small">current search node</text>
+    <text x="495" y="55" class="small">goal pose</text>
+    <text x="190" y="185" class="label" fill="#1b5e20">forward</text>
+    <text x="300" y="305" class="label" fill="#ef6c00">reverse</text>
+  </g>
+
+  <rect x="790" y="125" width="290" height="250" rx="8" fill="#ffffff" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="820" y="165" class="eq">q = (x, y, theta)</text>
+  <text x="820" y="210" class="eq">rho = min turning radius</text>
+  <line x1="820" y1="238" x2="1045" y2="238" stroke="#cfd8dc" stroke-width="2"/>
+  <text x="820" y="276" class="small">Dubins: forward only</text>
+  <text x="820" y="304" class="small">Reeds-Shepp: forward + reverse</text>
+  <text x="820" y="332" class="small">AAC uses OMPL state spaces</text>
+  <text x="820" y="360" class="tiny">only accepted if collision-free and short enough</text>
+
+  <text x="70" y="492" class="small">Hybrid A* searches globally, then tries a direct vehicle-feasible curve when it is close enough to the goal.</text>
+</svg>

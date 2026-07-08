@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5b677a"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .box{rx:8;stroke-width:2}
+      .arrow{stroke:#5b677a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Hybrid A* Search Loop in the Node</text>
+
+  <rect x="75" y="105" width="185" height="80" class="box" fill="#e8f1fb" stroke="#4f81bd"/>
+  <text x="167" y="139" text-anchor="middle" class="label">Open Queue</text>
+  <text x="167" y="164" text-anchor="middle" class="tiny">lowest f = g + w h</text>
+
+  <rect x="330" y="105" width="185" height="80" class="box" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="422" y="139" text-anchor="middle" class="label">Pop Current</text>
+  <text x="422" y="164" text-anchor="middle" class="tiny">skip closed/stale</text>
+
+  <rect x="585" y="105" width="185" height="80" class="box" fill="#fff5e8" stroke="#e67e22"/>
+  <text x="677" y="139" text-anchor="middle" class="label">Goal Check</text>
+  <text x="677" y="164" text-anchor="middle" class="tiny">xy + yaw tolerance</text>
+
+  <rect x="840" y="105" width="205" height="80" class="box" fill="#eaf8ef" stroke="#27ae60"/>
+  <text x="942" y="139" text-anchor="middle" class="label">Analytic Expansion</text>
+  <text x="942" y="164" text-anchor="middle" class="tiny">Reeds-Shepp near goal</text>
+
+  <path d="M260 145 L330 145" class="arrow"/>
+  <path d="M515 145 L585 145" class="arrow"/>
+  <path d="M770 145 L840 145" class="arrow"/>
+
+  <rect x="190" y="300" width="210" height="88" class="box" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="295" y="333" text-anchor="middle" class="label">Generate Children</text>
+  <text x="295" y="360" text-anchor="middle" class="tiny">steering samples x directions</text>
+
+  <rect x="485" y="300" width="210" height="88" class="box" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="590" y="333" text-anchor="middle" class="label">Collision Check</text>
+  <text x="590" y="360" text-anchor="middle" class="tiny">sample segment footprint</text>
+
+  <rect x="780" y="300" width="210" height="88" class="box" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="885" y="333" text-anchor="middle" class="label">Update Cost</text>
+  <text x="885" y="360" text-anchor="middle" class="tiny">reverse / steering penalties</text>
+
+  <path d="M942 185 C942 250, 885 255, 885 300" class="arrow"/>
+  <path d="M780 344 L695 344" class="arrow"/>
+  <path d="M485 344 L400 344" class="arrow"/>
+  <path d="M190 344 C92 344, 80 215, 165 185" class="arrow"/>
+
+  <text x="70" y="492" class="small">The loop stops when the pose tolerance is met or when a collision-free analytic tail reaches the exact goal.</text>
+</svg>

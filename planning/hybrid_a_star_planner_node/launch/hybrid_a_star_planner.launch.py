@@ -33,7 +33,12 @@ def generate_launch_description():
     use_occupancy_grid_arg = DeclareLaunchArgument(
         'use_occupancy_grid',
         default_value='true',
-        description='Use /map occupancy grid when it is available',
+        description='Use an occupancy grid when it is available',
+    )
+    map_topic_arg = DeclareLaunchArgument(
+        'map_topic',
+        default_value='/parking_map',
+        description='OccupancyGrid topic for Hybrid A* collision checking',
     )
     reverse_enabled_arg = DeclareLaunchArgument(
         'reverse_enabled',
@@ -57,6 +62,7 @@ def generate_launch_description():
             {'use_sim_time': LaunchConfiguration('use_sim_time')},
             {'start_pose_source': LaunchConfiguration('start_pose_source')},
             {'use_occupancy_grid': LaunchConfiguration('use_occupancy_grid')},
+            {'map_topic': LaunchConfiguration('map_topic')},
             {'reverse_enabled': LaunchConfiguration('reverse_enabled')},
             {'analytic_expansion_type': LaunchConfiguration('analytic_expansion_type')},
         ],
@@ -67,6 +73,7 @@ def generate_launch_description():
         use_sim_time_arg,
         start_pose_source_arg,
         use_occupancy_grid_arg,
+        map_topic_arg,
         reverse_enabled_arg,
         analytic_expansion_type_arg,
         node,

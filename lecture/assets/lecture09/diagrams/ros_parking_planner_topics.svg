@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5b677a"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .box{rx:8;stroke-width:2}
+      .arrow{stroke:#5b677a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">ROS 2 Topics for the Static Parking Map Planner</text>
+
+  <rect x="55" y="90" width="240" height="86" class="box" fill="#fff5e8" stroke="#e67e22"/>
+  <text x="175" y="122" text-anchor="middle" class="label">parking_map_publisher</text>
+  <text x="175" y="151" text-anchor="middle" class="small">/parking_map</text>
+  <text x="175" y="169" text-anchor="middle" class="tiny">nav_msgs/OccupancyGrid</text>
+
+  <rect x="55" y="220" width="240" height="86" class="box" fill="#e8f1fb" stroke="#4f81bd"/>
+  <text x="175" y="252" text-anchor="middle" class="label">RViz Goal Tool</text>
+  <text x="175" y="281" text-anchor="middle" class="small">/goal_pose</text>
+  <text x="175" y="299" text-anchor="middle" class="tiny">geometry_msgs/PoseStamped</text>
+
+  <rect x="55" y="350" width="240" height="86" class="box" fill="#e8f1fb" stroke="#4f81bd"/>
+  <text x="175" y="382" text-anchor="middle" class="label">Start Pose</text>
+  <text x="175" y="411" text-anchor="middle" class="small">TF or /initialpose</text>
+  <text x="175" y="429" text-anchor="middle" class="tiny">map -> base_footprint</text>
+
+  <rect x="420" y="130" width="280" height="245" class="box" fill="#eaf8ef" stroke="#27ae60"/>
+  <text x="560" y="170" text-anchor="middle" class="label">hybrid_a_star_planner_node</text>
+  <text x="560" y="208" text-anchor="middle" class="small">collision input: /parking_map</text>
+  <text x="560" y="236" text-anchor="middle" class="small">mission input: /goal_pose</text>
+  <text x="560" y="264" text-anchor="middle" class="small">start: TF or /initialpose</text>
+  <text x="560" y="302" text-anchor="middle" class="tiny">Hybrid A* + Reeds-Shepp expansion</text>
+  <text x="560" y="328" text-anchor="middle" class="tiny">publishes path + debug markers</text>
+
+  <rect x="815" y="130" width="240" height="96" class="box" fill="#fff5e8" stroke="#e67e22"/>
+  <text x="935" y="164" text-anchor="middle" class="label">Global Path</text>
+  <text x="935" y="193" text-anchor="middle" class="small">/hybrid_astar/path</text>
+  <text x="935" y="212" text-anchor="middle" class="tiny">nav_msgs/Path</text>
+
+  <rect x="815" y="280" width="240" height="96" class="box" fill="#f0f2f5" stroke="#6b7280"/>
+  <text x="935" y="314" text-anchor="middle" class="label">Debug Markers</text>
+  <text x="935" y="343" text-anchor="middle" class="small">/hybrid_astar/markers</text>
+  <text x="935" y="362" text-anchor="middle" class="tiny">tree, expanded, gear colors</text>
+
+  <path d="M295 133 L420 205" class="arrow"/>
+  <path d="M295 263 L420 250" class="arrow"/>
+  <path d="M295 393 L420 304" class="arrow"/>
+  <path d="M700 190 L815 178" class="arrow"/>
+  <path d="M700 304 L815 328" class="arrow"/>
+
+  <text x="70" y="492" class="small">parking_lines_publisher still publishes /parking_lines/markers, but Hybrid A* collision checking is driven by /parking_map.</text>
+</svg>

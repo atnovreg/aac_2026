@@ -1,0 +1,44 @@
+parking_map_publisher:
+  ros__parameters:
+    # Leave empty to use installed share/parking_map_publisher/data/track_line_export.
+    track_csv_path: ""
+    parking_csv_path: ""
+
+    map_topic: "/parking_map"
+    frame_id: "map"
+    publish_rate: 1.0
+
+    # Must match track_path_publisher / image_match_node map convention.
+    map_x_min: -5.5
+    map_x_max: 5.5
+    map_y_min: -8.0
+    map_y_max: 8.0
+    resolution: 0.05
+    map_swap_xy: true
+    map_flip_x: true
+    map_flip_y: true
+    scale_width_mm: 16000.0
+    scale_height_mm: 11000.0
+
+    # Occupancy values.
+    free_value: 0
+    occupied_value: 100
+    unknown_value: -1
+    unknown_outside_drivable: false
+
+    # Geometry inflation applied while building the static map.
+    parking_hull_margin: 0.35
+    parking_line_obstacle_width: 0.10
+    road_boundary_obstacle_width: 0.08
+    mark_inner_road_boundary_obstacle: false  # track left_line / inner boundary
+    mark_outer_road_boundary_obstacle: true   # track right_line / outer boundary
+    ignored_parking_line_roles:
+      # RViz marker colors:
+      # red boundary, yellow start/slot header-edge, orange entry marking.
+      - "parking_lot_boundary"
+      - "top_slot_header"
+      - "bottom_slot_edge"
+      - "entry_direction_marking"
+
+    # Debug counters in the startup log.
+    log_map_summary: true

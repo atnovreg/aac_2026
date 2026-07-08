@@ -15,6 +15,16 @@ expansion으로 사용합니다. 기본 설정은 `reed_shepp` + reverse search�
 ros2 launch hybrid_a_star_planner_node hybrid_a_star_planner.launch.py use_sim_time:=true
 ```
 
+기본 occupancy 입력은 SLAM Toolbox의 `/map`이 아니라
+`parking_map_publisher`가 발행하는 `/parking_map`이다. 따라서 주차 미션은
+SLAM map이 충분히 확장될 때까지 기다리지 않고, 이미 알고 있는 도로/주차장
+static map으로 바로 시작할 수 있다.
+
+```bash
+ros2 launch parking_map_publisher parking_map_publisher.launch.py use_sim_time:=true
+ros2 launch hybrid_a_star_planner_node hybrid_a_star_planner.launch.py use_sim_time:=true
+```
+
 기본 시작 위치는 TF의 `map -> base_footprint`입니다. TF 없이 RViz의
 `2D Pose Estimate`를 시작점으로 쓰려면 다음처럼 실행합니다.
 
@@ -24,7 +34,7 @@ ros2 launch hybrid_a_star_planner_node hybrid_a_star_planner.launch.py \
   start_pose_source:=initialpose
 ```
 
-현재 `/map`이 없거나 stale map 때문에 goal이 collision으로 거절되면,
+현재 `/parking_map`이 없거나 stale map 때문에 goal이 collision으로 거절되면,
 free-space fallback만 쓰도록 아래처럼 실행할 수 있습니다.
 
 ```bash
@@ -46,12 +56,13 @@ ros2 launch hybrid_a_star_planner_node hybrid_a_star_planner.launch.py \
 
 - 입력: `/goal_pose` (`geometry_msgs/PoseStamped`)
 - 입력: `/initialpose` (`geometry_msgs/PoseWithCovarianceStamped`, 선택)
-- 입력: `/map` (`nav_msgs/OccupancyGrid`, 선택)
+- 입력: `/parking_map` (`nav_msgs/OccupancyGrid`, 선택)
 - 출력: `/hybrid_astar/path` (`nav_msgs/Path`)
 - 출력: `/hybrid_astar/markers` (`visualization_msgs/MarkerArray`)
 
-`/map`이 없으면 `config/hybrid_a_star_planner.yaml`의 fallback bounds 안을
-free space로 보고 계획합니다. 현재 local planner에 바로 연결하려면
+`/parking_map`이 없으면 `config/hybrid_a_star_planner.yaml`의 fallback bounds 안을
+free space로 보고 계획합니다. SLAM map으로 다시 실험하려면
+`map_topic:=/map`을 launch argument로 넘기면 됩니다. 현재 local planner에 바로 연결하려면
 local planner의 `global_path_topic`을 `/hybrid_astar/path`로 바꿔서 쓰면 됩니다.
 
 주의: `nav_msgs/Path`에는 기어/진행방향 필드가 없습니다. Reeds-Shepp path의

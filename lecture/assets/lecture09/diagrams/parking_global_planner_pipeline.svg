@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5b677a"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#263238}
+      .label{font:700 18px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}
+      .tiny{font:13px Arial,sans-serif;fill:#546e7a}
+      .box{rx:8;stroke-width:2}
+      .arrow{stroke:#5b677a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="540" fill="#f7fafc"/>
+  <text x="40" y="52" class="title">Parking Mission Global Path Planner</text>
+
+  <rect x="45" y="115" width="190" height="112" class="box" fill="#e8f1fb" stroke="#4f81bd"/>
+  <text x="140" y="150" text-anchor="middle" class="label">Track Export</text>
+  <text x="140" y="178" text-anchor="middle" class="small">road + parking CSV</text>
+  <text x="140" y="204" text-anchor="middle" class="tiny">track lines, parking lines</text>
+
+  <rect x="292" y="105" width="205" height="132" class="box" fill="#fff5e8" stroke="#e67e22"/>
+  <text x="394" y="140" text-anchor="middle" class="label">Static Parking Map</text>
+  <text x="394" y="169" text-anchor="middle" class="small">parking_map_publisher</text>
+  <text x="394" y="194" text-anchor="middle" class="tiny">/parking_map</text>
+  <text x="394" y="218" text-anchor="middle" class="tiny">OccupancyGrid</text>
+
+  <rect x="565" y="105" width="205" height="132" class="box" fill="#eaf8ef" stroke="#27ae60"/>
+  <text x="667" y="140" text-anchor="middle" class="label">Hybrid A*</text>
+  <text x="667" y="169" text-anchor="middle" class="small">SE(2) global search</text>
+  <text x="667" y="194" text-anchor="middle" class="tiny">motion primitive + collision</text>
+  <text x="667" y="218" text-anchor="middle" class="tiny">Reeds-Shepp expansion</text>
+
+  <rect x="840" y="115" width="220" height="112" class="box" fill="#f0f2f5" stroke="#6b7280"/>
+  <text x="950" y="150" text-anchor="middle" class="label">Global Path</text>
+  <text x="950" y="178" text-anchor="middle" class="small">/hybrid_astar/path</text>
+  <text x="950" y="204" text-anchor="middle" class="tiny">to local planner / controller</text>
+
+  <path d="M235 171 L292 171" class="arrow"/>
+  <path d="M497 171 L565 171" class="arrow"/>
+  <path d="M770 171 L840 171" class="arrow"/>
+
+  <rect x="85" y="315" width="245" height="92" class="box" fill="#ffffff" stroke="#cfd8dc"/>
+  <text x="207" y="347" text-anchor="middle" class="label">RViz Context</text>
+  <text x="207" y="374" text-anchor="middle" class="small">/parking_lines/markers</text>
+  <text x="207" y="397" text-anchor="middle" class="tiny">slot geometry for humans</text>
+
+  <rect x="438" y="315" width="245" height="92" class="box" fill="#ffffff" stroke="#cfd8dc"/>
+  <text x="560" y="347" text-anchor="middle" class="label">Mission Goal</text>
+  <text x="560" y="374" text-anchor="middle" class="small">/goal_pose</text>
+  <text x="560" y="397" text-anchor="middle" class="tiny">x, y, yaw in map frame</text>
+
+  <rect x="792" y="315" width="245" height="92" class="box" fill="#ffffff" stroke="#cfd8dc"/>
+  <text x="914" y="347" text-anchor="middle" class="label">Execution Layer</text>
+  <text x="914" y="374" text-anchor="middle" class="small">local path + tracking</text>
+  <text x="914" y="397" text-anchor="middle" class="tiny">reverse-aware control needed</text>
+
+  <path d="M330 361 L438 361" class="arrow"/>
+  <path d="M683 361 L792 361" class="arrow"/>
+  <text x="50" y="492" class="small">The planner now solves the parking mission against a static /parking_map, while parking-line markers remain visual context.</text>
+</svg>

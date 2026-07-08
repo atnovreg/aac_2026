@@ -158,7 +158,9 @@ ros2 launch aac_vehicle spawn_vehicle.launch.py
 ros2 launch static_tf_tree static_tf_tree.launch.py use_sim_time:=true
 
 # Gazebo 센서로 SLAM Toolbox 실행
-ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true
+ros2 launch aac_vehicle slam_mapping.launch.py \
+  use_sim_time:=true \
+  input_odom_topic:=/odom_gt
 
 # Visual localization 추정값으로 map -> odom 생성
 ros2 launch image_match_node opencv.launch.py use_sim_time:=true
@@ -188,6 +190,23 @@ odometry로 남겨 두지만, origin이 `/odom_gt`와 다를 수 있으므로 �
 원본 `/scan`은 `/scan_lidar`로 복제되며 `frame_id`도 `lidar_link_lidar`로
 변경된다. 따라서 Gazebo 또는 실차가 사용하는 `base_footprint`, `base_link`,
 LiDAR frame을 SLAM Toolbox가 다시 발행하지 않는다.
+
+`slam_mapping.launch.py`는 LiDAR용 odom TF와 scan relay를 먼저 켠 뒤,
+`input_odom_topic`의 첫 `nav_msgs/Odometry` 메시지를 기다렸다가 SLAM Toolbox를
+실행한다. fresh mapping에서 첫 scan pose는 `odom_lidar -> base_footprint_lidar`
+TF의 odometry pose를 사용한다. Gazebo의 `/odom`은 Ignition Ackermann odometry의
+자체 origin 기준이라 차량이 track의 `map` 좌표에서 떨어져 있어도 `(0, 0)` 근처로
+나올 수 있다. 그래서 Gazebo SLAM 기본 입력은 map 기준 pose를 담는 `/odom_gt`로
+둔다. 기본값은 `wait_for_initial_odom:=true`이고, `initial_odom_timeout:=0.0`은
+odom이 올 때까지 계속 기다린다는 뜻이다. 기존 pose graph를 로드하는 경우에는
+같은 첫 odom pose를 `map_start_pose` override로도 넘긴다.
+
+```bash
+ros2 launch aac_vehicle slam_mapping.launch.py \
+  use_sim_time:=true \
+  input_odom_topic:=/odom_gt \
+  wait_for_initial_odom:=true
+```
 
 실차에서는 Gazebo를 실행하지 않고 실제 odometry와 LaserScan 토픽을 지정한다.
 LiDAR 장착 위치는 `static_tf_tree/config/static_tf_tree.yaml`의
