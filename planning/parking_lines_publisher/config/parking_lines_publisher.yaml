@@ -1,0 +1,17 @@
+parking_lines_publisher:
+  ros__parameters:
+    # CSV file or track_line_export directory. Empty uses the installed
+    # share/parking_lines_publisher/data/track_line_export/parking_lot_lines.csv.
+    csv_path: ""
+
+    # Output MarkerArray topic for RViz and downstream inspection.
+    marker_topic: "/parking_lines/markers"
+
+    # Marker frame and publish rate.
+    frame_id: "map"
+    publish_rate: 1.0
+
+    # Visualization style.
+    line_width: 0.06
+    z_offset: 0.08
+    publish_labels: false

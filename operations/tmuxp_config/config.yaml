@@ -20,12 +20,22 @@ windows:
     - shell_command:
       - ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true
     - shell_command:
-      - ros2 launch track_path_publisher track_path_publisher.launch.py
-    - shell_command:
       - ros2 launch local_path_planner_node local_path_planner.launch.py
     - shell_command:
       - ros2 launch stanley_node stanley.launch.py
     - shell_command:
       - ros2 launch frenet_local_planning_node frenet_local_planning.launch.py 
+
+  - window_name: TrackLines
+    layout: tiled
+    shell_command_before:
+      - source /opt/ros/humble/setup.bash
+      - source /ros_ws/install/setup.bash
+      - cd /ros_ws/src/aac_2026
+    panes:
+    - shell_command:
+      - ros2 launch track_path_publisher track_path_publisher.launch.py
+    - shell_command:
+      - ros2 launch parking_lines_publisher parking_lines_publisher.launch.py use_sim_time:=true
     - shell_command:
       - exec rviz2 -d /ros_ws/src/aac_2026/rviz/planner.rviz

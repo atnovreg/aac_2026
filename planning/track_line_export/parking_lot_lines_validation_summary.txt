@@ -1,0 +1,21 @@
+rows: 18
+line_id_unique: 18
+line_id_min: 0
+line_id_max: 17
+any_nan: False
+orientation_counts:
+  horizontal: 3
+  vertical: 15
+line_role_counts:
+  bottom_slot_edge: 2
+  bottom_slot_separator: 5
+  entry_direction_marking: 1
+  parking_lot_boundary: 3
+  right_approach_marking: 1
+  top_slot_header: 1
+  top_slot_separator: 5
+world_bounds_m:
+  x_min: -3.312500
+  x_max: 3.333333
+  y_min: -5.568207
+  y_max: 5.420665
