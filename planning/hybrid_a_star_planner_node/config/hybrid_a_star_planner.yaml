@@ -1,0 +1,66 @@
+hybrid_a_star_planner_node:
+  ros__parameters:
+    # Frames. The default start pose is read from TF: global_frame -> base_frame.
+    global_frame: "map"
+    base_frame: "base_footprint"
+    start_pose_source: "tf"  # tf, initialpose, or auto
+
+    # RViz-compatible inputs.
+    goal_topic: "/goal_pose"
+    initial_pose_topic: "/initialpose"
+    map_topic: "/map"
+
+    # Outputs.
+    path_topic: "/hybrid_astar/path"
+    marker_topic: "/hybrid_astar/markers"
+
+    # If /map is not available, the planner falls back to these free-space bounds.
+    use_occupancy_grid: true
+    allow_unknown: true
+    occupied_threshold: 50
+    map_x_min: -5.5
+    map_x_max: 5.5
+    map_y_min: -8.0
+    map_y_max: 8.0
+    fallback_resolution: 0.20
+
+    # Vehicle/search model. Defaults are tuned for low-speed parking maneuvers.
+    step_size: 0.28
+    wheel_base: 0.80
+    max_steering_angle: 0.52
+    steering_sample_count: 9
+    heading_bins: 96
+    reverse_enabled: true
+
+    # Collision checking. collision_radius is a conservative circular footprint.
+    collision_radius: 0.35
+    collision_check_step: 0.08
+
+    # Goal acceptance and analytic connection near the goal.
+    # analytic_expansion_type: none, straight, dubins, reed_shepp, or auto.
+    goal_xy_tolerance: 0.20
+    goal_yaw_tolerance: 0.25
+    analytic_expansion_type: "reed_shepp"
+    analytic_expansion_distance: 4.0
+    analytic_expansion_yaw_tolerance: 3.15
+    analytic_expansion_max_length: 8.0
+    analytic_curve_sample_distance: 0.08
+    minimum_turning_radius: 0.0  # 0.0 means wheel_base / tan(max_steering_angle)
+
+    # Search cost tuning.
+    max_iterations: 50000
+    reverse_penalty: 1.25
+    direction_change_penalty: 0.50
+    steering_penalty: 0.05
+    steering_change_penalty: 0.15
+    heuristic_weight: 1.15
+    yaw_heuristic_weight: 0.15
+
+    # Output density and RViz diagnostics.
+    path_interpolation_distance: 0.10
+    publish_markers: true
+    publish_debug_markers: true
+    max_debug_points: 3000
+    max_debug_edges: 3000
+
+    transform_timeout: 0.2

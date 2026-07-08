@@ -20,6 +20,8 @@ Panels:
         - /Marker1
         - /Marker1/Topic1
         - /Path5
+        - /MarkerArray2
+        - /MarkerArray2/Status1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz_common/Selection
@@ -161,7 +163,7 @@ Visualization Manager:
           Color: 204; 51; 204
           Scale: 1
           Value: true
-        Value: true
+        Value: false
       Enabled: true
       Keep: 100
       Name: Odometry
@@ -190,6 +192,52 @@ Visualization Manager:
       Name: Axes
       Radius: 0.10000000149011612
       Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz_default_plugins/Path
+      Color: 0; 255; 90
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Billboards
+      Line Width: 0.11999999731779099
+      Name: Hybrid A* Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 0; 255; 90
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /hybrid_astar/path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Hybrid A* Markers
+      Namespaces:
+        hybrid_astar_expanded: true
+        hybrid_astar_forward_segments: true
+        hybrid_astar_goal: true
+        hybrid_astar_path: true
+        hybrid_astar_reverse_segments: true
+        hybrid_astar_start: true
+        hybrid_astar_tree: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /hybrid_astar/markers
       Value: true
     - Alpha: 1
       Buffer Length: 1
@@ -282,7 +330,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz_default_plugins/MarkerArray
-      Enabled: true
+      Enabled: false
       Name: MarkerArray
       Namespaces:
         {}
@@ -292,7 +340,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /pure_pursuit/curvature_markers
-      Value: true
+      Value: false
     - Class: rviz_default_plugins/Marker
       Enabled: true
       Name: Marker
@@ -333,6 +381,21 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /frenet/map_visualization/optimal_path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        mppi_best_sampled: true
+        mppi_diagnostics: true
+        mppi_optimal: true
+        mppi_rollouts: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /mppi/trajectory_markers
       Value: true
   Enabled: true
   Global Options:
@@ -380,16 +443,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 13.189311981201172
+      Distance: 5.531928062438965
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 4.1722917556762695
-        Y: 2.757484197616577
-        Z: -0.8771721720695496
+        X: 2.24899959564209
+        Y: -5.721131324768066
+        Z: -0.8657256364822388
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -398,7 +461,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.346744537353516
+      Yaw: 2.9885623455047607
     Saved: ~
 Window Geometry:
   Displays:

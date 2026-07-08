@@ -19,6 +19,11 @@ def generate_launch_description():
         default_value=default_config,
         description='Path to frenet_local_planning_node config YAML',
     )
+    use_sim_time_arg = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='false',
+        description='Use simulation time',
+    )
 
     node = Node(
         package='frenet_local_planning_node',
@@ -26,7 +31,10 @@ def generate_launch_description():
         name='frenet_local_planning_node',
         output='screen',
         emulate_tty=True,
-        parameters=[LaunchConfiguration('config')],
+        parameters=[
+            LaunchConfiguration('config'),
+            {'use_sim_time': LaunchConfiguration('use_sim_time')},
+        ],
     )
 
-    return LaunchDescription([config_arg, node])
+    return LaunchDescription([config_arg, use_sim_time_arg, node])

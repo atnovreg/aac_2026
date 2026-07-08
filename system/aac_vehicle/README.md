@@ -154,7 +154,7 @@ L: 휠베이스, W: 트랙 폭, r: 휠 반지름
 # Ignition Gazebo + 차량 스폰 + 브릿지 + vehicle_state_publisher
 ros2 launch aac_vehicle spawn_vehicle.launch.py
 
-# map -> odom 및 센서 고정 TF
+# Gazebo map 기준 TF 및 센서 고정 TF
 ros2 launch static_tf_tree static_tf_tree.launch.py use_sim_time:=true
 
 # Gazebo 센서로 SLAM Toolbox 실행
@@ -173,14 +173,17 @@ ros2 topic pub /ackermann_drive ackermann_msgs/msg/AckermannDriveStamped \
 SLAM은 차량의 기본 TF와 충돌하지 않도록 별도 트리를 사용한다.
 
 ```text
-map -> odom -> base_footprint
+map -> base_footprint
+map -> odom
 map -> odom_lidar -> base_footprint_lidar -> lidar_link_lidar
 ```
 
-첫 번째 branch의 `map -> odom`은 현재 실험에서 `static_tf_tree`가 identity
-고정 TF로 발행한다. `odom -> base_footprint`은 로컬 odometry를 사용한다.
-두 번째 branch는 LiDAR SLAM 결과를 비교하거나 보조 odometry로 사용할 수
-있도록 분리되어 있다.
+Gazebo 주행 시 `map -> base_footprint`는 `/odom_gt`에서 만들어진다. 이렇게
+해야 `local_path_planner_node`가 사용하는 map 좌표와 RViz에서 MPPI/Frenet
+body-frame 시각화를 놓는 좌표가 일치한다. `/odom`은 Ignition Ackermann
+odometry로 남겨 두지만, origin이 `/odom_gt`와 다를 수 있으므로 기본 RViz
+차량 TF에는 사용하지 않는다. `map -> odom`은 아직 static identity fallback으로
+남아 있고, LiDAR SLAM branch는 비교 또는 보조 odometry 용도로 분리되어 있다.
 
 원본 `/scan`은 `/scan_lidar`로 복제되며 `frame_id`도 `lidar_link_lidar`로
 변경된다. 따라서 Gazebo 또는 실차가 사용하는 `base_footprint`, `base_link`,
@@ -229,5 +232,9 @@ ros2 launch aac_vehicle slam_mapping.launch.py \
         ↓ ros_gz_bridge (/gazebo/dynamic_pose)
   gazebo_ground_truth_publisher
         ↓
-  /odom_gt (map → base_link_gt)
+  /odom_gt (map → base_footprint)
+        ↓
+  gazebo_odom_tf_publisher
+        ↓
+  TF: map → base_footprint
 ```

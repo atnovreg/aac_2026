@@ -84,6 +84,8 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
+            # Gazebo simulation clock. Nodes with use_sim_time:=true depend on this.
+            '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
             # Vehicle control & state
             '/ackermann_cmd@geometry_msgs/msg/Twist]ignition.msgs.Twist',
             '/model/aac_vehicle/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
@@ -133,16 +135,17 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Only publish local wheel odometry here. map -> odom must come from the
-    # navigation localization estimate, just as it will on the real vehicle.
+    # Keep the simulation TF tree in the same map frame used by /odom_gt and the
+    # map-based planners. The bridged /odom topic has a different origin in
+    # Ignition, which makes RViz markers appear shifted away from the vehicle.
     gazebo_odom_tf = Node(
         package='aac_vehicle',
         executable='odom_tf_publisher',
         name='gazebo_odom_tf_publisher',
         parameters=[{
             'use_sim_time': use_sim_time,
-            'input_topic': '/odom',
-            'odom_frame': 'odom',
+            'input_topic': '/odom_gt',
+            'odom_frame': 'map',
             'base_frame': 'base_footprint',
         }],
         output='screen',

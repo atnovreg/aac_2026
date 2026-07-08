@@ -1,0 +1,82 @@
+mppi_planner_node:
+  ros__parameters:
+    tuning_profile: "early"
+
+    # Input: body-frame local path from local_path_planner_node
+    local_path_topic: "/local_path/body"
+
+    # Output: autonomous command consumed by joy_control_node
+    command_topic: "/ackermann_auto"
+    command_frame: "base_footprint"
+
+    # Debug outputs in the local path frame
+    trajectory_topic: "/mppi/optimal_trajectory"
+    marker_topic: "/mppi/trajectory_markers"
+    debug_topic: "/mppi/debug_status"
+
+    # Runtime
+    update_rate: 30.0
+    path_timeout: 0.5
+    random_seed: 7
+
+    # Kinematic bicycle rollout
+    wheel_base: 0.80
+    time_step: 0.08
+    horizon_steps: 32
+    batch_size: 320
+    iteration_count: 2
+
+    # Command bounds
+    target_speed: 0.9
+    min_speed: 0.0
+    tracking_min_command_speed: 0.25
+    max_speed: 1.1
+    max_steering_angle: 0.524
+    max_accel: 1.5
+    max_steering_rate: 4.0
+
+    # Sampling noise
+    speed_noise_std: 0.30
+    steering_noise_std: 0.40
+    temperature: 0.45
+
+    # Cost terms tuned to steer earlier into corners
+    path_distance_weight: 9.5
+    heading_weight: 3.5
+    heading_lookahead_distance: 1.5
+    heading_lookahead_weight: 3.0
+    steering_feedforward_lookahead_distance: 1.4
+    steering_feedforward_weight: 0.25
+    steering_feedforward_command_gain: 0.20
+    curvature_lookahead_distance: 1.8
+    curvature_speed_weight: 1.2
+    curvature_speed_gain: 1.0
+    curvature_min_speed: 0.45
+    lateral_accel_limit: 0.45
+    use_lateral_accel_speed_limit: true
+    use_corner_speed_as_speed_target: true
+    limit_command_speed_to_corner: true
+    corner_speed_margin: 0.05
+    terminal_distance_weight: 16.0
+    terminal_heading_weight: 6.0
+    speed_weight: 0.30
+    steering_weight: 0.04
+    steering_rate_weight: 0.08
+    accel_weight: 0.08
+    progress_weight: 0.5
+
+    # Path filtering
+    min_path_points: 2
+    min_path_segment_length: 0.02
+    min_path_forward_x: -0.30
+
+    # RViz visualization
+    visualize_markers: true
+    visualize_rollouts: true
+    publish_debug_status: true
+    max_visualized_rollouts: 48
+    rollout_visualization_stride: 6
+    marker_line_width: 0.045
+    rollout_line_width: 0.018
+    rollout_alpha: 0.22
+    marker_height: 0.05
