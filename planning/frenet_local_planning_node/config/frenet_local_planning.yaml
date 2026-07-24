@@ -6,10 +6,13 @@ frenet_local_planning_node:
     # Input: vehicle pose in map frame used only for map visualization outputs.
     odom_topic: "/odom_gt" #SHOULD BE CHANGED TO /odom_estimated WHEN USING REAL VEHICLE
 
+    # Input: obstacle scan. Points are transformed into the local path frame.
+    scan_topic: "/scan"
+
     # Output: all generated Frenet motion primitives with lightweight costs.
     motion_primitives_topic: "/frenet/motion_primitives"
 
-    # Output: minimum-cost primitive selected without obstacle/costmap terms.
+    # Output: minimum-cost collision-free primitive.
     optimal_path_topic: "/frenet/optimal_path"
 
     # RViz/debug outputs.
@@ -54,6 +57,29 @@ frenet_local_planning_node:
 
     # Longitudinal speed used for spatial sampling [m/s].
     planning_speed_mps: 1.5
+
+    # Gaussian obstacle potential exp(-clearance^2 / (2 * psi^2)).
+    require_scan_for_planning: true
+    obstacle_psi: 0.45
+    obstacle_influence_distance: 1.20
+    robot_collision_radius: 0.34
+    collision_penalty: 1000.0
+    scan_timeout: 0.50
+    obstacle_max_range: 4.0
+    obstacle_min_x: -0.30
+    scan_stride: 2
+
+    # Raw-scan self return filter, applied after transforming to the body frame.
+    self_filter_min_x: -0.35
+    self_filter_max_x: 0.35
+    self_filter_half_width: 0.28
+
+    # Total path score weights.
+    obstacle_cost_weight: 50.0
+    reference_cost_weight: 1.0
+    curvature_cost_weight: 0.10
+    transient_cost_weight: 3.0
+    origin_cost_weight: 0.10
 
     # Optional x offset applied only to the debug point cloud.
     visualization_x_offset: 0.0

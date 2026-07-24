@@ -11,6 +11,7 @@
 #include <tuple>
 
 #include "frenet_utils.h"
+#include "tf2/exceptions.h"
 
 using namespace std::chrono_literals;
 
@@ -25,6 +26,9 @@ FrenetLocalPlanning::FrenetLocalPlanning(const std::string &node_name)
 {
   getParams();
 
+  tf_buffer_ = std::make_unique<tf2_ros::Buffer>(get_clock());
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+
   local_path_sub_ = create_subscription<nav_msgs::msg::Path>(
       local_path_topic_, rclcpp::SensorDataQoS(),
       std::bind(&FrenetLocalPlanning::localPathCallback, this, std::placeholders::_1));
@@ -33,6 +37,9 @@ FrenetLocalPlanning::FrenetLocalPlanning(const std::string &node_name)
         odom_topic_, rclcpp::SensorDataQoS(),
         std::bind(&FrenetLocalPlanning::odomCallback, this, std::placeholders::_1));
   }
+  scan_sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
+      scan_topic_, rclcpp::SensorDataQoS(),
+      std::bind(&FrenetLocalPlanning::scanCallback, this, std::placeholders::_1));
 
   motion_primitives_pub_ =
       create_publisher<aac_msgs::msg::PathWithCostArray>(motion_primitives_topic_, 10);
@@ -63,6 +70,7 @@ void FrenetLocalPlanning::getParams()
 {
   declare_parameter<std::string>("local_path_topic", "/local_path/body");
   declare_parameter<std::string>("odom_topic", "/odom_gt");
+  declare_parameter<std::string>("scan_topic", "/scan");
   declare_parameter<std::string>("motion_primitives_topic", "/frenet/motion_primitives");
   declare_parameter<std::string>("optimal_path_topic", "/frenet/optimal_path");
   declare_parameter<std::string>("candidate_cloud_topic", "/frenet/candidate_cloud");
@@ -90,9 +98,27 @@ void FrenetLocalPlanning::getParams()
   declare_parameter<double>("prediction_time_step", 0.2);
   declare_parameter<double>("planning_speed_mps", 1.5);
   declare_parameter<double>("visualization_x_offset", 0.0);
+  declare_parameter<bool>("require_scan_for_planning", true);
+  declare_parameter<double>("obstacle_psi", 0.45);
+  declare_parameter<double>("obstacle_influence_distance", 1.20);
+  declare_parameter<double>("robot_collision_radius", 0.34);
+  declare_parameter<double>("collision_penalty", 1000.0);
+  declare_parameter<double>("scan_timeout", 0.50);
+  declare_parameter<double>("obstacle_max_range", 4.0);
+  declare_parameter<double>("obstacle_min_x", -0.30);
+  declare_parameter<int>("scan_stride", 2);
+  declare_parameter<double>("self_filter_min_x", -0.35);
+  declare_parameter<double>("self_filter_max_x", 0.35);
+  declare_parameter<double>("self_filter_half_width", 0.28);
+  declare_parameter<double>("obstacle_cost_weight", 50.0);
+  declare_parameter<double>("reference_cost_weight", 1.0);
+  declare_parameter<double>("curvature_cost_weight", 0.10);
+  declare_parameter<double>("transient_cost_weight", 2.0);
+  declare_parameter<double>("origin_cost_weight", 0.10);
 
   local_path_topic_ = get_parameter("local_path_topic").as_string();
   odom_topic_ = get_parameter("odom_topic").as_string();
+  scan_topic_ = get_parameter("scan_topic").as_string();
   motion_primitives_topic_ = get_parameter("motion_primitives_topic").as_string();
   optimal_path_topic_ = get_parameter("optimal_path_topic").as_string();
   candidate_cloud_topic_ = get_parameter("candidate_cloud_topic").as_string();
@@ -122,6 +148,31 @@ void FrenetLocalPlanning::getParams()
   prediction_time_step_ = std::max(1.0e-3, get_parameter("prediction_time_step").as_double());
   planning_speed_mps_ = std::max(0.05, get_parameter("planning_speed_mps").as_double());
   visualization_x_offset_ = get_parameter("visualization_x_offset").as_double();
+  require_scan_for_planning_ = get_parameter("require_scan_for_planning").as_bool();
+  obstacle_psi_ = std::max(1.0e-3, get_parameter("obstacle_psi").as_double());
+  obstacle_influence_distance_ =
+      std::max(obstacle_psi_, get_parameter("obstacle_influence_distance").as_double());
+  robot_collision_radius_ =
+      std::max(0.0, get_parameter("robot_collision_radius").as_double());
+  collision_penalty_ = std::max(1.0, get_parameter("collision_penalty").as_double());
+  scan_timeout_ = std::max(0.05, get_parameter("scan_timeout").as_double());
+  obstacle_max_range_ = std::max(0.1, get_parameter("obstacle_max_range").as_double());
+  obstacle_min_x_ = get_parameter("obstacle_min_x").as_double();
+  scan_stride_ = std::max(1, static_cast<int>(get_parameter("scan_stride").as_int()));
+  self_filter_min_x_ = get_parameter("self_filter_min_x").as_double();
+  self_filter_max_x_ = get_parameter("self_filter_max_x").as_double();
+  self_filter_half_width_ =
+      std::max(0.0, get_parameter("self_filter_half_width").as_double());
+  obstacle_cost_weight_ =
+      std::max(0.0, get_parameter("obstacle_cost_weight").as_double());
+  reference_cost_weight_ =
+      std::max(0.0, get_parameter("reference_cost_weight").as_double());
+  curvature_cost_weight_ =
+      std::max(0.0, get_parameter("curvature_cost_weight").as_double());
+  transient_cost_weight_ =
+      std::max(0.0, get_parameter("transient_cost_weight").as_double());
+  origin_cost_weight_ =
+      std::max(0.0, get_parameter("origin_cost_weight").as_double());
 
   if (left_width_margin_ > right_width_margin_) {
     std::swap(left_width_margin_, right_width_margin_);
@@ -143,6 +194,13 @@ void FrenetLocalPlanning::odomCallback(const nav_msgs::msg::Odometry::SharedPtr 
   std::lock_guard<std::mutex> lock(odom_mutex_);
   latest_odom_ = *msg;
   has_odom_ = true;
+}
+
+void FrenetLocalPlanning::scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
+{
+  std::lock_guard<std::mutex> lock(scan_mutex_);
+  latest_scan_ = *msg;
+  has_scan_ = true;
 }
 
 void FrenetLocalPlanning::publishCachedMapVisualization()
@@ -216,6 +274,15 @@ void FrenetLocalPlanning::timerCallback()
     header.frame_id = fallback_frame_id_;
   }
 
+  std::vector<geometry_msgs::msg::Point> obstacles;
+  if (!makeObstaclePoints(header.frame_id, obstacles) && require_scan_for_planning_) {
+    nav_msgs::msg::Path empty_path;
+    empty_path.header = header;
+    optimal_path_pub_->publish(empty_path);
+    publishCachedMapVisualization();
+    return;
+  }
+
   const auto reference_boundary = makeReferenceBoundary(local_x, local_y, header);
 
   std::vector<FrenetPathPtr> frenet_paths;
@@ -240,6 +307,8 @@ void FrenetLocalPlanning::timerCallback()
   path_array.motion_primitives.reserve(frenet_paths.size());
 
   double best_score = std::numeric_limits<double>::infinity();
+  double best_lateral = 0.0;
+  double best_obstacle_cost = 0.0;
   nav_msgs::msg::Path best_path;
   bool has_best_path = false;
 
@@ -249,11 +318,17 @@ void FrenetLocalPlanning::timerCallback()
       continue;
     }
 
-    auto path_with_cost = makePathWithCost(*frenet_path, header, index);
+    auto path_with_cost = makePathWithCost(*frenet_path, header, index, obstacles);
     const double score = pathScore(path_with_cost);
-    if (score < best_score) {
+    const bool in_collision =
+        path_with_cost.collision_cost.data >= collision_penalty_;
+    if (!in_collision && score < best_score) {
       best_score = score;
       best_path = path_with_cost.primitive;
+      best_lateral = frenet_path->points_d().empty()
+                         ? 0.0
+                         : frenet_path->points_d().back();
+      best_obstacle_cost = path_with_cost.collision_cost.data;
       has_best_path = true;
     }
     path_array.motion_primitives.push_back(path_with_cost);
@@ -265,6 +340,20 @@ void FrenetLocalPlanning::timerCallback()
   reference_boundary_pub_->publish(reference_boundary);
   if (has_best_path) {
     optimal_path_pub_->publish(best_path);
+    last_selected_lateral_ = best_lateral;
+    has_last_selected_lateral_ = true;
+    RCLCPP_INFO_THROTTLE(
+        get_logger(), *get_clock(), 1000,
+        "Selected Frenet path: lateral=%.2f m, obstacle_potential=%.3f, score=%.2f",
+        best_lateral, best_obstacle_cost, best_score);
+  } else {
+    nav_msgs::msg::Path empty_path;
+    empty_path.header = header;
+    optimal_path_pub_->publish(empty_path);
+    RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 1000,
+        "All %zu Frenet candidates are in collision; publishing an empty path",
+        path_array.motion_primitives.size());
   }
 
   if (publish_map_visualization_) {
@@ -439,20 +528,178 @@ geometry_msgs::msg::PolygonStamped FrenetLocalPlanning::makeReferenceBoundary(
   return boundary;
 }
 
+bool FrenetLocalPlanning::makeObstaclePoints(
+    const std::string &target_frame,
+    std::vector<geometry_msgs::msg::Point> &obstacles)
+{
+  obstacles.clear();
+
+  sensor_msgs::msg::LaserScan scan;
+  {
+    std::lock_guard<std::mutex> lock(scan_mutex_);
+    if (!has_scan_) {
+      RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Waiting for obstacle LaserScan on %s", scan_topic_.c_str());
+      return false;
+    }
+    scan = latest_scan_;
+  }
+
+  const rclcpp::Time scan_stamp(scan.header.stamp);
+  if (scan_stamp.nanoseconds() > 0) {
+    const double age = (now() - scan_stamp).seconds();
+    if (age > scan_timeout_ || age < -0.1) {
+      RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Obstacle scan is stale (age %.2f s, limit %.2f s)", age, scan_timeout_);
+      return false;
+    }
+  }
+
+  geometry_msgs::msg::TransformStamped transform;
+  try {
+    transform = tf_buffer_->lookupTransform(
+        target_frame, scan.header.frame_id, tf2::TimePointZero);
+  } catch (const tf2::TransformException &error) {
+    RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Cannot transform obstacle scan from %s to %s: %s",
+        scan.header.frame_id.c_str(), target_frame.c_str(), error.what());
+    return false;
+  }
+
+  const double transform_yaw = yawFromQuaternion(transform.transform.rotation);
+  const double cos_yaw = std::cos(transform_yaw);
+  const double sin_yaw = std::sin(transform_yaw);
+  const double tx = transform.transform.translation.x;
+  const double ty = transform.transform.translation.y;
+
+  obstacles.reserve(scan.ranges.size() / static_cast<std::size_t>(scan_stride_) + 1);
+  for (std::size_t i = 0; i < scan.ranges.size();
+       i += static_cast<std::size_t>(scan_stride_)) {
+    const double range = static_cast<double>(scan.ranges[i]);
+    if (!std::isfinite(range) || range < static_cast<double>(scan.range_min) ||
+        range > static_cast<double>(scan.range_max) || range > obstacle_max_range_) {
+      continue;
+    }
+
+    const double angle = static_cast<double>(scan.angle_min) +
+                         static_cast<double>(i) * static_cast<double>(scan.angle_increment);
+    const double scan_x = range * std::cos(angle);
+    const double scan_y = range * std::sin(angle);
+
+    geometry_msgs::msg::Point point;
+    point.x = tx + cos_yaw * scan_x - sin_yaw * scan_y;
+    point.y = ty + sin_yaw * scan_x + cos_yaw * scan_y;
+    point.z = 0.0;
+
+    const bool is_robot_self_return =
+        point.x >= self_filter_min_x_ && point.x <= self_filter_max_x_ &&
+        std::abs(point.y) <= self_filter_half_width_;
+    if (is_robot_self_return || point.x < obstacle_min_x_) {
+      continue;
+    }
+    obstacles.push_back(point);
+  }
+
+  RCLCPP_DEBUG_THROTTLE(
+      get_logger(), *get_clock(), 1000,
+      "Using %zu transformed LaserScan obstacle points", obstacles.size());
+  return true;
+}
+
+double FrenetLocalPlanning::obstaclePotentialCost(
+    const FrenetPath &frenet_path,
+    const std::vector<geometry_msgs::msg::Point> &obstacles,
+    bool &in_collision,
+    double &minimum_clearance) const
+{
+  in_collision = false;
+  minimum_clearance = std::numeric_limits<double>::infinity();
+
+  const auto &points_x = frenet_path.points_x();
+  const auto &points_y = frenet_path.points_y();
+  const std::size_t path_size = std::min(points_x.size(), points_y.size());
+  if (path_size == 0 || obstacles.empty()) {
+    return 0.0;
+  }
+
+  double minimum_distance_squared = std::numeric_limits<double>::infinity();
+  for (const auto &obstacle : obstacles) {
+    if (path_size == 1) {
+      const double dx = obstacle.x - points_x.front();
+      const double dy = obstacle.y - points_y.front();
+      minimum_distance_squared =
+          std::min(minimum_distance_squared, dx * dx + dy * dy);
+      continue;
+    }
+
+    for (std::size_t i = 1; i < path_size; ++i) {
+      const double x0 = points_x[i - 1];
+      const double y0 = points_y[i - 1];
+      const double segment_x = points_x[i] - x0;
+      const double segment_y = points_y[i] - y0;
+      const double segment_length_squared =
+          segment_x * segment_x + segment_y * segment_y;
+
+      double ratio = 0.0;
+      if (segment_length_squared > 1.0e-9) {
+        ratio = ((obstacle.x - x0) * segment_x +
+                 (obstacle.y - y0) * segment_y) /
+                segment_length_squared;
+        ratio = std::clamp(ratio, 0.0, 1.0);
+      }
+      const double closest_x = x0 + ratio * segment_x;
+      const double closest_y = y0 + ratio * segment_y;
+      const double dx = obstacle.x - closest_x;
+      const double dy = obstacle.y - closest_y;
+      minimum_distance_squared =
+          std::min(minimum_distance_squared, dx * dx + dy * dy);
+    }
+  }
+
+  if (!std::isfinite(minimum_distance_squared)) {
+    return 0.0;
+  }
+
+  minimum_clearance =
+      std::sqrt(minimum_distance_squared) - robot_collision_radius_;
+  if (minimum_clearance <= 0.0) {
+    in_collision = true;
+    return collision_penalty_;
+  }
+  if (minimum_clearance >= obstacle_influence_distance_) {
+    return 0.0;
+  }
+
+  const double normalized_clearance = minimum_clearance / obstacle_psi_;
+  return std::exp(-0.5 * normalized_clearance * normalized_clearance);
+}
+
 aac_msgs::msg::PathWithCost
-FrenetLocalPlanning::makePathWithCost(const FrenetPath &frenet_path,
-                                      const std_msgs::msg::Header &header,
-                                      int index) const
+FrenetLocalPlanning::makePathWithCost(
+    const FrenetPath &frenet_path,
+    const std_msgs::msg::Header &header,
+    int index,
+    const std::vector<geometry_msgs::msg::Point> &obstacles) const
 {
   aac_msgs::msg::PathWithCost path_with_cost;
   path_with_cost.header = header;
   path_with_cost.primitive = makeRosPath(frenet_path, header);
   path_with_cost.idx.data = index;
-  path_with_cost.collision_cost.data = 0.0;
+  bool in_collision = false;
+  double minimum_clearance = std::numeric_limits<double>::infinity();
+  path_with_cost.collision_cost.data = obstaclePotentialCost(
+      frenet_path, obstacles, in_collision, minimum_clearance);
   path_with_cost.close_to_ref_path_cost.data =
       frenet_path.points_d().empty() ? 0.0 : std::abs(frenet_path.points_d().back());
   path_with_cost.curvature_cost.data = maxAbsCurvature(frenet_path);
-  path_with_cost.transient_cost.data = 0.0;
+  const double candidate_lateral =
+      frenet_path.points_d().empty() ? 0.0 : frenet_path.points_d().back();
+  const double lateral_change = candidate_lateral - last_selected_lateral_;
+  path_with_cost.transient_cost.data =
+      has_last_selected_lateral_ ? lateral_change * lateral_change : 0.0;
   path_with_cost.origin_to_path_cost.data = minDistanceToOrigin(frenet_path);
   return path_with_cost;
 }
@@ -712,11 +959,12 @@ double FrenetLocalPlanning::minDistanceToOrigin(const FrenetPath &frenet_path)
   return std::isfinite(min_dist) ? min_dist : 0.0;
 }
 
-double FrenetLocalPlanning::pathScore(const aac_msgs::msg::PathWithCost &path_with_cost)
+double FrenetLocalPlanning::pathScore(
+    const aac_msgs::msg::PathWithCost &path_with_cost) const
 {
-  return path_with_cost.collision_cost.data * 10.0 +
-         path_with_cost.close_to_ref_path_cost.data +
-         path_with_cost.curvature_cost.data * 0.5 +
-         path_with_cost.origin_to_path_cost.data * 0.1 +
-         path_with_cost.transient_cost.data;
+  return path_with_cost.collision_cost.data * obstacle_cost_weight_ +
+         path_with_cost.close_to_ref_path_cost.data * reference_cost_weight_ +
+         path_with_cost.curvature_cost.data * curvature_cost_weight_ +
+         path_with_cost.origin_to_path_cost.data * origin_cost_weight_ +
+         path_with_cost.transient_cost.data * transient_cost_weight_;
 }

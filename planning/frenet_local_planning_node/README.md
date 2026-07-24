@@ -9,6 +9,7 @@ Input:
 
 - `/local_path/body` (`nav_msgs/msg/Path`)
 - `/odom_gt` (`nav_msgs/msg/Odometry`, visualization only)
+- `/scan` (`sensor_msgs/msg/LaserScan`, obstacle scoring)
 
 Outputs:
 
@@ -21,8 +22,16 @@ Outputs:
 - `/frenet/map_visualization/reference_boundary` (`geometry_msgs/msg/PolygonStamped`)
 
 The node samples Frenet lateral candidates around the incoming local path,
-assigns lightweight cost values, and publishes the minimum-cost candidate.
-Obstacle/costmap terms are not included yet; `collision_cost` is set to `0.0`.
+transforms LaserScan returns into the path frame, and publishes the lowest-cost
+collision-free candidate. `collision_cost` is a continuous Gaussian potential:
+
+```text
+exp(-clearance^2 / (2 * obstacle_psi^2))
+```
+
+Candidates inside `robot_collision_radius` are rejected. If every candidate is
+blocked, the node publishes an empty optimal path so the downstream controller
+stops instead of following a stale path.
 
 The `map_visualization` topics are RViz-only outputs. They transform the
 body-frame candidate coordinates into the configured visualization frame using
@@ -47,6 +56,12 @@ Key parameters:
 
 - `local_path_topic`: input local path, default `/local_path/body`
 - `odom_topic`: vehicle pose used for map visualization, default `/odom_gt`
+- `scan_topic`: obstacle LaserScan, default `/scan`
+- `obstacle_psi`: width of the smooth obstacle potential [m]
+- `obstacle_influence_distance`: clearance beyond which obstacle cost is zero [m]
+- `robot_collision_radius`: circular robot footprint used for rejection [m]
+- `obstacle_cost_weight`: obstacle potential weight in the total path score
+- `transient_cost_weight`: discourages rapid left/right candidate switching
 - `parallel_path_count`: number of parallel reference paths
 - `parallel_scale`: lateral span for parallel references [m]
 - `left_width_margin`, `right_width_margin`, `width_delta`: Frenet lateral samples [m]
