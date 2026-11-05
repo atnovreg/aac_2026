@@ -1,0 +1,40 @@
+This directory contains a Python/CasADi/acados adaptation of the ORCA MPCC
+model and objective from alexliniger/MPCC:
+https://github.com/alexliniger/MPCC
+Original commit: 207a38999d83bc038213813c3928523fc39610d9
+
+Original source-file attribution:
+Copyright (C) 2018, ETH Zurich, D-ITET,
+Kenneth Kuchera and Alexander Liniger.
+Original repository LICENSE attribution:
+Copyright 2019 Alexander Liniger.
+The accompanying LICENSE is the original Apache License, Version 2.0.
+This NOTICE was added by this adaptation; the upstream checkout has no NOTICE.
+
+Original files used for the port and comparison:
+  Matlab/SimTimeStep.m
+  Matlab/getModelParams.m
+  Matlab/getMPC_vars.m
+  Matlab/getMPCmatrices.m
+  Matlab/augState.m
+  Matlab/DiscretizedLinearizedModel.m
+  Matlab/borderAdjustment.m
+  Matlab/getNewBorders.m
+  Matlab/optimizer_mpcc.m
+  Matlab/simulation.m
+
+Adapted files created in this workspace on 2026-09-10:
+  model.py: Python and CasADi forms of the ORCA ODE and original parameters;
+    adds fixed-step RK4 integration.
+  controller.py: acados optimal-control formulation preserving contour/lag,
+    input/increment and progress objective semantics and physical constraints.
+    Nonlinear RK4 prediction and acados SQP replace frozen affine prediction
+    and the original damped MATLAB QP iteration. Track interpolation, progress
+    normalization and runtime corridor parameterization are adapted.
+  ../../tests/acados_mpcc/fixtures/generate_matlab_fixture.m: comparison fixture
+    generator that evaluates original MATLAB functions without changing their
+    source files; temporary private-function wrappers retain their equations.
+
+The external original MATLAB checkout is preserved separately and unmodified.
+Other dependencies, including acados, HPIPM, BLASFEO, CasADi and SciPy, retain
+their respective licenses; this notice does not relicense those projects.

@@ -1,0 +1,67 @@
+[
+  {
+    "bag": "lidar_20260909_154004",
+    "lidar_scans": 1326,
+    "bad_timing_scans": 0,
+    "backward_headers": {},
+    "max_scan_ms": 107.816756,
+    "max_lidar_gap_s": 0.107467481,
+    "first_second_mean_acceleration": [
+      -0.005383267737342976,
+      0.013072661255428102,
+      0.9994011640548706
+    ]
+  },
+  {
+    "bag": "lidar_2forward_1reverse_20260909_160207",
+    "lidar_scans": 114,
+    "bad_timing_scans": 0,
+    "backward_headers": {},
+    "max_scan_ms": 103.848175,
+    "max_lidar_gap_s": 0.10346923,
+    "first_second_mean_acceleration": [
+      -0.030334439128637314,
+      0.011528472031932325,
+      0.9984307050704956
+    ]
+  },
+  {
+    "bag": "lidar_final_20260909_161208",
+    "lidar_scans": 4315,
+    "bad_timing_scans": 0,
+    "backward_headers": {},
+    "max_scan_ms": 109.68703,
+    "max_lidar_gap_s": 0.109637856,
+    "first_second_mean_acceleration": [
+      -0.034665493816137316,
+      0.011795806027948856,
+      0.9982964277267456
+    ]
+  },
+  {
+    "bag": "lidar_retry_20260909_160305",
+    "lidar_scans": 3849,
+    "bad_timing_scans": 0,
+    "backward_headers": {},
+    "max_scan_ms": 118.5196,
+    "max_lidar_gap_s": 0.118196579,
+    "first_second_mean_acceleration": [
+      -0.030421109050512315,
+      0.011560210313182323,
+      0.9984758710861206
+    ]
+  },
+  {
+    "bag": "lidar_retry_20260909_162853",
+    "lidar_scans": 3364,
+    "bad_timing_scans": 0,
+    "backward_headers": {},
+    "max_scan_ms": 106.516661,
+    "max_lidar_gap_s": 0.106190201,
+    "first_second_mean_acceleration": [
+      -0.03834591373801231,
+      0.0057765186324832025,
+      0.9980767011642456
+    ]
+  }
+]

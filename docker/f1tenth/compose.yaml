@@ -1,0 +1,62 @@
+name: aac-f1tenth
+x-assets: &assets
+  - ${F1TENTH_WS:-../../../..}:/ws
+  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/bags:/Workspace/f1tenth_ws/bags:ro
+  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/tracks:/Workspace/f1tenth_ws/tracks:ro
+  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/results:/Workspace/f1tenth_ws/results
+  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/vendor/acados:/Workspace/f1tenth_ws/vendor/acados:ro
+  - /tmp/.X11-unix:/tmp/.X11-unix:ro
+services:
+  fastlio:
+    build:
+      context: ${F1TENTH_WS:-../../../..}
+      dockerfile: src/aac_2026/docker/f1tenth/Dockerfile
+    image: aac-f1tenth-fastlio:jazzy
+    working_dir: /ws
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      HOME: /tmp/aac-fastlio-home
+      ROS_DOMAIN_ID: "${ROS_DOMAIN_ID:-42}"
+      ROS_AUTOMATIC_DISCOVERY_RANGE: LOCALHOST
+      DISPLAY: "${DISPLAY:-}"
+      QT_X11_NO_MITSHM: "1"
+    volumes: *assets
+    shm_size: 1gb
+    stdin_open: true
+    tty: true
+  track:
+    extends:
+      service: fastlio
+    image: aac-f1tenth-track:jazzy
+    build:
+      context: ${F1TENTH_WS:-../../../..}
+      dockerfile: src/aac_2026/docker/f1tenth/Dockerfile.track
+    command: ["python3", "-m", "tools.track_pipeline"]
+  acados:
+    build:
+      context: ${F1TENTH_WS:-../../../..}
+      dockerfile: src/aac_2026/docker/f1tenth/Dockerfile.acados
+    image: aac-f1tenth-acados:0.6.0
+    working_dir: /ws
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    volumes: *assets
+    environment:
+      MPLCONFIGDIR: /tmp/aac-acados-matplotlib
+    command: ["python", "-m", "tools.acados_mpcc", "--help"]
+  gazebo:
+    build:
+      context: ${F1TENTH_WS:-../../../..}
+      dockerfile: src/aac_2026/docker/f1tenth/Dockerfile.gazebo
+    image: aac-f1tenth-gazebo:harmonic
+    working_dir: /ws
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      DISPLAY: "${DISPLAY:-:0}"
+      XAUTHORITY: /tmp/gazebo.Xauthority
+      LIBGL_ALWAYS_SOFTWARE: "${LIBGL_ALWAYS_SOFTWARE:-1}"
+      GZ_PARTITION: aac_f1tenth_replay
+    devices:
+      - /dev/dri:/dev/dri
+    volumes: *assets
+    shm_size: 1gb
+    command: ["gz", "sim", "--help"]

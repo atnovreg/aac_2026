@@ -208,7 +208,7 @@ else
 fi
 
 # my statement
-DOCKER_ARGS+=(-v /home/${HOSTNAME}/ros_ws/bag:/bag:rw)
+DOCKER_ARGS+=(-v "${AAC_DIR}/../../bag:/bag:rw")
 # DOCKER_ARGS+=(-v /home/usrg/Data/Dataset/3D_data/localize/dataset:/home/usrg/deepclr/data/original:rw)
 # DOCKER_ARGS+=(-e KITTI_PATH="/home/usrg/Data/Dataset/3D_data/localize/dataset")
 # DOCKER_ARGS+=(-e MODLE_PATH=/home/usrg/deepclr/models)

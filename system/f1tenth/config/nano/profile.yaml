@@ -1,0 +1,90 @@
+status: configured_reference_live_connection_unverified
+source_snapshot: artifacts/reconciliation/nano-20261105/nano_runtime_snapshot.json
+lidar:
+  model: MID-360
+  config_path: src/aac_2026/sensors/livox_ros_driver2/config/MID360_config.json
+  profile_alias: src/aac_2026/system/f1tenth/config/nano/MID360_config.json
+  consumed_by: src/aac_2026/sensors/livox_ros_driver2/launch_ROS2/msg_MID360_launch.py
+  host:
+    cmd_data_ip: 192.168.1.50
+    cmd_data_port: 56101
+    push_msg_ip: 192.168.1.50
+    push_msg_port: 56201
+    point_data_ip: 192.168.1.50
+    point_data_port: 56301
+    imu_data_ip: 192.168.1.50
+    imu_data_port: 56401
+    log_data_ip: ''
+    log_data_port: 56501
+  device:
+    ip: 192.168.1.137
+    pcl_data_type: 1
+    pattern_mode: 0
+    extrinsic_parameter:
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+      x: 0
+      y: 0
+      z: 0
+  frame_id: livox_frame
+  publish_freq_hz: 10.0
+  transfer_format: CustomMsg
+  notes:
+  - These are saved driver configuration values, not an observation of a current sensor
+    connection.
+  - No active observed interface has the configured host IPv4 address; Ethernet was
+    DOWN at inspection.
+  - Zero driver extrinsics are not a measured LiDAR-to-vehicle transform.
+network_observed:
+- name: lo
+  state: UNKNOWN
+  ipv4:
+  - address: 127.0.0.1
+    prefixlen: 8
+- name: wlP1p1s0
+  state: UP
+  ipv4:
+  - address: 192.168.0.25
+    prefixlen: 24
+- name: can0
+  state: DOWN
+  ipv4: []
+- name: enP8p1s0
+  state: DOWN
+  ipv4: []
+- name: l4tbr0
+  state: DOWN
+  ipv4:
+  - address: 192.168.55.1
+    prefixlen: 24
+- name: usb0
+  state: DOWN
+  ipv4: []
+- name: usb1
+  state: DOWN
+  ipv4: []
+- name: tailscale0
+  state: UNKNOWN
+  ipv4:
+  - address: 100.101.41.121
+    prefixlen: 32
+- name: docker0
+  state: DOWN
+  ipv4:
+  - address: 172.17.0.1
+    prefixlen: 16
+serial_by_id_observed: {}
+ros_environment_observed:
+- ROS_DISTRO=jazzy
+realsense:
+  driver: realsense2_camera
+  intrinsics_or_mount_calibration: not confirmed in examined files; received camera
+    .ini files are capture metadata, not assumed calibration
+vesc:
+  driver_or_calibration: not found among examined installed packages/config sources
+  serial_identity: unconfirmed; no serial-by-id device present at inspection
+runtime_verified: false
+profile_kind: audit index; not itself a ROS parameter file
+edit_driver_configuration: src/aac_2026/system/f1tenth/config/nano/MID360_config.json
+  (symlink to actual driver JSON)

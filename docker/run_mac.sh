@@ -143,7 +143,7 @@ DOCKER_ARGS+=(
 )
 
 # bag directory (create if it doesn't exist)
-BAG_DIR="${HOME}/ros_ws/bag"
+BAG_DIR="$(readlink -f "${AAC_DIR}/../../")/bag"
 mkdir -p "${BAG_DIR}"
 DOCKER_ARGS+=(-v "${BAG_DIR}:/bag:rw")
 

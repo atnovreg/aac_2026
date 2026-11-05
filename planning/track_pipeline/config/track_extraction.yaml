@@ -1,0 +1,18 @@
+source_run: results/lidar_final_20260909_161208/20260910T112720950598Z
+output: tracks/indoor_final
+resolution_m: 0.05
+roi_padding_m: 4.0
+point_stride: 5
+floor_tolerance_m: 0.10
+# Structural corridor extraction, not low-obstacle collision certification.
+# Lower bands contain accumulated near-route returns; preserve them separately.
+wall_height_m: [2.0, 2.5]
+min_wall_hits: 3
+floor_dilation_m: 0.15
+floor_closing_m: 0.20
+fill_holes_m2: 2.0
+sample_spacing_m: 0.05
+smoothing_m: 0.8
+max_boundary_ray_m: 4.0
+# Selected simulation corridor limit, not measured physical wall distance.
+max_track_half_width_m: 0.75

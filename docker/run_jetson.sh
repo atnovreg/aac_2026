@@ -196,7 +196,7 @@ else
 fi
 
 # my statement
-DOCKER_ARGS+=(-v /home/${HOSTNAME}/ros_ws/bag:/bag:rw)
+DOCKER_ARGS+=(-v "${AAC_DIR}/../../bag:/bag:rw")
 DOCKER_ARGS+=(--device /dev/input/js0)
 DOCKER_ARGS+=(--group-add $(getent group input | cut -d: -f3))
 # DOCKER_ARGS+=(-v /home/usrg/Data/Dataset/3D_data/localize/dataset:/home/usrg/deepclr/data/original:rw)

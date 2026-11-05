@@ -1,0 +1,25 @@
+# Roles and observed state; this file does not start nodes or select actuator output.
+source_of_truth: ros2_ws/src/aac_2026
+ros_for_f1tenth: jazzy
+desktop:
+  architecture: x86_64
+  observed_os: Ubuntu 24.04.5
+  role: [development, map_preparation, simulation, tuning, analysis]
+  local_assets: /home/irdl4/Workspace/f1tenth_ws
+  runtime_policy: existing local Python/acados environments are reused through links
+nano:
+  model: Jetson Orin Nano Super
+  architecture: aarch64
+  observed_os: Ubuntu 24.04.5
+  observed_l4t: 39.2.1-20260806224157
+  observed_container: f1tenth
+  observed_ros: jazzy
+  role: [existing_sensor_acquisition, existing_virtual_runtime, reference_for_agx]
+  deployment_status: existing Nano workspace preserved; AAC has not been deployed here
+agx:
+  model: Jetson AGX Orin
+  architecture: aarch64
+  role: [future_vehicle_runtime]
+  deployment_status: pending actual OS/JetPack/CUDA/driver verification
+  rebuild: [ros_packages, livox_sdk, librealsense, acados, generated_solver, python_environment]
+  transfer: [source, configuration, selected_map, selected_route]

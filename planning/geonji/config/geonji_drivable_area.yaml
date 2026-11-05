@@ -1,0 +1,16 @@
+source_run: results/dynamic_lio/20260913T100858860234Z_indoor_front180_20260913_083146
+review_cache: results/건지광장/rviz_review/083146/clouds.npz
+output: results/건지광장/drivable_area/083146_v1
+resolution_m: 0.10
+roi_padding_m: 5.0
+floor_tolerance_m: 0.10
+obstacle_min_height_m: 0.15
+obstacle_max_height_m: 1.50
+min_floor_scans: 3
+min_obstacle_scans: 3
+vehicle_width_m: null
+vehicle_length_m: null
+# Review parameters, not calibrated vehicle limits.
+
+# Preserve the original experiment for explicit reproduction.
+obstacle_source: raw_or_static

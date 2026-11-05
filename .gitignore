@@ -2,3 +2,13 @@ __pycache__/
 *.py[cod]
 .hf_home/
 .DS_Store
+
+# Local archives and generated experiment output
+/archive/f1tenth/desktop_workspace
+/archive/f1tenth/dynamic_lio
+/archive/f1tenth/cad
+/archive/f1tenth/hackathon
+/archive/f1tenth/localization_original
+/archive/f1tenth/localization_results
+/navigation/localization3d/results/*
+!/navigation/localization3d/results/.gitkeep

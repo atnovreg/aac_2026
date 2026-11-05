@@ -1,0 +1,7 @@
+track: tracks/geonji_083146_assumed
+output: results/건지광장/comparison/20260915_three_routes/01_outer
+solver: SQP_RTI
+hessian: GAUSS_NEWTON
+steps: 6000
+vehicle_width: 0.0
+safety_scaling: 1.0

@@ -1,0 +1,41 @@
+status: reconciled_reference_not_physical_validation
+source: desktop and Nano content comparison 2026-11-05
+assets:
+  static_cloud:
+    path: results/건지광장/map_edit/20261001_expanded_option2/map_static.pcd
+    size: 8484270
+    sha256: 9aceb1e656636e9ada091b6a6c627c8d799255a59c0d4ab4fe86d4f446c89d7a
+  planning_grid:
+    path: results/건지광장/map_edit/20261001_similarity_obstacles/drivable_area/area.npz
+    size: 1112128
+    sha256: 71936d86841d43817218bbd98214da7e3dd4deca292f01a221a7bba16f2dbcc8
+  registration:
+    path: results/건지광장/map_edit/20261001_similarity_no_manual/registration.json
+    size: 725
+    sha256: b65c1e540b49a565d74573c6eff355da2021da4ef8b73dee62b5ceb395be9081
+  obstacle_selections:
+    path: results/건지광장/map_edit/20261001_similarity_obstacles/obstacle_selections.json
+    size: 3936
+    sha256: bed327bf92e40a72c51da6379576bde0c8f57b760fa0a450d9d52e08706b6c1f
+  route_csv:
+    path: results/건지광장/routes/20260923_natural_inner/track/track.csv
+    size: 108231
+    sha256: fd60e382cc85cd6b82587e2ad1f53aa3953861fa02e3ddcd28bcb7af1e61146e
+  route_validation:
+    path: results/건지광장/routes/20260923_natural_inner/track/validation.json
+    size: 718
+    sha256: 46e938ac9bf6237962d7bab06fc352eb01780674360af02da94cb8191dc8640a
+  selected_cpp_runtime_record:
+    path: src/aac_2026/system/f1tenth/config/selected_cpp_runtime.json
+    size: 3254
+    sha256: 14cc9975d173029136317ad0b5c0e63d507fd45fa01ca3ce5e26789d4d761d27
+  cpp_reference_configuration:
+    path: results/건지광장/jetson_mpcc/20261002_cpp_100hz/candidate_n40.yaml
+    size: 970
+    sha256: 223dee7500f34e7a35bf6447ef9c7ed6b4ede722bbae7812450578f09a8683b3
+notes:
+- Desktop and Nano selected static point clouds and planning grids are byte-identical
+  despite different reference paths.
+- Current controller/GUI defaults are not changed.
+- The selected C++ record is a virtual benchmark, not a validated physical controller
+  configuration.

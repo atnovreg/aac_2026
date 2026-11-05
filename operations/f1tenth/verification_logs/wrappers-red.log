@@ -1,0 +1,36 @@
+test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) ... 
+  test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) (script='navigation/fastlio/scripts/slam.sh') ... FAIL
+  test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) (script='simulation/f1tenth_gazebo_replay/scripts/gazebo_replay.sh') ... FAIL
+test_replay_build_test_and_plugin_search_share_artifact_directory (test_wrappers.WrapperTests.test_replay_build_test_and_plugin_search_share_artifact_directory) ... FAIL
+
+======================================================================
+FAIL: test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) (script='navigation/fastlio/scripts/slam.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/irdl4/Workspace/ros_ws/src/aac_2026/operations/f1tenth/tests/test_wrappers.py", line 28, in test_compose_wrappers_supply_existing_absolute_assets
+    self.assertEqual(json.loads(output)['assets'], str((WS/'bags').resolve().parent))
+AssertionError: None != '/home/irdl4/Workspace/f1tenth_ws'
+
+======================================================================
+FAIL: test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) (script='simulation/f1tenth_gazebo_replay/scripts/gazebo_replay.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/irdl4/Workspace/ros_ws/src/aac_2026/operations/f1tenth/tests/test_wrappers.py", line 28, in test_compose_wrappers_supply_existing_absolute_assets
+    self.assertEqual(json.loads(output)['assets'], str((WS/'bags').resolve().parent))
+AssertionError: None != '/home/irdl4/Workspace/f1tenth_ws'
+
+======================================================================
+FAIL: test_replay_build_test_and_plugin_search_share_artifact_directory (test_wrappers.WrapperTests.test_replay_build_test_and_plugin_search_share_artifact_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/irdl4/Workspace/ros_ws/src/aac_2026/operations/f1tenth/tests/test_wrappers.py", line 53, in test_replay_build_test_and_plugin_search_share_artifact_directory
+    self.assertEqual(configure[configure.index('-B')+1], expected)
+AssertionError: 'build/gazebo_replay' != '/tmp/tmpk57vi2n_/artifacts/f1tenth/jazzy-x86_64/gazebo_replay'
+- build/gazebo_replay
++ /tmp/tmpk57vi2n_/artifacts/f1tenth/jazzy-x86_64/gazebo_replay
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.109s
+
+FAILED (failures=3)

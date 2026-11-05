@@ -1,0 +1,32 @@
+{
+  "source": "/home/irdl4/Workspace/f1tenth_ws/results/\uac74\uc9c0\uad11\uc7a5/dynamic_lio/20260913T100858860234Z_indoor_front180_20260913_083146/map_static.pcd",
+  "source_sha256": "7b4c61ea4129085579a1236f3ee29b427aec70b1846dfe90797f5b5008534789",
+  "original_points": 826759,
+  "retained_points": 484319,
+  "occupied_voxels": 303676,
+  "grid_shape": [
+    1181,
+    1340,
+    75
+  ],
+  "voxel_m": 0.15,
+  "floor_plane": [
+    0.039404792830128994,
+    -0.014220501813946167,
+    -0.7989015271392055
+  ],
+  "height_filter_above_plane_m": [
+    -0.2,
+    6.0
+  ],
+  "geometry": "3D occupied voxels from original measured static PCD; no planning boundaries/manual masks",
+  "sensor": "Generic instantaneous regular 3D first-return grid; not validated MID360 pattern or surface reconstruction",
+  "input_sha256": {
+    "zones_map_xy.geojson": "d934b94021d72eb140c19e63eae92309434d9cc66b96a3aaeb1af3d884f136c8",
+    "map_geometry.npz": "196dfb46068bd738ad7c38620b33b18f4eeb8406389e421f2ff6c127faf835fe",
+    "soft_profile.npz": "5a6c181b5a2cfac3dd23b4cd5b39e0f6d259956ff6e6771fdc6317fa39f0faf8",
+    "validation.json": "a153e7be45c67369dc742c923da06d8f605fa629e0cbf4fa01a63bb8772e53ee",
+    "track.csv": "d03e98f2bc2ad91e581df58739279fd2b822944afc1368dbfcfbeefd2c9c3c24",
+    "area_layers.npz": "9107f417faab22acda7d7799f21b5a5f2490d3e5295c7de78b8a4b72634b6481"
+  }
+}

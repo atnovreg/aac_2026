@@ -1,0 +1,12 @@
+status: not_deployed
+model: Jetson AGX Orin
+architecture: aarch64
+ros_preference: jazzy; confirm with actual OS/JetPack
+host_ipv4: null
+ethernet_interface: null
+serial_by_id: null
+body_sensor_transform: null
+notes:
+- Rebuild SDK/ROS/acados/solver on actual AGX.
+- Confirm IP/interfaces, sensor timing and new mounting calibration on hardware.
+- Do not apply Nano IP addresses or mount transforms automatically.

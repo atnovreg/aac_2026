@@ -1,0 +1,5 @@
+FROM aac-f1tenth-fastlio:jazzy
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-scipy python3-skimage python3-networkx python3-matplotlib \
+    && rm -rf /var/lib/apt/lists/*

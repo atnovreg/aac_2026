@@ -1,0 +1,19 @@
+test_visible_circle_center_is_recorded_xyz_on_a_tilted_pose (test_display.DisplayTests.test_visible_circle_center_is_recorded_xyz_on_a_tilted_pose) ... ok
+test_flat_plane_does_not_claim_observable_six_dof_localization (test_estimator.EstimatorTests.test_flat_plane_does_not_claim_observable_six_dof_localization) ... ok
+test_no_return_scan_rejected (test_estimator.EstimatorTests.test_no_return_scan_rejected) ... ok
+test_nonplanar_six_dof_transform_recovered (test_estimator.EstimatorTests.test_nonplanar_six_dof_transform_recovered) ... ok
+test_raw_odometry_not_overwritten_by_scan_correction (test_estimator.EstimatorTests.test_raw_odometry_not_overwritten_by_scan_correction) ... ok
+test_sloped_body_converted_to_planar_controller_velocity_and_yaw_rate (test_estimator.EstimatorTests.test_sloped_body_converted_to_planar_controller_velocity_and_yaw_rate) ... ok
+test_wheel_measurement_spike_is_filtered_before_controller_velocity (test_estimator.EstimatorTests.test_wheel_measurement_spike_is_filtered_before_controller_velocity) ... ok
+test_stale_localization_stops_instead_of_returning_a_state (test_feedback.FeedbackTests.test_stale_localization_stops_instead_of_returning_a_state) ... ok
+test_yaw_wrap_is_continuous_and_state_uses_estimated_pose (test_feedback.FeedbackTests.test_yaw_wrap_is_continuous_and_state_uses_estimated_pose) ... ok
+test_road_pose_retains_height_roll_and_pitch (test_measurements.MeasurementsTests.test_road_pose_retains_height_roll_and_pitch) ... ok
+test_stationary_imu_reports_body_gravity_without_pose_in_packet (test_measurements.MeasurementsTests.test_stationary_imu_reports_body_gravity_without_pose_in_packet) ... ok
+test_exact_first_hit_occludes_farther_wall (test_voxel_sensor.SensorTests.test_exact_first_hit_occludes_farther_wall) ... ok
+test_no_return_is_not_a_fabricated_max_range_hit (test_voxel_sensor.SensorTests.test_no_return_is_not_a_fabricated_max_range_hit) ... ok
+test_rotation_is_applied_in_all_three_dimensions (test_voxel_sensor.SensorTests.test_rotation_is_applied_in_all_three_dimensions) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.064s
+
+OK

@@ -1,3 +1,40 @@
+# AAC + F1TENTH 자율주행 작업
+
+**F1TENTH 소스 편집은 이 AAC 폴더에서 합니다.**
+
+- **[F1TENTH 시작하기·본체/Nano/AGX 구분](docs/F1TENTH_시작하기.md)**
+- [대조한 데이터·장비 설정과 AGX 자료 목록](system/f1tenth/README_KO.md)
+- [과거 작업과 원본 보관](archive/f1tenth/README_KO.md)
+- [장비별 역할·확인된 버전](system/f1tenth/platforms.yaml)
+- [이번 정리의 출처·검증 기록](operations/f1tenth/progress.md)
+
+## GitHub에서 가져오기
+
+개인 비공개 저장소는 `atnovreg/aac_2026`입니다. 기존 원본은 `Leedk3/aac_2026`이며 커밋 이력과 서브모듈 출처를 유지합니다. 아래 명령은 AAC가 아직 없는 새 장비에서 사용합니다.
+
+```bash
+gh auth login
+mkdir -p ~/ros2_ws/src
+gh repo clone atnovreg/aac_2026 ~/ros2_ws/src/aac_2026 -- --recurse-submodules
+cd ~/ros2_ws/src/aac_2026
+python3 operations/f1tenth/setup_workspace.py
+bash f1tenth.sh check --source-only
+```
+
+서브모듈 접근에도 원본 저장소의 읽기 권한이 필요할 수 있습니다. 원본 지도·bag·대형 실험 결과·가상환경·빌드 결과는 GitHub에 포함하지 않습니다. 소스 검사에 필요한 소형 테스트 입력은 포함합니다. 필요한 데이터 목록과 장비별 준비는 [설정 안내](system/f1tenth/README_KO.md)를 따릅니다. `--source-only`는 소스 보존과 별칭을 확인하며 데이터나 의존성 설치 완료를 뜻하지 않습니다.
+
+```bash
+bash f1tenth.sh check
+bash f1tenth.sh python -m tools.acados_mpcc --help
+bash f1tenth.sh localization-test
+```
+
+기존 AAC의 PC Humble 환경과 F1TENTH Jazzy 환경을 구분합니다. F1TENTH 빌드는 `ros2_ws/artifacts/f1tenth/<배포판>-<CPU>/`를 사용합니다. Nano의 기존 실행은 보존했으며 AGX 배포는 아직 수행하지 않았습니다.
+
+---
+
+## 기존 AAC 안내
+
 # AI Autonomous Challenge 2026 - JBNU AI Bootcamp
 
 A Docker-based development environment built on Ubuntu 22.04 + ROS2 Humble for building and running autonomous system software.
@@ -70,8 +107,8 @@ docker run --rm --gpus all nvidia/cuda:12.8.1-base-ubuntu22.04 nvidia-smi
 ## 2. Create Workspace & Clone Repository
 
 ```bash
-mkdir -p /home/${USER}/ros_ws/src
-cd /home/${USER}/ros_ws/src
+mkdir -p /home/${USER}/ros2_ws/src
+cd /home/${USER}/ros2_ws/src
 git clone --recursive https://github.com/Leedk3/aac_2026.git
 cd aac_2026
 git checkout main
@@ -87,7 +124,7 @@ git checkout main
 If you already cloned without `--recursive` and `navigation/WildGS-SLAM/` is empty, run:
 
 ```bash
-cd /home/${USER}/ros_ws/src/aac_2026
+cd /home/${USER}/ros2_ws/src/aac_2026
 git submodule update --init --recursive
 ```
 
@@ -96,7 +133,7 @@ This fetches and checks out all registered submodules at the pinned commit.
 If the submodule directory is missing entirely or the state looks broken:
 
 ```bash
-cd /home/${USER}/ros_ws/src/aac_2026
+cd /home/${USER}/ros2_ws/src/aac_2026
 
 # Step 1: Deinitialize and remove any stale state
 git submodule deinit -f navigation/WildGS-SLAM
@@ -112,7 +149,7 @@ git submodule update --init --recursive
 ## 3. Build Docker Image
 
 ```bash
-cd /home/${USER}/ros_ws/src/aac_2026/docker
+cd /home/${USER}/ros2_ws/src/aac_2026/docker
 ```
 
 ### For x86 Desktop (PC / Workstation)
@@ -171,13 +208,13 @@ echo "export DDS_INTERFACE=eth0" >> ~/.bashrc
 ### Container launch alias — x86 Desktop
 
 ```bash
-echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_x86.sh'" >> ~/.bashrc
+echo "alias aac_enter='cd /home/${USER}/ros2_ws/src/aac_2026/docker && bash run_x86.sh'" >> ~/.bashrc
 ```
 
 ### Container launch alias — Mac (Apple Silicon)
 
 ```bash
-echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_mac.sh'" >> ~/.bashrc
+echo "alias aac_enter='cd /home/${USER}/ros2_ws/src/aac_2026/docker && bash run_mac.sh'" >> ~/.bashrc
 ```
 
 > **GUI on Mac (RViz2)**: See the setup steps below. Mac Docker Desktop runs containers inside a Linux VM, so the standard `/tmp/.X11-unix` socket mount does not work. TCP-based X11 forwarding via XQuartz is required.
@@ -185,13 +222,13 @@ echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_m
 ### Container launch alias — Jetson
 
 ```bash
-echo "alias aac_enter='cd /home/${USER}/ros_ws/src/aac_2026/docker && bash run_jetson.sh'" >> ~/.bashrc
+echo "alias aac_enter='cd /home/${USER}/ros2_ws/src/aac_2026/docker && bash run_jetson.sh'" >> ~/.bashrc
 ```
 
 ### Stop all containers alias (all platforms)
 
 ```bash
-echo "alias kill_sys='bash /home/${USER}/ros_ws/src/aac_2026/kill_sys.sh'" >> ~/.bashrc
+echo "alias kill_sys='bash /home/${USER}/ros2_ws/src/aac_2026/kill_sys.sh'" >> ~/.bashrc
 ```
 
 ### Stop the tmux/Gazebo session inside the container
@@ -238,7 +275,7 @@ The script handles all container states automatically:
 | Container exists but is stopped | Restarts and attaches                      |
 | Container is already running    | Opens a new shell in the running container |
 
-The working directory inside the container is `/ros_ws`, which is mounted from `/home/${USER}/ros_ws` on the host.
+The working directory inside the container is `/ros_ws`, which is mounted from `/home/${USER}/ros2_ws` on the host.
 
 ---
 

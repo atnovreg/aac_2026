@@ -1,0 +1,21 @@
+FROM ros:noetic-ros-base@sha256:72b8bc59035dc0a5b8e07aae28c16caa84192971d72d207c72ed734fb1d5e97d
+SHELL ["/bin/bash", "-c"]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake git libeigen3-dev libpcl-dev libceres-dev \
+    libopencv-dev libboost-all-dev \
+    ros-noetic-eigen-conversions ros-noetic-pcl-ros ros-noetic-pcl-conversions \
+    ros-noetic-image-transport ros-noetic-cv-bridge ros-noetic-tf \
+    ros-noetic-rviz python3-numpy python3-yaml \
+    && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 --branch 4.0.3 https://github.com/borglab/gtsam.git /opt/gtsam-src \
+    && cmake -S /opt/gtsam-src -B /opt/gtsam-build \
+       -DCMAKE_BUILD_TYPE=Release -DGTSAM_BUILD_TESTS=OFF \
+       -DGTSAM_BUILD_EXAMPLES_ALWAYS=OFF -DGTSAM_BUILD_UNSTABLE=OFF \
+       -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF -DGTSAM_USE_SYSTEM_EIGEN=ON \
+    && cmake --build /opt/gtsam-build -j2 \
+    && cmake --install /opt/gtsam-build \
+    && git -C /opt/gtsam-src rev-parse HEAD > /opt/gtsam-revision.txt \
+    && rm -rf /opt/gtsam-src /opt/gtsam-build \
+    && ldconfig
+WORKDIR /ws
+CMD ["bash"]

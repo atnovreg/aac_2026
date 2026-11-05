@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.9">
+  <world name="geonji_jetson_soft_replay_20261104">
+    <gravity>0 0 0</gravity>
+    <physics name="replay_clock" type="ignored">
+      <max_step_size>.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster" />
+    <scene>
+      <ambient>.8 .8 .8 1</ambient>
+      <background>.92 .94 .97 1</background>
+      <shadows>false</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 20 0 0 0</pose>
+      <direction>-.2 .1 -1</direction>
+      <diffuse>.9 .9 .9 1</diffuse>
+    </light>
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>3D View</title>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="state" type="string">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <grid>false</grid>
+        <ambient_light>.8 .8 .8</ambient_light>
+        <background_color>.92 .94 .97</background_color>
+        <camera_pose>-2.6880352791999993 -28.78341839865 68 0 .98 1.57079632679</camera_pose>
+      </plugin>
+      <plugin filename="GzSceneManager" name="GzSceneManager">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="InteractiveViewControl">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="CameraTracking" name="CameraTracking">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="EntityContextMenuPlugin" name="EntityContextMenuPlugin">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="WorldControl" name="Playback">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="height" type="double">72</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <anchors target="3D View">
+            <line own="left" target="left" />
+            <line own="bottom" target="bottom" />
+          </anchors>
+        </gz-gui>
+        <play_pause>true</play_pause>
+        <use_event>true</use_event>
+      </plugin>
+    </gui>
+    <model name="measured_3d_map">
+      <static>true</static>
+      <link name="original_pcd_returns">
+        <visual name="/home/irdl4/Workspace/f1tenth_ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_0.stl">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_0.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.42 .48 .55 1</ambient>
+            <diffuse>.42 .48 .55 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="/home/irdl4/Workspace/f1tenth_ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_1.stl">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.18 .53 .62 1</ambient>
+            <diffuse>.18 .53 .62 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="/home/irdl4/Workspace/f1tenth_ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_2.stl">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_2.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.25 .66 .55 1</ambient>
+            <diffuse>.25 .66 .55 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="/home/irdl4/Workspace/f1tenth_ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_3.stl">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/ws/results/건지광장/gazebo_replay/slash_20260915/pointcloud_3.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.68 .73 .30 1</ambient>
+            <diffuse>.68 .73 .30 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+    </model>
+    <model name="slash_replay">
+      <pose>0.11176145907251636 -5.922424597196091 -0.6752777402706736 0 0 0.08091421725721813</pose>
+      <static>false</static>
+      <link name="body">
+        <gravity>false</gravity>
+        <inertial>
+          <mass>3.56</mass>
+          <inertia>
+            <ixx>.0001</ixx>
+            <iyy>.0001</iyy>
+            <izz>.0001</izz>
+          </inertia>
+        </inertial>
+        <visual name="chassis">
+          <pose>0 0 .10 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.578 0.296 .08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 .15 .06 1</ambient>
+            <diffuse>1 .15 .06 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="cabin">
+          <pose>0 0 .18 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.20 .18 .08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.06 .1 .15 1</ambient>
+            <diffuse>.06 .1 .15 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="wheel_-0.1675_-0.128">
+          <pose>-0.1675 -0.128 0.019499999999999997 1.57079632679 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0545</radius>
+              <length>.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.025 .025 .025 1</ambient>
+            <diffuse>.025 .025 .025 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="wheel_-0.1675_0.128">
+          <pose>-0.1675 0.128 0.019499999999999997 1.57079632679 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0545</radius>
+              <length>.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.025 .025 .025 1</ambient>
+            <diffuse>.025 .025 .025 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="wheel_0.1675_-0.128">
+          <pose>0.1675 -0.128 0.019499999999999997 1.57079632679 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0545</radius>
+              <length>.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.025 .025 .025 1</ambient>
+            <diffuse>.025 .025 .025 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="wheel_0.1675_0.128">
+          <pose>0.1675 0.128 0.019499999999999997 1.57079632679 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0545</radius>
+              <length>.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.025 .025 .025 1</ambient>
+            <diffuse>.025 .025 .025 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="position_marker">
+          <pose>0 0 2.5 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>.18</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 .12 .05 1</ambient>
+            <diffuse>1 .12 .05 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="marker_stem">
+          <pose>0 0 1.25 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>.012</radius>
+              <length>2.45</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 .25 .05 1</ambient>
+            <diffuse>1 .25 .05 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+        <visual name="heading_marker">
+          <pose>.2 0 2.5 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.38 .035 .025</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <plugin filename="libTrajectoryReplay.so" name="replay::Replay">
+        <trajectory_file>/experiment/gazebo_equiv100/trajectory.csv</trajectory_file>
+        <floor_plane>0.039404792830128994 -0.014220501813946167 -0.7989015271392055</floor_plane>
+        <speed>1.0</speed>
+        <hold_seconds>2</hold_seconds>
+      </plugin>
+    </model>
+    <model name="soft_band">
+      <static>true</static>
+      <link name="region">
+        <visual name="soft_band">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/experiment/gazebo_equiv100/soft_band.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 .61 .15 1</ambient>
+            <diffuse>1 .61 .15 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+    </model>
+    <model name="preferred_region">
+      <static>true</static>
+      <link name="region">
+        <visual name="preferred_region">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/experiment/gazebo_equiv100/preferred_region.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.48 .82 .47 1</ambient>
+            <diffuse>.48 .82 .47 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+    </model>
+    <model name="planned_raceline">
+      <static>true</static>
+      <link name="line">
+        <visual name="raceline">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/experiment/gazebo_equiv100/raceline.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>.04 .25 1 1</ambient>
+            <diffuse>.04 .25 1 1</diffuse>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

@@ -1,0 +1,4 @@
+# GUI experiment solver profile. Physical constraints and objective weights are unchanged.
+profile: stable_rti_v1
+levenberg_marquardt: 0.1
+baseline_directory: results/건지광장/mpcc_tuner_baseline/20260916_stable_rti

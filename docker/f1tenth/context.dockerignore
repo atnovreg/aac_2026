@@ -1,0 +1,16 @@
+# Send only real Docker bootstrap sources, never bags/results/CAD or aliases.
+**
+!.f1tenth-workspace
+!src/
+!src/aac_2026/
+!src/aac_2026/docker/f1tenth/
+!src/aac_2026/docker/f1tenth/**
+!src/aac_2026/control/
+!src/aac_2026/control/acados_mpcc/
+!src/aac_2026/control/acados_mpcc/config/
+!src/aac_2026/control/acados_mpcc/config/acados_versions.json
+!src/aac_2026/control/acados_mpcc/requirements/
+!src/aac_2026/control/acados_mpcc/requirements/acados.txt
+!src/aac_2026/control/acados_mpcc/scripts/
+!src/aac_2026/control/acados_mpcc/scripts/setup_acados.sh
+!src/aac_2026/control/acados_mpcc/scripts/acados_python.sh

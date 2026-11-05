@@ -1,0 +1,68 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 1
+      Plane: XY
+      Plane Cell Count: 20
+      Reference Frame: <Fixed Frame>
+      Alpha: 0.35
+      Color: 140; 140; 140
+      Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Front 180 LiDAR
+      Enabled: true
+      Topic:
+        Value: /livox/lidar_front_points
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 10
+      Position Transformer: XYZ
+      Color Transformer: AxisColor
+      Axis: Z
+      Autocompute Value Bounds:
+        Value: true
+      Style: Points
+      Size (Pixels): 3
+      Size (m): 0.03
+      Alpha: 1
+      Decay Time: 0
+      Use Fixed Frame: true
+      Value: true
+  Enabled: true
+  Global Options:
+    Fixed Frame: livox_frame
+    Background Color: 30; 30; 30
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 12
+      Pitch: 0.9
+      Yaw: 3.14
+      Focal Point:
+        X: 3
+        Y: 0
+        Z: 0
+      Target Frame: <Fixed Frame>
+  Value: true
+Window Geometry:
+  Width: 1280
+  Height: 800
+  Hide Left Dock: false
+  Hide Right Dock: false

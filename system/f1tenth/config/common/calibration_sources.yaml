@@ -1,0 +1,38 @@
+livox_driver_extrinsic:
+  value:
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+    x: 0
+    y: 0
+    z: 0
+  classification: saved zeros; not measured vehicle mounting
+  source: src/aac_2026/sensors/livox_ros_driver2/config/MID360_config.json
+fastlio_imu_lidar:
+  extrinsic_T:
+  - -0.011
+  - -0.02329
+  - 0.04412
+  extrinsic_R:
+  - 1.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+  classification: upstream MID-360 factory-reference configuration
+  source: src/aac_2026/navigation/fastlio/config/mid360_bag.yaml
+  use_sim_time: true
+  notes: This file is a bag-mapping profile, not a finished live localization profile.
+body_sensor_transform:
+  value: null
+  classification: unconfirmed measured mounting
+camera_intrinsics:
+  value: null
+  classification: unconfirmed
+vesc_motor_servo_calibration:
+  value: null
+  classification: unconfirmed

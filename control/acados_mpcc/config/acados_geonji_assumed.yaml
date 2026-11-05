@@ -1,0 +1,8 @@
+track: tracks/geonji_083146_assumed
+output: results/건지광장/acados_mpcc/083146_assumed
+solver: SQP
+steps: 6000
+# Limits already describe center positions for a 56x19cm enclosing circle +5cm.
+# Zero disables additional body-width subtraction; ORCA dynamics are unchanged.
+vehicle_width: 0.0
+safety_scaling: 1.0

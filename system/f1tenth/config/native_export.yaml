@@ -1,0 +1,41 @@
+# Explicit route for the 2026-10-02 final-map grid audit; offline simulation only.
+track: results/건지광장/routes/20260923_natural_inner/track
+output: results/건지광장/jetson_mpcc/20261002_c_batch_desktop
+solver: SQP_RTI
+hessian: GAUSS_NEWTON
+horizon: 60
+runtime_backend: c_batch
+dt: 0.02
+steps: 10000
+initial_speed: 1.0
+progress_speed_max: 6.0
+prediction_substeps: 4
+nlp_max_iterations: 200
+nlp_tolerance: 0.0001
+qp_max_iterations: 100
+qp_tolerance: 1.0e-06
+condensing_horizon: 10
+levenberg_marquardt: 0.1
+full_step_dual: false
+vehicle_width: 0.0
+safety_scaling: 1.0
+constraint_tolerance: 0.002
+weights:
+  contour: 0.1
+  lag: 1000.0
+  progress: 0.02
+  yaw_rate: 1.0e-05
+  terminal_contour_multiplier: 10.0
+  terminal_yaw_rate_multiplier: 10.0
+  input:
+  - 0.0001
+  - 0.0001
+  - 0.0001
+  increment:
+  - 0.01
+  - 1.0
+  - 0.001
+model: slash_58276_74
+speed_max: 4.0
+assumption_note: v2 spec-bounded motor speed and braking; remaining vehicle dynamics
+  unmeasured.

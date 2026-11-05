@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>MPCC Lab · 가중치 실험실</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="/" aria-label="MPCC Lab 처음 화면"><span class="brand-icon">↗</span><span>MPCC <b>Lab</b></span></a>
+    <div class="header-divider"></div><span class="header-title">가중치 실험실</span>
+    <span class="environment"><i></i> 오프라인 시뮬레이션</span>
+  </header>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-heading"><div class="eyebrow">01 / INPUT</div><h1>주행 성격을 조절하세요</h1><p>값을 바꾸고 같은 코스에서 비교합니다.</p></div>
+      <form id="settings-form">
+        <div class="sidebar-scroll">
+          <section class="setting-section">
+            <label class="field-label" for="track-select">주행 코스</label>
+            <select id="track-select" name="track" disabled><option>코스 불러오는 중…</option></select>
+            <div class="speed-heading"><label class="field-label" for="speed-input">속도 상한</label><span id="speed-kmh">14.4 km/h</span></div>
+            <div class="number-unit"><input id="speed-input" name="speed_max" type="number" min="1" max="26.8" step="0.1" value="4" required><span>m/s</span></div>
+            <input id="speed-range" type="range" min="1" max="26.8" step="0.1" value="4" aria-label="속도 상한 슬라이더">
+            <div class="range-labels"><span id="speed-min-label">1 m/s</span><span id="speed-max-label">26.8 m/s ≈ 60 mph</span></div>
+            <p class="weight-help">허용 속도의 상한입니다. 실제 도달 속도는 구동·타이어 모델과 코스에 따라 달라집니다.</p>
+          </section>
+          <section class="setting-section weights-section"><div class="section-title"><h2>비용 가중치</h2><button id="reset-button" class="text-button" type="button">기본값 복원</button></div><div id="main-fields"></div></section>
+          <details class="setting-section advanced"><summary>추가 가중치 <span>입력 크기 · 요레이트</span></summary><div id="advanced-fields"></div></details>
+          <div class="terminal-note"><span>마지막 중심선 비용</span><strong id="terminal-cost">q꜀,N = 1.0</strong><small>q꜀ × 마지막 비용 배율</small></div>
+          <div class="model-note"><strong>Slash 58276-74 · acados RTI</strong><span>3S · 질량 3.56 kg · 등가 전류 ±30 A</span><span>질량·구동·타이어 특성은 임시 가정입니다.</span><span>예측 1.2초 / 제어 주기 20 ms</span></div>
+        </div>
+        <div class="run-area"><p id="draft-notice">입력값은 다음 실행에 적용됩니다.</p><div class="run-buttons"><button id="run-button" class="primary-button" type="submit" disabled><span>▶</span> 시뮬레이션 실행</button><button id="cancel-button" class="stop-button" type="button" hidden>중단</button></div></div>
+      </form>
+    </aside>
+    <main>
+      <div class="workspace-heading"><div><div class="eyebrow">02 / OUTPUT</div><h2>경로가 어떻게 달라질까요?</h2><p id="track-description">건지광장 · 기준 중심선과 실제 주행선을 함께 비교하세요.</p></div><span id="status-badge" class="status-badge" data-status="ready">준비 중</span></div>
+      <div id="error-banner" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="reconnect-button" type="button" hidden>다시 연결</button><button id="dismiss-error" type="button" aria-label="오류 메시지 닫기">×</button></div>
+      <section class="map-card" aria-label="시뮬레이션 지도">
+        <div class="map-toolbar"><div class="map-title"><span class="live-dot" id="live-dot"></span><strong id="map-mode">기준 주행</strong><span id="map-progress"></span></div><div class="map-actions"><label><input type="checkbox" id="baseline-toggle" checked><span class="legend-dot baseline"></span> 기준 결과</label><label><input type="checkbox" id="map-toggle" checked> 지도</label><button id="fit-button" class="icon-button" type="button" title="지도 전체 보기">⊡ 전체 보기</button></div></div>
+        <div class="canvas-wrap" id="canvas-wrap"><canvas id="map-canvas" aria-label="중심선, 경계, MPCC 예측 경로와 차량 주행 궤적" role="img"></canvas><div class="canvas-hint">드래그 이동 · 휠 확대/축소</div><div id="map-loading" class="map-loading">지도와 기준 결과를 불러오고 있습니다.</div><div class="canvas-info"><span id="car-speed">— <small>m/s</small></span><span id="car-steering">조향 —</span></div></div>
+        <div class="map-legend"><span><i class="line-icon center"></i>중심선</span><span><i class="line-icon boundary"></i>좌우 경계</span><span><i class="line-icon baseline"></i>기준 주행</span><span><i class="line-icon actual"></i>현재 주행</span><span><i class="line-icon prediction"></i>예측 경로</span><small>차량 표식 확대 표시</small></div>
+        <div class="playback"><button id="play-button" class="play-button" type="button" disabled aria-label="시뮬레이션 재생">▶</button><span id="playback-time">0.00 / 0.00 s</span><input id="timeline" type="range" min="0" max="0" value="0" step="1" disabled aria-label="시뮬레이션 시간 이동"><select id="playback-rate" aria-label="재생 속도"><option value="1">1×</option><option value="2">2×</option><option value="5" selected>5×</option><option value="10">10×</option></select><button id="live-button" class="text-button" type="button" hidden>최신 위치</button></div>
+      </section>
+      <div class="metrics" aria-label="시뮬레이션 결과 지표">
+        <article class="metric-card"><div id="time-label">완주 시간</div><strong id="metric-time">—<small>s</small></strong><span id="metric-time-detail">실행 후 표시</span></article>
+        <article class="metric-card"><div>최대 중심선 오차</div><strong id="metric-error">—<small>cm</small></strong><span id="metric-rms">RMS — cm</span></article>
+        <article class="metric-card"><div>경계 초과</div><strong id="metric-boundary">—<small>cm</small></strong><span>차량 중심 허용 경계 기준</span></article>
+        <article class="metric-card"><div>최대 제어 계산 시간</div><strong id="metric-timing">—<small>ms</small></strong><span id="metric-deadline">20 ms 초과 —회</span></article>
+      </div>
+      <section class="detail-card"><div class="section-title"><h3>현재 결과</h3><a id="download-link" class="text-button" hidden>결과 JSON 저장 ↗</a></div><div id="run-description" class="run-description">기본 가중치의 저장된 주행 결과를 표시하고 있습니다. 왼쪽에서 값을 바꾸고 실행해 보세요.</div><div id="run-settings" class="run-settings"></div><p class="scope-note">건지광장 지도에는 바닥으로 가정한 구간이 포함됩니다. 계산 시간은 PC의 제어 계산 기준이며 화면 표시·통신 시간을 제외합니다. 실차 및 고속 주행 성능을 검증한 결과가 아닙니다.</p></section>
+      <section class="history-section"><div class="section-title"><h3>실험 기록</h3><button id="history-refresh" class="text-button" type="button">새로고침 ↻</button></div><div id="history-list" class="history-list"><p class="empty-history">아직 실행한 실험이 없습니다. 첫 번째 가중치를 시험해 보세요.</p></div></section>
+    </main>
+  </div>
+</body>
+</html>

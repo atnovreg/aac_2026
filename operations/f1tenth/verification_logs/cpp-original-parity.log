@@ -1,0 +1,93 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found sensor_msgs: 5.3.8 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13") found components: Crypto 
+-- Configuring done (0.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /verification/cpp-original
+[  5%] Building CXX object CMakeFiles/mpcc_safety.dir/src/safety.cpp.o
+[  5%] Building CXX object CMakeFiles/mpcc_track.dir/src/track.cpp.o
+[  8%] Linking CXX static library libmpcc_safety.a
+[  8%] Built target mpcc_safety
+[ 11%] Building CXX object CMakeFiles/test_actuator_response.dir/test/test_actuator_response.cpp.o
+[ 14%] Linking CXX static library libmpcc_track.a
+[ 14%] Built target mpcc_track
+[ 17%] Building CXX object CMakeFiles/test_plant.dir/test/test_plant.cpp.o
+[ 20%] Linking CXX executable test_actuator_response
+[ 20%] Built target test_actuator_response
+[ 22%] Building CXX object CMakeFiles/test_safety.dir/test/test_safety.cpp.o
+[ 25%] Building C object CMakeFiles/test_plant.dir/verification/native-c-batch/plant_step_10ms.c.o
+[ 28%] Linking CXX executable test_safety
+[ 28%] Built target test_safety
+[ 31%] Building CXX object CMakeFiles/test_solution_validation.dir/test/test_solution_validation.cpp.o
+[ 34%] Linking CXX executable test_plant
+[ 34%] Built target test_plant
+[ 37%] Building CXX object CMakeFiles/test_lap.dir/test/test_lap.cpp.o
+[ 40%] Linking CXX executable test_solution_validation
+[ 40%] Built target test_solution_validation
+[ 42%] Building CXX object CMakeFiles/mpcc_core.dir/src/core.cpp.o
+[ 45%] Linking CXX executable test_lap
+[ 45%] Built target test_lap
+[ 48%] Building CXX object CMakeFiles/test_track.dir/test/test_track.cpp.o
+[ 51%] Linking CXX executable test_track
+[ 54%] Building CXX object CMakeFiles/mpcc_core.dir/src/identity.cpp.o
+[ 54%] Built target test_track
+[ 57%] Building C object CMakeFiles/mpcc_core.dir/f1tenth_ws/src/f1tenth/control/acados_mpcc/c_batch_bridge.c.o
+[ 60%] Building C object CMakeFiles/mpcc_core.dir/verification/native-c-batch/plant_step_10ms.c.o
+[ 62%] Building C object CMakeFiles/mpcc_core.dir/verification/native-c-batch/plant_step_20ms.c.o
+[ 65%] Linking CXX static library libmpcc_core.a
+[ 65%] Built target mpcc_core
+[ 68%] Building CXX object CMakeFiles/mpcc_offline_run.dir/src/offline_run.cpp.o
+[ 71%] Building CXX object CMakeFiles/mpcc_virtual_node.dir/src/virtual_node.cpp.o
+[ 74%] Linking CXX executable mpcc_offline_run
+[ 74%] Built target mpcc_offline_run
+[ 77%] Building CXX object CMakeFiles/test_diagnostics.dir/test/test_diagnostics.cpp.o
+[ 80%] Linking CXX executable test_diagnostics
+[ 80%] Built target test_diagnostics
+[ 82%] Building CXX object CMakeFiles/test_identity.dir/test/test_identity.cpp.o
+[ 85%] Linking CXX executable test_identity
+[ 85%] Built target test_identity
+[ 88%] Building CXX object CMakeFiles/test_core.dir/test/test_core.cpp.o
+[ 91%] Linking CXX executable test_core
+[ 91%] Built target test_core
+[ 94%] Building CXX object CMakeFiles/test_warmstart.dir/test/test_warmstart.cpp.o
+[ 97%] Linking CXX executable test_warmstart
+[ 97%] Built target test_warmstart
+[100%] Linking CXX executable mpcc_virtual_node
+[100%] Built target mpcc_virtual_node
+Internal ctest changing into directory: /verification/cpp-original
+Test project /verification/cpp-original
+    Start 9: core_parity
+1/1 Test #9: core_parity ......................***Failed    3.41 sec
+core parity rows=2147 max_command_error=5.34077e-06
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   3.41 sec
+
+The following tests FAILED:
+	  9 - core_parity (Failed)
+Errors while running CTest

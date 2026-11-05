@@ -1,0 +1,57 @@
+{
+  "created_utc": "2026-09-10T13:16:35.288399+00:00",
+  "review_scope": "Read-only independent geometry review of current measured input; no changes to track, solver or simulation.",
+  "input_directory": "tracks/indoor_final",
+  "input_sha256": {
+    "track.csv": "ab6a647bea30eb31ac665eb75d59b974c7e6719412326778450d7e6c994db6f9",
+    "left_boundary.csv": "f693c3cf6c37bfb3388a56aa7ad6773e4c8f0fafe7a3ad9ed5af4280364cab3a",
+    "right_boundary.csv": "64056b543da1a76b29f2e2bd71daea9850cd77200f9e53bef71fcc192198c0f9",
+    "validation.json": "9cf5b3144aad2914dad3476c0e85155a2431782ee8a63e552da52d36609d2189",
+    "map_evidence.npz": "4cfc592b233634b421746d6c94c7f3b3ab957ec50f66337ca321d743e1382498",
+    "extraction.yaml": "abc640325e95000f0ae0253ecf1627c43af729931add9ce82e0b5ed903cc021d"
+  },
+  "track_length_m": 53.062338993998516,
+  "reference_samples": 10613,
+  "arc_spacing_m": 0.004999749269198013,
+  "transverse_samples_per_reference": 101,
+  "total_samples_per_clearance": 1071913,
+  "map_grid_resolution_m": 0.05,
+  "map_grid_shape_rows_columns": [
+    434,
+    468
+  ],
+  "csv_vs_spline_max_yaw_difference_rad": 3.594047129462652e-06,
+  "csv_vs_spline_max_left_boundary_vertex_difference_m": 1.5751654123873027e-06,
+  "csv_vs_spline_max_right_boundary_vertex_difference_m": 1.5751654139079998e-06,
+  "spline_parameter_speed_min": 0.9999996518243511,
+  "spline_parameter_speed_max": 1.0000258074111832,
+  "max_abs_curvature_times_half_width": 0.7012609294320071,
+  "checks": [
+    {
+      "clearance_m": 0.0,
+      "outside_usable_grid": 0,
+      "outside_original_paired_boundary_polygon": 10635,
+      "interpretation": "Unshrunk smooth spline tube differs from original piecewise-linear boundary polygon, including sampled boundary points; do not claim exact polygon identity."
+    },
+    {
+      "clearance_m": 0.045,
+      "outside_usable_grid": 0,
+      "outside_original_paired_boundary_polygon": 0,
+      "interpretation": "Configured ORCA half-width clearance keeps all sampled spline tube points inside original paired boundary polygon and inferred usable mask."
+    }
+  ],
+  "method": [
+    "Evaluate Track.reference at equally spaced arc samples over one period, excluding duplicate endpoint.",
+    "For each reference, use the spline unit left normal and linearly interpolated paired widths; sample 101 transverse positions between right+clearance and left-clearance.",
+    "Query map_evidence.npz usable mask with floor((XY-origin)/0.05), treating out-of-grid as outside.",
+    "Test points inside right_boundary.csv outer polygon and outside left_boundary.csv inner polygon using matplotlib.path.Path.",
+    "Compare spline-derived sample tangents/paired limits to CSV yaw and boundary vertices."
+  ],
+  "limitations": [
+    "Finite spatial sampling, not an analytic continuous containment proof.",
+    "Structural usable mask does not certify low-obstacle absence or real-vehicle clearance.",
+    "This audit is bound to the input hashes; it does not validate arbitrary future CSV edits.",
+    "Original boundary polygon test at zero clearance includes boundary classification conventions.",
+    "Simulation lap success must be checked separately from geometry validity."
+  ]
+}

@@ -1,4 +1,4 @@
-# CLAUDE.md — ros_ws
+# CLAUDE.md — ros2_ws
 
 Behavioral guidelines and project context for the `aac_2026` ROS2 autonomous driving workspace.
 
@@ -24,7 +24,7 @@ ROS2 Humble + Docker on Ubuntu 22.04. Target platforms: x86 (CUDA), Mac (ARM64, 
 ### Directory structure
 
 ```
-ros_ws/
+ros2_ws/
 └── src/
     └── aac_2026/
         ├── docker/
@@ -58,7 +58,7 @@ ros_ws/
 
 ```bash
 # 1. Build image (from host, one-time — takes 30-60 min for x86 due to OpenCV CUDA)
-cd ~/ros_ws/src/aac_2026/docker
+cd ~/ros2_ws/src/aac_2026/docker
 ./build_docker.sh x86      # or mac / ros2
 
 # 2. Enter container (handles create / restart / attach automatically)
@@ -76,7 +76,7 @@ source /ros_ws/install/setup.bash
 
 ```bash
 # x86
-echo "alias aac_enter='cd ~/ros_ws/src/aac_2026/docker && bash run_x86.sh'" >> ~/.bashrc
+echo "alias aac_enter='cd ~/ros2_ws/src/aac_2026/docker && bash run_x86.sh'" >> ~/.bashrc
 
 # Required env vars
 echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc

@@ -1,0 +1,9 @@
+FROM aac-f1tenth-track:jazzy
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-jazzy-ros-gz-sim ros-jazzy-gz-sim-vendor \
+    libgl1-mesa-dri libglx-mesa0 mesa-utils xauth \
+    && rm -rf /var/lib/apt/lists/*
+COPY src/aac_2026/docker/f1tenth/gazebo-entrypoint.sh /gazebo-entrypoint.sh
+RUN chmod +x /gazebo-entrypoint.sh
+ENTRYPOINT ["/gazebo-entrypoint.sh"]

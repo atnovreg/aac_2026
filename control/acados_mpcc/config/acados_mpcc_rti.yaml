@@ -1,0 +1,3 @@
+# Same physical model/objective/bounds; single SQP step per control sample.
+solver: SQP_RTI
+hessian: GAUSS_NEWTON

@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-05",
+  "imported_files": 901,
+  "original_aac_files_preserved": 548,
+  "nano_original_files_preserved": 585,
+  "portable_source_aliases": 71,
+  "local_source_data_archive_links": 83,
+  "tests": {
+    "mpcc": 25,
+    "slash_model": 10,
+    "tuner": 19,
+    "planning": 5,
+    "localization": 14,
+    "layout_and_setup": 11
+  },
+  "python_shell_checks": {
+    "python_files_parsed": 218,
+    "shell_files_checked": 23
+  },
+  "ros_packages_discovered": 29,
+  "cpp_native_status": {
+    "build": "PASS",
+    "ctest_passed": 9,
+    "ctest_total": 10,
+    "failed_test": "core_parity",
+    "max_command_difference": 5.34077e-06,
+    "threshold": 1e-06,
+    "baseline_original_source_reproduction": "Same core_parity failure and exact maximum difference using the original pre-migration C++ source and identical fresh artifacts. Controller source and tolerance unchanged."
+  },
+  "docker_pc_image_status": "PASS: aac-f1tenth-fastlio:jazzy including full preserved Livox SDK source",
+  "initial_cpp_python_reference_observation": {
+    "passed": 9,
+    "total": 10,
+    "core_parity_max_command_difference": 5.34077e-06,
+    "threshold": 1e-06,
+    "action": "preserve controller and tolerances; repeat with original native-export C-batch configuration"
+  },
+  "scope_limits": [
+    "No remote Nano files or runtime changed",
+    "No AGX deployment",
+    "No real sensor/actuator runtime test",
+    "Desktop data and Python environments remain local links",
+    "Existing AAC Humble build/install/log preserved"
+  ],
+  "review": {
+    "reviewer": "independent read-only agent",
+    "findings": {
+      "important": 2,
+      "minor": 1
+    },
+    "fixed": [
+      "Absolute asset defaults in mapping/replay wrappers",
+      "Aligned Gazebo plugin build/test/search under distro/CPU artifacts",
+      "Canonical FAST-LIO log-copy path"
+    ],
+    "regression_tests": "Wrapper regressions RED -> GREEN; all 11 layout/setup/wrapper tests passed",
+    "deferred_findings": []
+  },
+  "mapping_packages_build": {
+    "status": "PASS",
+    "packages": [
+      "livox_ros_driver2",
+      "bag_adapter",
+      "fast_lio"
+    ],
+    "build_directory": "artifacts/f1tenth/jazzy-x86_64",
+    "elapsed_s": 54.3
+  },
+  "gazebo_plugin_build_and_test": {
+    "status": "PASS",
+    "tests_passed": 1,
+    "hardware_execution": false
+  },
+  "front_filter_build_and_test": {
+    "status": "PASS",
+    "tests_passed": 1,
+    "hardware_execution": false
+  },
+  "status": "Consolidation complete; inherited C++ numeric parity failure reproduced and documented",
+  "python_tests_passed": 84,
+  "current_workspace": "/home/irdl4/ros2_ws",
+  "relocation_report": "relocation.json"
+}

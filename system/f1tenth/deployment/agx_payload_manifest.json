@@ -1,0 +1,86 @@
+{
+  "status": "manifest_only_not_deployed",
+  "source_root": "src/aac_2026",
+  "source_exclusions": [
+    "archive",
+    "operations/f1tenth/before",
+    "**/__pycache__",
+    "**/results",
+    "**/build",
+    "**/install",
+    "**/log"
+  ],
+  "mandatory_data": [
+    {
+      "path": "results/건지광장/map_edit/20261001_expanded_option2/map_static.pcd",
+      "size": 8484270,
+      "sha256": "9aceb1e656636e9ada091b6a6c627c8d799255a59c0d4ab4fe86d4f446c89d7a"
+    },
+    {
+      "path": "results/건지광장/map_edit/20261001_similarity_obstacles/drivable_area/area.npz",
+      "size": 1112128,
+      "sha256": "71936d86841d43817218bbd98214da7e3dd4deca292f01a221a7bba16f2dbcc8"
+    },
+    {
+      "path": "results/건지광장/map_edit/20261001_similarity_no_manual/registration.json",
+      "size": 725,
+      "sha256": "b65c1e540b49a565d74573c6eff355da2021da4ef8b73dee62b5ceb395be9081"
+    },
+    {
+      "path": "results/건지광장/map_edit/20261001_similarity_obstacles/obstacle_selections.json",
+      "size": 3936,
+      "sha256": "bed327bf92e40a72c51da6379576bde0c8f57b760fa0a450d9d52e08706b6c1f"
+    },
+    {
+      "path": "results/건지광장/routes/20260923_natural_inner/track/track.csv",
+      "size": 108231,
+      "sha256": "fd60e382cc85cd6b82587e2ad1f53aa3953861fa02e3ddcd28bcb7af1e61146e"
+    },
+    {
+      "path": "results/건지광장/routes/20260923_natural_inner/track/validation.json",
+      "size": 718,
+      "sha256": "46e938ac9bf6237962d7bab06fc352eb01780674360af02da94cb8191dc8640a"
+    },
+    {
+      "path": "src/aac_2026/system/f1tenth/config/selected_cpp_runtime.json",
+      "size": 3254,
+      "sha256": "14cc9975d173029136317ad0b5c0e63d507fd45fa01ca3ce5e26789d4d761d27"
+    },
+    {
+      "path": "results/건지광장/jetson_mpcc/20261002_cpp_100hz/candidate_n40.yaml",
+      "size": 970,
+      "sha256": "223dee7500f34e7a35bf6447ef9c7ed6b4ede722bbae7812450578f09a8683b3"
+    }
+  ],
+  "configuration_root": "src/aac_2026/system/f1tenth/config",
+  "optional_replay_input": [
+    {
+      "path": "bags/20260913/bags/front180_20260913_081248/front180_20260913_081248_0.mcap",
+      "size": 79908894,
+      "sha256": "456d727c18370697dd0ca227127b6a84bca66fdd87444e7b6e80af6a3a38dd5b"
+    },
+    {
+      "path": "bags/20260913/bags/front180_20260913_081248/metadata.yaml",
+      "size": 2127,
+      "sha256": "28b118593d79106c4c49d4c622b099219d57943ff2adbae5482084df896e365c"
+    }
+  ],
+  "rebuild": [
+    "ROS packages",
+    "Livox SDK",
+    "RealSense SDK/RSUSB as required",
+    "acados",
+    "generated solver",
+    "Python environment"
+  ],
+  "unconfirmed": [
+    "AGX OS/JetPack/driver compatibility",
+    "Ethernet host address/interface",
+    "USB identities",
+    "vehicle mounting TF",
+    "camera calibration",
+    "VESC driver/motor/servo calibration"
+  ],
+  "runtime_defaults_changed": false,
+  "physical_run_verified": false
+}

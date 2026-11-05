@@ -1,0 +1,220 @@
+Panels:
+- Class: rviz_common/Displays
+  Name: Displays
+- Class: rviz_common/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Global Options:
+    Background Color: 25; 29; 36
+    Fixed Frame: review_map
+    Frame Rate: 30
+  Displays:
+  - Class: rviz_default_plugins/MarkerArray
+    Name: G IDs - remaining poses (static only)
+    Enabled: true
+    Namespaces: {}
+    Topic:
+      Value: /review/static_only/gaps
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+  - Class: rviz_default_plugins/PointCloud2
+    Name: A1 Surface candidate [v3]
+    Enabled: true
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_only/candidate
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 90; 195; 120
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 3
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: A2 Obstacle evidence [v3]
+    Enabled: true
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_only/obstacles
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 230; 115; 65
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 3
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: A3 Unknown [v3]
+    Enabled: true
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_only/unknown
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 95; 100; 110
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 3
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: A4 Vehicle center candidates [v3]
+    Enabled: false
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_only/vehicle_centers
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 20; 235; 80
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 3
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: 01 Static map
+    Enabled: false
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_map
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 45; 170; 235
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 2
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: 02 Input map
+    Enabled: false
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/input_map
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 180; 180; 180
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 2
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: 03 Static - hide floor
+    Enabled: false
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/static_map_no_floor
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 45; 170; 235
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 2
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/PointCloud2
+    Name: 04 Input - hide floor
+    Enabled: false
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/input_map_no_floor
+    Alpha: 1
+    Color Transformer: FlatColor
+    Color: 180; 180; 180
+    Position Transformer: XYZ
+    Style: Points
+    Size (Pixels): 2
+    Size (m): 0.05
+    Decay Time: 0
+    Selectable: true
+    Use Fixed Frame: true
+    Queue Size: 1
+  - Class: rviz_default_plugins/Path
+    Name: 05 Recorded LIO trajectory
+    Enabled: true
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /review/trajectory
+    Color: 255; 90; 55
+    Alpha: 1
+    Line Style: Billboards
+    Line Width: 0.1
+    Buffer Length: 1
+    Pose Style: None
+  Tools:
+  - Class: rviz_default_plugins/Interact
+  - Class: rviz_default_plugins/MoveCamera
+  - Class: rviz_default_plugins/Select
+  - Class: rviz_default_plugins/Measure
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 95
+      Focal Point:
+        X: -4
+        Y: 18
+        Z: 0
+      Pitch: 1.5
+      Yaw: 4.71
+      Near Clip Distance: 0.01
+      Target Frame: <Fixed Frame>
+Window Geometry:
+  Width: 1550
+  Height: 960
+  X: 80
+  Y: 50

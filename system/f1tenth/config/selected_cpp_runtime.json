@@ -1,0 +1,63 @@
+{
+  "selected_at_utc": "2026-10-02T00:04:30.365558+00:00",
+  "scope": "Jetson ARM64 ROS2 C++ virtual vehicle benchmark, no physical sensors or actuator output",
+  "selection": "N40 x 30ms prediction, 10ms fresh-solve feedback, temporary performance CPU governor",
+  "selection_reason": "Qualified tested configuration; N50 performance retained 2 scheduled misses and both schedutil candidates missed deadlines",
+  "prediction_s": 1.2,
+  "feedback_s": 0.01,
+  "speed_cap_m_s": 4.0,
+  "config": "candidate_n40.yaml",
+  "generated_manifest": "candidate_n40/reference/manifest.json",
+  "solver_library_sha256": "a34a23014f283ad30dac87b950119aba1c053453e6784427382c94a412716694",
+  "ros_binary_sha256": "dc4b871a558ef7bb013b54c237ea305a959060af11c62a528ee1b4047eaaedf4",
+  "offline_binary_sha256": "32b8f48dc3d6f830514e7e6137f5fe46640c3e16e1f3d8d90e569aeada943f29",
+  "source_hashes": "resume_source_sha256.json",
+  "source_snapshot": "resume_cpp_source.tar.gz",
+  "observed_100hz_goal_met": true,
+  "steady_ticks": 6400,
+  "steady_s": 63.993686692999994,
+  "callback_ms": {
+    "mean": 3.7680649240625,
+    "p95": 4.25814405,
+    "p99": 4.485904040000001,
+    "max": 6.477588
+  },
+  "scheduled_deadline_misses": 0,
+  "skipped_scheduled_releases": 0,
+  "simulated_lap_s": 42.910000000000004,
+  "trajectory_difference_to_python_50hz_m": {
+    "mean": 0.024448742509639167,
+    "p95": 0.04703205550367729,
+    "max": 0.05043316958103132
+  },
+  "required_measured_environment": {
+    "power_mode": "MAXN_SUPER",
+    "cpu_governors": "performance",
+    "native_build": "Release"
+  },
+  "current_cpu_governors": "schedutil restored; default environment is different from qualifying benchmark",
+  "launch_to_ready_s": 0.4406023669980641,
+  "generation_time": "unmeasured; exact generated artifacts/manifest retained",
+  "qualification": {
+    "native_tests": 8,
+    "python_reference_tests": 19,
+    "virtual_failure_cases": 6,
+    "grid_circle_line_segment_audit": true
+  },
+  "physical_vehicle_validated": false,
+  "hard_realtime_guarantee": false,
+  "limits": [
+    "No live sensor/estimator workload or motor output",
+    "No field map registration/clearance validation",
+    "Single 65s observation; not worst-case timing proof",
+    "Current generated plant hashes verified but not a complete tamper-proof runtime system"
+  ],
+  "evidence": {
+    "timing": "n40_performance_probe/ros_65s.summary.json",
+    "environment": "n40_performance_probe/environment.json",
+    "offline": "candidate_n40/offline_summary.json",
+    "safety": "n40_performance_probe/safety_summary.json"
+  },
+  "archive_sha256": "34f99b4357ca5fcef9bedb294692108134123adc35a5b9a9a8bf0b6cfdac4aae",
+  "jetson_native_build_command": "source /opt/ros/jazzy/setup.bash; cd /workspace/f1tenth_ws; colcon --log-base log_mpcc_n40 build --build-base build_mpcc_n40 --install-base install_mpcc_n40 --packages-select mpcc_cpp_virtual --cmake-args -DCMAKE_BUILD_TYPE=Release -DMPCC_GENERATED_DIR=/workspace/f1tenth_ws/results/\uac74\uc9c0\uad11\uc7a5/jetson_mpcc/20261002_cpp_100hz/candidate_n40/reference/generated -DMPCC_REFERENCE_DIR=/workspace/f1tenth_ws/results/\uac74\uc9c0\uad11\uc7a5/jetson_mpcc/20261002_cpp_100hz/candidate_n40/reference -DACADOS_ROOT=/workspace/f1tenth_ws/vendor/acados"
+}

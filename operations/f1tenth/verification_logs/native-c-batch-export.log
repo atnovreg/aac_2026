@@ -1,0 +1,31 @@
+{
+  "artifact_format": "MPCC_NATIVE_V1",
+  "horizon": 60,
+  "state_dimension": 10,
+  "actuator_prediction": null,
+  "dt": 0.02,
+  "prediction_time_s": 1.2,
+  "route_length_m": 170.22736623711225,
+  "runtime_backend": "c_batch",
+  "runtime_params_sha256": "5d1501380e723cdad32e0273801a2e3f423a12be4d75182cef09d701b63740de",
+  "config_sha256": "8145429de025c6035f72cf6f0c9c9dce8fcdcf9b7190f1b708ce4014eb84aee6",
+  "track_csv_sha256": "fd60e382cc85cd6b82587e2ad1f53aa3953861fa02e3ddcd28bcb7af1e61146e",
+  "track_native_sha256": "37a0f4a711deab4f4ad534546afc91df9221295b4ed65c21d2bf8fe72b6c83f2",
+  "track_reference_sha256": "b8c15a8eaa470810605394db7010575b386ddebcef202db5b0874bfb968a19ab",
+  "plant_reference_sha256": "bfb7a6e99d0219d6d2c9ee259c6be500f8bb02d89c329d0f6a2311f627ed7a3c",
+  "plant_c_sha256": "dd020156b870e6a64edcda7116c4e46c54f4c789888b8a732a87779561619137",
+  "plant_header_sha256": "b68b77027ee3f4046f0f14aa47c27941af27474c47aeb3b1a236b8c0ca1aba70",
+  "plant_20ms_c_sha256": "1bdc6e245fa0d3ea85a5bb44baf4f59865a93a934e899a096d6d2c8663221059",
+  "plant_20ms_header_sha256": "6a2f911e3f39b02c5f1994bf702446ee7e751398d110a218e2e5314f69bcf3b5",
+  "solver_library_sha256": "1b7996635fcd7cfedef7d96c301fe707f4982497796746a23c0178e7732bc4c6",
+  "replay_sha256": "8a59155012017dc4c2217973a4540c53a64ba2c0b21e0c265280c29e3797a477",
+  "source_sha256": {
+    "native_export.py": "aa91f75cddeba9b5c921d063d7167e1cb43f919c0faf72aa8be1808b1cc16af5",
+    "controller.py": "060a1eb1064ead2834119fdcfe3152af4b8e6aa27fb7a904afc7e67ebd874cfa",
+    "track.py": "564d4b1690d82f272cfd050a0b8856752eda86ed96f34c509a95f481bf191f7e",
+    "model.py": "8309983032d4d9a1f2ac9754d36c4525949a762d4a18b9814242c3f3cb0b1cb5",
+    "slash_model.py": "d450f69ddfc60471fb8a8040e155cfe74171dca270946982e3e95228f1056589",
+    "c_batch_bridge.c": "c4a0cc4acc7934a20f3ad26bc723c7113ee5554fc19caf3e1a7ee14562a6eea4",
+    "actuator_model.py": "4d7b62a27096c2af68faefff777b1451ebe242f69a55bd09b6197f58a8708cad"
+  }
+}

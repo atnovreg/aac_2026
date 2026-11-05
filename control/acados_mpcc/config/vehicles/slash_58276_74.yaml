@@ -1,0 +1,365 @@
+name: Traxxas Slash VXL 2WD 58276-74 + Dual FSESC6.7 Plus (heatsink, provisional current
+  model)
+validation_status: manufacturer_documents_audited_20260923_dynamics_unidentified
+hardware:
+  source: User records through 2026-09-20 upper-deck spec, and manufacturer audit
+    2026-09-23
+  status: component_identity_updated_not_bench_calibrated
+  battery:
+    model: Zeee 11.1V 5200mAh 50C 3S LiPo
+    cells_series: 3
+    nominal_voltage_V: 11.1
+    capacity_Ah: 5.2
+    connector: XT60
+    published_matching_variant_mass_kg: 0.343
+    published_matching_variant_dimensions_mm:
+    - 132
+    - 43
+    - 25
+    variant_status: Matches stated 3S 5200mAh 50C; exact pack/case revision not inspected
+    published_full_charge_voltage_V: 12.6
+  motor_controller:
+    model: FLIPSKY Dual FSESC6.7 Plus, no aluminum case, bottom heatsink
+    sku: null
+    configured_motor_current_limit_A: null
+    configured_battery_current_limit_A: null
+    candidate_sku: VH-67D-S-100
+    variant_status: No case and bottom heatsink confirmed in existing user record;
+      exact SKU/revision not confirmed
+    user_configuration_status: User reports no VESC configuration changes; shipped
+      motor/battery limits not read
+  power_board:
+    model: RoboRacer Power Board v2024.1
+    board_identifier: AE170_PDU_02.04
+  computer: NVIDIA Jetson Orin Nano Developer Kit (user provisional identification,
+    2026-09-20)
+  camera: Intel RealSense D435i
+  lidar: Livox MID-360
+  measured_loaded_mass_kg: null
+  motor:
+    model: Velineon 3500
+    part_number: 3351R
+    status: Stock part identified in exact-model manufacturer parts list; installed
+      motor assumed stock
+  steering_servo:
+    model: Traxxas 2075
+    status: Non-optional part in exact-model manufacturer parts list; installed servo
+      assumed stock
+    rated_torque_oz_in: 125
+    rated_torque_source: https://traxxas.com/news/metal-gear-servo-upgrade
+    shaft_speed_s_per_60deg: null
+    road_wheel_mapping_verified: false
+    note: Primary-source transit-speed value not verified; do not substitute servo
+      shaft speed for road-wheel rate.
+parameters:
+  wheelbase: 0.335
+  length: 0.578
+  width: 0.296
+  mass: 3.56
+  lf: 0.1675
+  lr: 0.1675
+  yaw_inertia: 0.12513
+  wheel_radius: 0.0545
+  motor_kv: 3500.0
+  gear_ratio: 10.170434782608696
+  battery_voltage: 11.1
+  motor_current_limit: 30.0
+  drivetrain_efficiency: 0.8
+  mu: 0.9
+  tire_shape_front: 6.0
+  tire_shape_rear: 6.0
+  rolling_coefficient: 0.025
+  aero_coefficient: 0.06
+  steering_limit: 0.45
+  steering_rate_limit: 2.5
+  current_slew_per_second: 300.0
+  low_speed_regularization: 0.5
+  motor_max_rpm: 50000.0
+  motor_brake_current_limit: 30.0
+  brake_speed_regularization: 0.2
+sources:
+  manual:
+    url: https://www.astramodel.cz/manualy/5/58276-74-OM-EN-R00.pdf
+    type: manufacturer_manual_mirror
+    confirmed:
+    - model_58276_74
+    - rear_wheel_drive
+    - motor_3500_rpm_per_volt
+    - stock_pinion_23
+    - stock_spur_86
+    - internal_ratio_2.72
+  specification_reproduction:
+    url: https://hobbyall.co.kr/product/detail.html?cate_no=98&display_group=1&product_no=45651
+    type: manufacturer_specification_block_reproduced_by_dealer
+    reported:
+      wheelbase_m: 0.335
+      front_rear_track_listing_m: 0.296
+      listed_mass_kg: 2.56
+      listed_length_m: 0.568
+  exact_model_manual_20260923:
+    url: https://www.astramodel.cz/manualy/traxxas/58276-74-OM-EN-R00.pdf
+    type: manufacturer_manual_on_distributor_mirror
+    local_copy: results/건지광장/vehicle_specs/20260923/sources/slash_manual.pdf
+  exact_model_parts_20260923:
+    url: https://www.astramodel.cz/manualy/traxxas/58276-74_parts.pdf
+    type: manufacturer_parts_list_on_distributor_mirror
+    local_copy: results/건지광장/vehicle_specs/20260923/sources/slash_parts.pdf
+  flipsky_20260923:
+    url: https://flipsky.net/products/dual-fsesc6-7-plus-with-power-button
+    type: manufacturer_product
+  zeee_20260923:
+    url: https://zeeebattery.com/products/zeee-3s-lipo-battery-5200mah-11-1v-50c-xt60
+    type: manufacturer_product
+  livox_20260923:
+    url: https://www.livoxtech.com/mid-360/specs
+    type: manufacturer_specification
+  orin_20260923:
+    url: https://developer.nvidia.com/downloads/assets/embedded/secure/jetson/orin_nano/docs/jetson_orin_nano_devkit_carrier_board_specification_sp.pdf
+    type: manufacturer_datasheet
+    local_copy: results/건지광장/vehicle_specs/20260923/sources/orin_carrier.pdf
+assumptions:
+  length: 0.578m conservative footprint; listings differ 568 vs 578mm, user measurement
+    pending
+  width: 0.296m provisional overall envelope from published track/width listings;
+    not measured wheel-center track
+  mass: 3.56kg retained as unmeasured simulation assumption. Candidate battery+LiDAR+computer
+    subtotal is 0.783kg; full build needs remaining and removed component masses.
+  cg: centered between axles; exact axle weight distribution unknown
+  yaw_inertia: mass*(length^2+width^2)/12 uniform rectangular body approximation
+  tire_radius: nominal 109mm diameter; loaded radius unknown
+  battery: user confirmed planned 3S nominal 11.1V battery; no voltage sag modeled
+  current: Equivalent +/-30A retained by user permission for approximate simulation;
+    not a factory default or the per-channel 100A advertised hardware rating.
+  torque_constant: 60/(2*pi*Kv) ideal equivalent-current convention; actual VESC FOC
+    current mapping needs calibration
+  drive: stock gearing assumed; 80 percent efficiency; smooth voltage-limited traction
+    envelope, not measured motor curve
+  tires: generic tanh lateral force with mu=0.9 and normalized stiffness 6/rad; not
+    copied ORCA tire parameters
+  resistance: estimated rolling coefficient and quadratic aerodynamic force
+  steering: estimated road-wheel limit 0.45rad and command rate 2.5rad/s; ideal response
+    with no servo lag
+limitations:
+- no vertical motion
+- no suspension or load transfer
+- no tire temperature
+- no wheel-speed/slip dynamics
+- no VESC electrical transient or thermal model
+- no localization noise or latency
+- not a calibrated high-speed model
+- Negative normalized motor input models braking only, not reverse drive; battery
+  regen/current and electrical transients are not represented.
+published_specs:
+  motor:
+    source: https://www.astramodel.cz/manualy/traxxas/58276-74-OM-EN-R00.pdf
+    page: 25
+    type: sensorless brushless
+    kv_rpm_per_V: 3500
+    maximum_rpm: 50000
+    mass_kg: 0.262
+    diameter_m: 0.036
+    length_m: 0.055
+    connector_mm: 3.5
+  transmission:
+    source: https://www.astramodel.cz/manualy/traxxas/58276-74-OM-EN-R00.pdf
+    page: 24
+    stock_pinion_teeth: 23
+    stock_spur_teeth: 86
+    internal_ratio: 2.72
+    stock_total_ratio: 10.170434782608696
+    advertised_60mph_condition:
+      battery: 3S LiPo
+      pinion_teeth: 31
+      spur_teeth: 76
+      not_current_stock_gearing: true
+  esc:
+    source: https://flipsky.net/products/dual-fsesc6-7-plus-with-power-button
+    voltage_range_V:
+    - 8
+    - 60
+    lipo_cells:
+    - 3
+    - 12
+    advertised_continuous_current_per_channel_A: 100
+    advertised_instantaneous_current_per_channel_A: 400
+    electrical_rpm_limit: 150000
+    aux_outputs_per_channel:
+    - voltage_V: 5
+      current_A: 1.5
+    - voltage_V: 3.3
+      current_A: 1
+    modes:
+    - DC
+    - BLDC
+    - FOC
+    heatsink_dimensions_mm:
+    - 78
+    - 78
+    - 27.3
+    note: Device ratings depend on installation and temperature. They are not shipped
+      configuration or a motor current recommendation. ERPM is not mechanical RPM.
+  battery:
+    source: https://zeeebattery.com/products/zeee-3s-lipo-battery-5200mah-11-1v-50c-xt60
+    nominal_voltage_V: 11.1
+    capacity_Ah: 5.2
+    discharge_C_marketing: 50
+    approx_mass_kg: 0.343
+    dimensions_mm:
+    - 132
+    - 43
+    - 25
+    voltage_per_cell_max_V: 4.2
+    note: C rating not used as configured battery-current limit.
+  lidar:
+    source: https://www.livoxtech.com/mid-360/specs
+    model: MID-360
+    mass_kg: 0.265
+    dimensions_mm:
+    - 65
+    - 65
+    - 60
+    typical_cloud_hz: 10
+    point_rate_per_s: 200000
+    horizontal_fov_deg: 360
+    vertical_fov_deg:
+    - -7
+    - 52
+    input_voltage_V:
+    - 9
+    - 27
+    average_power_W: 6.5
+    range_precision_1sigma_m_at_10m: 0.02
+    note: Range precision is not localization error.
+  computer:
+    source: https://developer.nvidia.com/downloads/assets/embedded/secure/jetson/orin_nano/docs/jetson_orin_nano_devkit_carrier_board_specification_sp.pdf
+    model: Orin Nano Developer Kit
+    document_mass_kg: 0.175
+    status: Manufacturer mass for candidate kit; extra case/SSD/wiring not accounted
+      for
+derived_specs:
+  ideal_torque_constant_Nm_per_equivalent_A: 0.0027283704530039203
+  stock_no_load_speed_m_s_at_nominal_voltage: 21.801010502312213
+  known_candidate_added_mass_subtotal_kg: 0.7830000000000001
+  mass_subtotal_includes:
+  - matching battery variant
+  - MID-360
+  - candidate Orin Nano kit
+  mass_subtotal_excludes:
+  - VESC minus removed stock ESC
+  - camera
+  - powerboard
+  - ABS deck
+  - cables/fasteners
+  - removed stock body or components
+  note: Derived ideal values/subtotal, not measured torque, top speed, or full loaded
+    mass.
+parameter_evidence:
+  wheelbase:
+    value: 0.335
+    status: existing_published_spec_not_reverified
+    note: 335mm existing recorded listing; exact-model manual has no chassis dimensions
+  length:
+    value: 0.578
+    status: conservative_assumption
+    note: 578mm collision envelope; existing listing says 568mm, retained to avoid
+      silently shrinking footprint
+  width:
+    value: 0.296
+    status: existing_spec_envelope_assumption
+    note: 296mm existing published track/width listing; overall envelope unmeasured
+  mass:
+    value: 3.56
+    status: unmeasured_assumption
+    note: 3.56kg provisional total; do not treat as complete component sum
+  lf:
+    value: 0.1675
+    status: unmeasured_assumption
+    note: Centered CG; axle weights unavailable
+  lr:
+    value: 0.1675
+    status: unmeasured_assumption
+    note: Centered CG; axle weights unavailable
+  yaw_inertia:
+    value: 0.12513
+    status: derived_approximation
+    note: Uniform rectangular body approximation, not measured mass distribution
+  wheel_radius:
+    value: 0.0545
+    status: unmeasured_loaded_radius
+    note: 54.5mm nominal from existing 109mm listing; no loaded rolling-radius measurement
+  motor_kv:
+    value: 3500.0
+    status: manufacturer_verified
+    note: Exact-model owner manual p25; installed motor assumed stock
+  gear_ratio:
+    value: 10.170434782608696
+    status: manufacturer_verified_derived
+    note: Exact-model manual p24 stock 23/86 * 2.72
+  battery_voltage:
+    value: 11.1
+    status: manufacturer_verified_nominal
+    note: Matching Zeee pack nominal voltage; no voltage sag model
+  motor_current_limit:
+    value: 30.0
+    status: simulation_assumption_not_factory_default
+    note: Equivalent +/-30A model input; shipped VESC motor configuration unknown
+  drivetrain_efficiency:
+    value: 0.8
+    status: unidentified_assumption
+    note: No published drivetrain loss curve
+  mu:
+    value: 0.9
+    status: surface_dependent_assumption
+    note: No identified tire/pavement friction data
+  tire_shape_front:
+    value: 6.0
+    status: unidentified_assumption
+    note: No force versus slip-angle data
+  tire_shape_rear:
+    value: 6.0
+    status: unidentified_assumption
+    note: No force versus slip-angle data
+  rolling_coefficient:
+    value: 0.025
+    status: unidentified_assumption
+    note: No coast-down data
+  aero_coefficient:
+    value: 0.06
+    status: unidentified_assumption
+    note: No CdA/coast-down data; model force coefficient
+  steering_limit:
+    value: 0.45
+    status: unmeasured_road_wheel_assumption
+    note: 0.45rad is not servo rated rotation angle
+  steering_rate_limit:
+    value: 2.5
+    status: unmeasured_road_wheel_assumption
+    note: 2.5rad/s is not a verified 2075 shaft specification
+  current_slew_per_second:
+    value: 300.0
+    status: simulation_assumption
+    note: Not a verified VESC firmware or factory slew parameter
+  low_speed_regularization:
+    value: 0.5
+    status: numerical_setting
+    note: Smooth tire model near zero speed, not a hardware specification
+  motor_max_rpm:
+    value: 50000.0
+    status: manufacturer_verified
+    note: Exact-model manual p25; mechanical RPM, not ERPM
+  motor_brake_current_limit:
+    value: 30.0
+    status: simulation_assumption_not_factory_default
+    note: Separate equivalent brake current; unmeasured, symmetric baseline retained
+  brake_speed_regularization:
+    value: 0.2
+    status: numerical_setting
+    note: m/s; dissipative brake fades at rest, not identified regen firmware behavior
+audit:
+  date: '2026-09-23'
+  numeric_dynamics_parameters_changed: true
+  reason: v2 adds published mechanical RPM limit and independent assumed brake current
+    with zero-speed dissipative regularization; existing mass/friction/steering assumptions
+    retained.
+  previous_simulation_results_revalidated: false
+model_revision: slash_spec_bounded_brake_v2

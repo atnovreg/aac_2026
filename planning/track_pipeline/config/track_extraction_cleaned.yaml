@@ -1,0 +1,18 @@
+# Re-extract the Gazebo cleaned-map subset in its original camera_init frame.
+source_run: results/lidar_final_20260909_161208/20260911_cleaned_visibility_v3_track_input
+output: tracks/indoor_final_cleaned
+resolution_m: 0.05
+roi_padding_m: 4.0
+point_stride: 5
+floor_tolerance_m: 0.1
+wall_height_m:
+- 2.0
+- 2.5
+min_wall_hits: 3
+floor_dilation_m: 0.15
+floor_closing_m: 0.2
+fill_holes_m2: 2.0
+sample_spacing_m: 0.05
+smoothing_m: 0.8
+max_boundary_ray_m: 4.0
+max_track_half_width_m: 0.75

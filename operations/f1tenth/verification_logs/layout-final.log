@@ -1,0 +1,16 @@
+test_archive_and_ros1_are_excluded (test_layout.ConsolidationTests.test_archive_and_ros1_are_excluded) ... ok
+test_data_and_local_environments_are_reachable (test_layout.ConsolidationTests.test_data_and_local_environments_are_reachable) ... ok
+test_livox_has_real_hardware_source_and_messages (test_layout.ConsolidationTests.test_livox_has_real_hardware_source_and_messages) ... ok
+test_localization_imports_without_original_experiment_directory (test_layout.ConsolidationTests.test_localization_imports_without_original_experiment_directory) ... ok
+test_localization_includes_solver_dependencies (test_layout.ConsolidationTests.test_localization_includes_solver_dependencies) ... ok
+test_python_api_uses_aac_sources_and_ros_workspace (test_layout.ConsolidationTests.test_python_api_uses_aac_sources_and_ros_workspace) ... ok
+test_collision_is_detected_before_any_link_is_created (test_setup.SetupTests.test_collision_is_detected_before_any_link_is_created) ... ok
+test_links_are_relative_and_setup_is_repeatable (test_setup.SetupTests.test_links_are_relative_and_setup_is_repeatable) ... ok
+test_missing_target_is_rejected_before_any_link_is_created (test_setup.SetupTests.test_missing_target_is_rejected_before_any_link_is_created) ... ok
+test_compose_wrappers_supply_existing_absolute_assets (test_wrappers.WrapperTests.test_compose_wrappers_supply_existing_absolute_assets) ... ok
+test_replay_build_test_and_plugin_search_share_artifact_directory (test_wrappers.WrapperTests.test_replay_build_test_and_plugin_search_share_artifact_directory) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.810s
+
+OK

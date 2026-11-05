@@ -1,0 +1,8 @@
+track: tracks/geonji_083146_inner
+output: results/건지광장/acados_mpcc/083146_inner_rti_profile
+solver: SQP_RTI
+hessian: GAUSS_NEWTON
+steps: 6000
+vehicle_width: 0.0
+safety_scaling: 1.0
+profile_timing: true

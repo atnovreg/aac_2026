@@ -1,0 +1,29 @@
+track: tracks/indoor_final
+output: results/acados_mpcc
+solver: SQP
+hessian: EXACT
+horizon: 40
+dt: 0.02
+steps: 2500
+initial_speed: 1.0
+progress_speed_max: 6.0
+prediction_substeps: 4
+nlp_max_iterations: 200
+nlp_tolerance: 0.0001
+qp_max_iterations: 100
+qp_tolerance: 0.000001
+condensing_horizon: 10
+levenberg_marquardt: 0.000001
+full_step_dual: false
+vehicle_width: 0.06
+safety_scaling: 1.5
+constraint_tolerance: 0.002
+weights:
+  contour: 0.1
+  lag: 1000.0
+  progress: 0.02
+  yaw_rate: 0.00001
+  terminal_contour_multiplier: 10.0
+  terminal_yaw_rate_multiplier: 10.0
+  input: [0.0001, 0.0001, 0.0001]
+  increment: [0.01, 1.0, 0.001]

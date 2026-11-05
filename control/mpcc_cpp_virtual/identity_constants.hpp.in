@@ -1,0 +1,7 @@
+#pragma once
+
+namespace mpcc_cpp_virtual {
+inline constexpr char kExpectedTrackSha[] = "@MPCC_TRACK_SHA@";
+inline constexpr char kExpectedRuntimeSha[] = "@MPCC_RUNTIME_SHA@";
+inline constexpr char kExpectedSolverSha[] = "@MPCC_SOLVER_SHA@";
+}  // namespace mpcc_cpp_virtual
