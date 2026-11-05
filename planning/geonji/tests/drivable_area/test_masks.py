@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.drivable_area import classify
+from planning.geonji.drivable_area import classify
 
 class MaskTest(unittest.TestCase):
     def test_unknown_and_obstacle_are_not_filled(self):

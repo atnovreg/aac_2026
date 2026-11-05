@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from tools.drivable_area import classify
-from tools.vehicle_area_clearance import fit_centers
+from planning.geonji.drivable_area import classify
+from planning.geonji.vehicle_area_clearance import fit_centers
 class VehicleTest(unittest.TestCase):
     def test_narrow_observed_strip_is_not_enough_for_vehicle(self):
         floor=np.zeros((30,30),int);floor[2:28,13:17]=3

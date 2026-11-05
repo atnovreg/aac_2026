@@ -2,6 +2,7 @@
 """Mapping must continue processing buffered sensor data while /clock is frozen."""
 import signal
 import subprocess
+import platform
 import time
 import rclpy
 import rosbag2_py
@@ -17,14 +18,14 @@ poses=[]
 sub=node.create_subscription(Odometry,'/Odometry',poses.append,1000)
 children=[]
 try:
-    children.append(subprocess.Popen(['/ws/install/fast_lio/lib/fast_lio/fastlio_mapping','--ros-args','--params-file','/ws/config/mid360_bag.yaml','-p','pcd_save.pcd_save_en:=false'],stdout=subprocess.DEVNULL))
-    children.append(subprocess.Popen(['/ws/install/bag_adapter/lib/bag_adapter/pointcloud_to_livox'],stdout=subprocess.DEVNULL))
+    children.append(subprocess.Popen(['/ws/artifacts/f1tenth/jazzy-'+platform.machine()+'/install/fast_lio/lib/fast_lio/fastlio_mapping','--ros-args','--params-file','/ws/src/aac_2026/navigation/fastlio/config/mid360_bag.yaml','-p','pcd_save.pcd_save_en:=false'],stdout=subprocess.DEVNULL))
+    children.append(subprocess.Popen(['/ws/artifacts/f1tenth/jazzy-'+platform.machine()+'/install/bag_adapter/lib/bag_adapter/pointcloud_to_livox'],stdout=subprocess.DEVNULL))
     deadline=time.monotonic()+15
     while lidar.get_subscription_count()<1 or imu.get_subscription_count()<1 or node.count_subscribers('/livox/lidar_custom')<1:
         rclpy.spin_once(node,timeout_sec=.05)
         assert time.monotonic()<deadline,'Discovery failed'
     reader=rosbag2_py.SequentialReader()
-    reader.open(rosbag2_py.StorageOptions(uri='/ws/bags/lidar_2forward_1reverse_20260909_160207',storage_id='mcap'),rosbag2_py.ConverterOptions('',''))
+    reader.open(rosbag2_py.StorageOptions(uri='/ws/bag/lidar_2forward_1reverse_20260909_160207',storage_id='mcap'),rosbag2_py.ConverterOptions('',''))
     while reader.has_next():
         topic,data,_=reader.read_next()
         if topic=='/livox/lidar':

@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import json
 import yaml
 import numpy as np
@@ -10,7 +10,7 @@ from .geometry import extract_loop,resample_closed,ray_boundaries,sample_grid,se
 
 def main():
     parser=argparse.ArgumentParser(description='Extract a structural indoor MPCC corridor from FAST-LIO output')
-    parser.add_argument('--config',default='config/track_extraction.yaml')
+    parser.add_argument('--config',default='src/aac_2026/planning/track_pipeline/config/track_extraction.yaml')
     parser.add_argument('--overwrite',action='store_true')
     args=parser.parse_args();config=yaml.safe_load(Path(args.config).read_text())
     root=find_workspace(__file__);source=root/config['source_run'];out=root/config['output']

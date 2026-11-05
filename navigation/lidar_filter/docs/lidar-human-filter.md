@@ -38,14 +38,14 @@
 ## 재현
 
 ```bash
-docker compose run --rm -T track python3 -m tools.lidar_filter build \
+docker compose run --rm -T track python3 -m navigation.lidar_filter build \
   --output /ws/results/body_filter/NEW_RUN \
   --min-free-frames 10 --min-free-ratio 0.65 --min-static-frames 0
 
-docker compose run --rm -T track python3 -m tools.lidar_filter export \
+docker compose run --rm -T track python3 -m navigation.lidar_filter export \
   --output /ws/results/body_filter/NEW_RUN
 
-docker compose run --rm -T track python3 -m tools.lidar_filter.verify_bag \
+docker compose run --rm -T track python3 -m navigation.lidar_filter.verify_bag \
   /ws/results/body_filter/NEW_RUN
 
 ./scripts/slam.sh run \

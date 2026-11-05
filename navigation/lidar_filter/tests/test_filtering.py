@@ -3,7 +3,7 @@ import copy
 import unittest
 import numpy as np
 from sensor_msgs.msg import PointCloud2, PointField
-from tools.lidar_filter.filtering import filter_message, validate_boxes
+from navigation.lidar_filter.filtering import filter_message, validate_boxes
 
 
 def cloud(rows, padding=0):

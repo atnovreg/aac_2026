@@ -3,8 +3,8 @@ import unittest
 from pathlib import Path
 import numpy as np
 
-from tools.acados_mpcc.track import Track
-from tools.acados_mpcc.simulation import assess_pose, input_increment_violation
+from control.acados_mpcc.track import Track
+from control.acados_mpcc.simulation import assess_pose, input_increment_violation
 
 
 class PhysicalProgressTests(unittest.TestCase):

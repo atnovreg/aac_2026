@@ -12,7 +12,6 @@ if [[ ! -f "$replay_workspace/.f1tenth-workspace" ]]; then
 fi
 cd "$replay_workspace"
 export F1TENTH_WS="$replay_workspace"
-export F1TENTH_ASSETS="${F1TENTH_ASSETS:-$(dirname -- "$(readlink -f -- "$replay_workspace/bags")")}"
 if [[ "${1:-}" == build ]]; then
     exec docker compose --project-directory "$replay_workspace" -f "$replay_workspace/src/aac_2026/docker/f1tenth/compose.yaml" build gazebo
 fi
@@ -20,4 +19,4 @@ replay_mounts=()
 if [[ -n "${XAUTHORITY:-}" && -f "$XAUTHORITY" ]]; then
     replay_mounts+=(--volume "$XAUTHORITY:/tmp/gazebo.Xauthority:ro")
 fi
-exec docker compose --project-directory "$replay_workspace" -f "$replay_workspace/src/aac_2026/docker/f1tenth/compose.yaml" run --rm -T "${replay_mounts[@]}" gazebo bash scripts/gazebo_replay_container.sh "$@"
+exec docker compose --project-directory "$replay_workspace" -f "$replay_workspace/src/aac_2026/docker/f1tenth/compose.yaml" run --rm -T "${replay_mounts[@]}" gazebo bash src/aac_2026/system/f1tenth_gazebo_replay/scripts/gazebo_replay_container.sh "$@"

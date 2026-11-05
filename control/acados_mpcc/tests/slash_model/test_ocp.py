@@ -3,10 +3,10 @@ from pathlib import Path
 import numpy as np
 import casadi as ca
 from scipy.integrate import solve_ivp
-from tools.acados_mpcc.controller import default_config,build_ocp,state_bounds
-from tools.acados_mpcc.track import Track
-from tools.acados_mpcc.slash_model import load_parameters,slash_rhs
-from tools.acados_mpcc.model import INPUT_SCALE,increment_limits
+from control.acados_mpcc.controller import default_config,build_ocp,state_bounds
+from control.acados_mpcc.track import Track
+from control.acados_mpcc.slash_model import load_parameters,slash_rhs
+from control.acados_mpcc.model import INPUT_SCALE,increment_limits
 
 class SlashOcpTests(unittest.TestCase):
  def test_generated_prediction_matches_independent_plant_and_slash_limits(self):

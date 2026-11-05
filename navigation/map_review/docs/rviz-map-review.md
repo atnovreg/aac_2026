@@ -1,6 +1,6 @@
 # 건지광장 지도 RViz 검토
 
-실행: `bash scripts/rviz_map_review.sh` · 종료: `bash scripts/rviz_map_review.sh stop`
+실행: `bash src/aac_2026/navigation/map_review/scripts/rviz_map_review.sh` · 종료: `bash src/aac_2026/navigation/map_review/scripts/rviz_map_review.sh stop`
 
 현재 대상은 2026-09-13 건지광장 `indoor_front180_20260913_083146`이다. bag 이름의 indoor는 환경 분류와 무관하다. 저장된 누적 지도를 보는 도구이며 bag 재생이나 SLAM 재실행을 하지 않는다.
 
@@ -29,7 +29,7 @@
 
 ## 구현·검증
 
-`tools/map_review_cloud.py`: prepare / serve. 캐시와 출처: `results/건지광장/rviz_review/083146/`. RViz 설정: `config/map_review.rviz`.
+`tools/map_review_cloud.py`: prepare / serve. 캐시와 출처: `results/건지광장/rviz_review/083146/`. RViz 설정: `src/aac_2026/navigation/map_review/config/map_review.rviz`.
 
 ROS2 Jazzy 기존 Docker 이미지, ROS_DOMAIN_ID=77, 컨테이너 내부 LOCALHOST 발견을 사용한다. Transient Local + Reliable QoS로 처음에 지도를 한 번 전송하고 나중에 체크박스를 켠 구독자도 받을 수 있게 한다. workspace는 컨테이너에 읽기 전용 마운트한다.
 

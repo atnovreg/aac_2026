@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import casadi as ca
-from tools.acados_mpcc.slash_model import slash_rhs,slash_symbolic_rhs,slash_forces,load_parameters
+from control.acados_mpcc.slash_model import slash_rhs,slash_symbolic_rhs,slash_forces,load_parameters
 class SlashTests(unittest.TestCase):
  def setUp(self):self.p=load_parameters()
  def test_parameters_and_zero_speed_finite(self):

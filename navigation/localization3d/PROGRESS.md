@@ -1,4 +1,4 @@
-# SDD ledger — plan: docs/superpowers/plans/2026-11-04-localization3d.md
+# SDD ledger — plan: operations/f1tenth/docs/superpowers/plans/2026-11-04-localization3d.md
 
 User chose3D; existing autonomy authorization retained. Isolated standalone Git folder, no original source edits. Initial scope is 3D scan-to-prior-map baseline + odometry prediction + low-speed MPCC, numerical sensor simulation and explicitly labelled three-pose Gazebo visualization.
 

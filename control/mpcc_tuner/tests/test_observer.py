@@ -9,8 +9,8 @@ from unittest.mock import patch
 
 import numpy as np
 
-from tools.acados_mpcc import simulation
-from tools.acados_mpcc.controller import default_config
+from control.acados_mpcc import simulation
+from control.acados_mpcc.controller import default_config
 
 
 class StraightTrack:

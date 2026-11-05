@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.map_review_cloud import pack_cloud
+from navigation.map_review.map_review_cloud import pack_cloud
 
 class CloudTest(unittest.TestCase):
     def test_sloped_floor_filter_and_binary_layout(self):

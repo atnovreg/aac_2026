@@ -11,14 +11,14 @@ workspace 루트에서 실행합니다. 이미 이 PC에 설치했고 Docker 이
 
 ```bash
 # 오프라인 수렴 검증: SQP + exact Hessian
-./scripts/acados_python.sh -m tools.acados_mpcc
+./scripts/acados_python.sh -m control.acados_mpcc
 
 # 주기당 한 번의 SQP: RTI + Gauss-Newton
-./scripts/acados_python.sh -m tools.acados_mpcc --config config/acados_mpcc_rti.yaml
+./scripts/acados_python.sh -m control.acados_mpcc --config src/aac_2026/control/acados_mpcc/config/acados_mpcc_rti.yaml
 
 # 같은 workspace를 마운트하는 Docker 환경
-docker compose run --rm -T acados python -m tools.acados_mpcc
-docker compose run --rm -T acados python -m tools.acados_mpcc --config config/acados_mpcc_rti.yaml
+docker compose run --rm -T acados python -m control.acados_mpcc
+docker compose run --rm -T acados python -m control.acados_mpcc --config src/aac_2026/control/acados_mpcc/config/acados_mpcc_rti.yaml
 
 # 설치 재현이 필요한 경우
 ./scripts/setup_acados.sh

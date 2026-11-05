@@ -4,7 +4,7 @@ import hashlib
 import gc
 import json
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import platform
 import time
 from types import SimpleNamespace
@@ -100,7 +100,7 @@ def _provenance(track_path, config):
     return {
         'model': model_label(config),
         'baseline_commit': '207a38999d83bc038213813c3928523fc39610d9',
-        'acados': json.loads((root/'config/acados_versions.json').read_text()),
+        'acados': json.loads((root/'src/aac_2026/control/acados_mpcc/config/acados_versions.json').read_text()),
         'track': str(track_path.resolve()),
         'track_sha256': hashlib.sha256((track_path/'track.csv').read_bytes()).hexdigest(),
         'source_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest()

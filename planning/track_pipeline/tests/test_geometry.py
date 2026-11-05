@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.track_pipeline.geometry import extract_loop, resample_closed, ray_boundaries, track_limits, validate_strip, mutual_crossings
+from planning.track_pipeline.geometry import extract_loop, resample_closed, ray_boundaries, track_limits, validate_strip, mutual_crossings
 
 class GeometryTests(unittest.TestCase):
     def test_annulus_centre_comes_from_space_not_driven_line(self):

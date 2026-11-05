@@ -1,7 +1,7 @@
 """Offline-only MPCC soft-zone cost; existing hard constraint is preserved."""
 import casadi as ca
 import numpy as np
-from tools.acados_mpcc import controller as original_controller
+from control.acados_mpcc import controller as original_controller
 
 
 def extend_ocp(ocp,weight):

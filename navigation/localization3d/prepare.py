@@ -4,11 +4,11 @@ import json
 from pathlib import Path
 import shutil
 import numpy as np
-from tools.track_pipeline.projection import read_pcd
+from planning.track_pipeline.projection import read_pcd
 from voxel_sensor import VoxelWorld
 
 HERE=Path(__file__).resolve().parent
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 WS=find_workspace(__file__)
 SOURCE=WS/'results/건지광장/dynamic_lio/20260913T100858860234Z_indoor_front180_20260913_083146/map_static.pcd'
 BASE=HERE/'baseline'

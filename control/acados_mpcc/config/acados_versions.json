@@ -15,7 +15,7 @@
     "version": "0.2.1"
   },
   "python": "3.12",
-  "python_requirements": "requirements/acados.txt",
+  "python_requirements": "src/aac_2026/control/acados_mpcc/requirements/acados.txt",
   "build": {
     "CMAKE_BUILD_TYPE": "Release",
     "BUILD_SHARED_LIBS": "ON",

@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import numpy as np
+from system.f1tenth.workspace import find_workspace, resolve_data_path
 
 
 def pack_cloud(xyz,plane,minimum_height=None):
@@ -16,8 +17,8 @@ def prepare(run,out,metrics):
     from scipy.spatial.transform import Rotation,Slerp
     from rosbags.rosbag1 import Reader
     from rosbags.typesys import Stores,get_typestore
-    from tools.dynamic_lio.adapter import OUTPUT_DTYPE
-    from tools.track_pipeline.projection import read_pcd
+    from sensors.bag_adapter.pointcloud_layout import OUTPUT_DTYPE
+    from planning.track_pipeline.projection import read_pcd
     poses=np.loadtxt(run/'trajectory.tum');times=poses[:,0]-poses[0,0]
     m=json.loads(metrics.read_text());plane=np.array(m['ground_plane_z_ax_by_c']);lo,hi=np.array(m['roi_xy'])
     def crop(p):return p[(p[:,:2]>=lo).all(1)&(p[:,:2]<=hi).all(1)&np.isfinite(p).all(1)]
@@ -25,7 +26,7 @@ def prepare(run,out,metrics):
     pc=read_pcd(run/'map_static.pcd');static=crop(np.column_stack([pc[k] for k in 'xyz']))
     static=(voxel(static).astype(float)+.5)*.1
     rot=Slerp(times,Rotation.from_quat(poses[:,4:8]));store=get_typestore(Stores.ROS1_NOETIC)
-    source=Path(json.loads((run/'manifest.json').read_text())['bag'].replace('/ws/','',1))
+    source=resolve_data_path(find_workspace(__file__), json.loads((run/'manifest.json').read_text())['bag'])
     blocks=[];batch=[];scans=0
     with Reader(source) as reader:
         cs=[c for c in reader.connections if c.msgtype.endswith('PointCloud2')]

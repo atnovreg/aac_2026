@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.build_geonji_track import box_clearance
+from planning.geonji.build_geonji_track import box_clearance
 class ClearanceTest(unittest.TestCase):
  def test_cell_edge_not_center_distance_and_outer_edge(self):
   mask=np.ones((5,5),bool);mask[2,3]=False

@@ -4,9 +4,9 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage as ndi
 from scipy.spatial import cKDTree
-from tools.check_geonji_loop import cut_loop
-from tools.track_pipeline.geometry import (resample_closed,sample_grid,area,self_intersections,validate_strip)
-from tools.acados_mpcc.track import Track
+from planning.geonji.check_geonji_loop import cut_loop
+from planning.track_pipeline.geometry import (resample_closed,sample_grid,area,self_intersections,validate_strip)
+from control.acados_mpcc.track import Track
 
 SOURCE=Path('results/건지광장/drivable_area/083146_v4_assumed_floor')
 OUT=Path('tracks/geonji_083146_assumed')

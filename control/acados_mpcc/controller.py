@@ -5,7 +5,7 @@ Kenneth Kuchera and Alexander Liniger, Apache-2.0. Original formulation is
 retained; nonlinear RK4 prediction and acados SQP replace the MATLAB QP loop.
 """
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import time
 
 import casadi as ca
@@ -18,7 +18,7 @@ from .actuator_model import layout as actuator_layout, augmented_step
 
 
 def default_config():
-    path = find_workspace(__file__) / 'config/acados_mpcc.yaml'
+    path = find_workspace(__file__) / 'src/aac_2026/control/acados_mpcc/config/acados_mpcc.yaml'
     return yaml.safe_load(path.read_text())
 
 

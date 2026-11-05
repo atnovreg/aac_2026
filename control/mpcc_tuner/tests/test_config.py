@@ -1,6 +1,6 @@
 import copy
 import unittest
-from tools.mpcc_tuner.config import catalog, validated_request, simulation_config
+from control.mpcc_tuner.config import catalog, validated_request, simulation_config
 
 class ConfigTests(unittest.TestCase):
     def request(self):

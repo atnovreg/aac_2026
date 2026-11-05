@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify imported source hashes, original AAC files, and local source/data links."""
+"""Verify source preservation, the AAC layout, and local data/archive links."""
 import argparse
 import hashlib
 import json
@@ -40,11 +40,13 @@ def main():
         source = aac/backups.get(rel, rel)
         if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
             failures.append(f'Original AAC file not preserved: {rel}')
-    aliases = json.loads((here/'workspace_links.json').read_text())
-    for alias, target in aliases.items():
-        path = aac.parent.parent/alias
-        if not path.is_symlink() or path.resolve() != (aac/target).resolve() or not path.exists():
-            failures.append(f'Broken or conflicting source alias: {alias}')
+    workspace = aac.parent.parent
+    for name in ['tools', 'scripts', 'config', 'requirements', 'bags', 'compose.yaml']:
+        path = workspace/name
+        if path.exists() or path.is_symlink():
+            failures.append(f'Legacy duplicate workspace entry: {path}')
+    if not (workspace/'bag').is_dir():
+        failures.append(f'Missing canonical recording directory: {workspace/"bag"}')
     if not args.source_only:
         for link in manifest['local_links']:
             path, target = Path(link['path']), Path(link['target'])
@@ -54,8 +56,8 @@ def main():
         print(message)
     if failures:
         raise SystemExit(f'FAIL: {len(failures)} preservation/layout checks')
-    print(f"PASS: {imported_checked} imported files, {len(baseline)} original AAC files, "
-          f'{len(aliases)} portable source aliases')
+    print(f"PASS: {imported_checked} imported files, {len(baseline)} original AAC files; "
+          'AAC category paths and one bag/ entry')
     if not args.source_only:
         print(f"PASS: {len(manifest['local_links'])} local source/data/archive links; originals preserved")
     print('Scope: file/layout verification; hardware/AGX operation is not verified.')

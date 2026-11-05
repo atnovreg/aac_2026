@@ -7,7 +7,7 @@ timebase, point timestamps and all point attributes are preserved. Boundary
 points at x=0 and invalid points are removed. IMU is not filtered.
 
 For RViz, `/livox/lidar_front_points` provides XYZ `PointCloud2` data when
-subscribed. `config/lidar_front180.rviz` sets the topic, `livox_frame`, height
+subscribed. `src/aac_2026/sensors/livox_front_filter/config/lidar_front180.rviz` sets the topic, `livox_frame`, height
 coloring, point size and camera view. Continue recording the `CustomMsg`
 topic, which preserves the timing and other Livox attributes.
 
@@ -21,19 +21,17 @@ child of `livox_frame`; neither is a world pose or a SLAM frame.
 Build and test inside the `f1tenth` container:
 
 ```bash
+# Inside a prepared Jazzy AAC container; replace /ws if mounted elsewhere.
 source /opt/ros/jazzy/setup.bash
-source /workspace/f1tenth_ws/install/setup.bash
-cmake -S /workspace/f1tenth_ws/scripts/livox_front_cpp \
-  -B /workspace/f1tenth_ws/build_front_filter -DCMAKE_BUILD_TYPE=Release
-cmake --build /workspace/f1tenth_ws/build_front_filter -j2
-ctest --test-dir /workspace/f1tenth_ws/build_front_filter --output-on-failure
-```
+filter_build="/ws/artifacts/f1tenth/jazzy-$(uname -m)/front_filter"
+source "/ws/artifacts/f1tenth/jazzy-$(uname -m)/install/setup.bash"
+cmake -S /ws/src/aac_2026/sensors/livox_front_filter \
+  -B "$filter_build" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$filter_build" -j2
+ctest --test-dir "$filter_build" --output-on-failure
 
-Run one filter instance with the driver already publishing:
-
-```bash
-/workspace/f1tenth_ws/build_front_filter/livox_front_filter \
-  --ros-args -p front_yaw_deg:=0.0
+# With the driver already publishing:
+"$filter_build/livox_front_filter" --ros-args -p front_yaw_deg:=0.0
 ```
 
 `front_yaw_deg` is a startup setting measured from +X toward +Y in the input
@@ -46,12 +44,10 @@ The sensor itself continues scanning 360 degrees, so this reduces recorded
 data and downstream work, not sensor network traffic. Point counts depend
 on the scene and invalid returns, so output size need not be exactly half.
 
-Current container bag path: `bags/active_recording.path` in the workspace.
-Recorder PID and log: `<bag-path>.pid` and `<bag-path>.log`.
-Filter PID/log: `bags/livox_front_filter.pid` and
-`bags/livox_front_filter_cpp.log`. Send SIGINT to the recorded PID to finish
-the bag and write metadata. Do not start a duplicate recorder or filter.
+AAC recordings use the workspace `bag/` directory. The historical Nano
+recorder's PID/path files belonged to its old environment; they are not an
+AAC recorder setup. A recorder is not started by these filter scripts.
 
-Validation: geometry/metadata unit test passed; 60 live input/output clouds
+Historical Nano validation before this import: geometry/metadata unit test passed; 60 live input/output clouds
 matched point-for-point with identical metadata, with approximately 10 Hz
 LiDAR and 200 Hz IMU observed after the C++ filter was started.

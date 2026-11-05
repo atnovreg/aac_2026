@@ -40,7 +40,7 @@ class JobManager:
             env=os.environ.copy();env['OPENBLAS_NUM_THREADS']='1';env['OMP_NUM_THREADS']='1'
             try:
                 with (job/'worker.log').open('w') as log:
-                    self.process=subprocess.Popen([str(ROOT/'scripts/acados_python.sh'),'-m','tools.mpcc_tuner.worker',str(job)],cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,pass_fds=(self.owner_lock.fileno(),))
+                    self.process=subprocess.Popen([str(ROOT/'src/aac_2026/control/acados_mpcc/scripts/acados_python.sh'),'-m','control.mpcc_tuner.worker',str(job)],cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,pass_fds=(self.owner_lock.fileno(),))
             except Exception as e:
                 meta.update(status='failed',error=str(e));save_json(job/'job.json',meta);raise
             self.active=ident

@@ -6,11 +6,11 @@ rear braking, not a reverse-drive command. Rear drive/braking only.
 Static axle loads and a smooth combined-force envelope are approximations.
 """
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import numpy as np
 import yaml
 
-SPEC=find_workspace(__file__)/'config/vehicles/slash_58276_74.yaml'
+SPEC=find_workspace(__file__)/'src/aac_2026/control/acados_mpcc/config/vehicles/slash_58276_74.yaml'
 
 def load_parameters(overrides=None):
     """Merge experiment overrides with the audited specification, then validate."""

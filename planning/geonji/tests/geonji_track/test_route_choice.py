@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.build_geonji_track import route_search_mask
+from planning.geonji.build_geonji_track import route_search_mask
 class RouteChoiceTest(unittest.TestCase):
  def test_gate_only_removes_search_cells(self):
   original=np.ones((40,40),bool);original[0,0]=False

@@ -4,7 +4,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace, resolve_data_path
 import shutil
 import time
 
@@ -15,7 +15,7 @@ import rosbag2_py
 from rclpy.serialization import deserialize_message, serialize_message
 from sensor_msgs.msg import PointCloud2
 
-from tools.track_pipeline.projection import read_pcd, xyz
+from planning.track_pipeline.projection import read_pcd, xyz
 from .filtering import records, partition_message, mapper_effective_timestamps
 from .registration import PoseTrajectory
 from .temporal import TemporalVoxelEvidence
@@ -23,7 +23,7 @@ from .pcd import split_pcd
 
 ROOT=find_workspace(__file__)
 SOURCE_RUN=ROOT/'results/lidar_final_20260909_161208/20260910T112720950598Z'
-SOURCE_BAG=ROOT/'bags/lidar_final_20260909_161208'
+SOURCE_BAG=ROOT/'bag/lidar_final_20260909_161208'
 
 
 def reader_for(path):
@@ -134,7 +134,7 @@ class SavedMask:
 
 def export(args):
     out=args.output.resolve();mask=SavedMask(out)
-    source_bag=Path(mask.manifest['source_bag']);source_run=Path(mask.manifest['source_run'])
+    source_bag=resolve_data_path(ROOT,mask.manifest['source_bag']);source_run=resolve_data_path(ROOT,mask.manifest['source_run'])
     trajectory,offset=load_context(source_run)
     reader=reader_for(source_bag)
     bag_path=out/(source_bag.name+'_filtered')

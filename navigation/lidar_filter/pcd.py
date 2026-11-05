@@ -1,7 +1,7 @@
 """Partition a binary PCD without changing retained point records."""
 from pathlib import Path
 import numpy as np
-from tools.track_pipeline.projection import read_pcd
+from planning.track_pipeline.projection import read_pcd
 
 
 def split_pcd(source, kept_path, removed_path, removed):

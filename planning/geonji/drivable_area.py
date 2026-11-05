@@ -49,8 +49,8 @@ def main(config_path):
     from rosbags.rosbag1 import Reader
     from rosbags.typesys import Stores,get_typestore
     from scipy.spatial.transform import Rotation,Slerp
-    from tools.dynamic_lio.adapter import OUTPUT_DTYPE
-    from tools.track_pipeline.projection import read_pcd
+    from sensors.bag_adapter.pointcloud_layout import OUTPUT_DTYPE
+    from planning.track_pipeline.projection import read_pcd
     cfg=yaml.safe_load(config_path.read_text());run=Path(cfg['source_run']);out=Path(cfg['output'])
     if out.exists():raise FileExistsError('Use a new output directory: '+str(out))
     cache=np.load(cfg['review_cache']);poses=cache['poses'];plane,fit=fit_road(cache['input_map'],poses)
@@ -66,7 +66,8 @@ def main(config_path):
     pc=read_pcd(run/'map_static.pcd');sp=np.column_stack([pc[k] for k in 'xyz']);xy,v=ids(sp);h=height(sp)
     sel=v&(h>=cfg['obstacle_min_height_m'])&(h<=cfg['obstacle_max_height_m']);static[xy[sel,1],xy[sel,0]]=True
     times=poses[:,0]-poses[0,0];rot=Slerp(times,Rotation.from_quat(poses[:,4:8]));store=get_typestore(Stores.ROS1_NOETIC)
-    bag=Path(json.loads((run/'manifest.json').read_text())['bag'].replace('/ws/','',1));scans=0
+    from system.f1tenth.workspace import find_workspace, resolve_data_path
+    bag=resolve_data_path(find_workspace(__file__), json.loads((run/'manifest.json').read_text())['bag']);scans=0
     with Reader(bag) as reader:
         cs=[c for c in reader.connections if c.msgtype.endswith('PointCloud2')]
         for conn,_,data in reader.messages(connections=cs):
@@ -116,4 +117,4 @@ def plot(out,e,mainmask,origin,res,poses,metrics):
     fig.savefig(out/'area_review.png',dpi=150);plt.close(fig)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,default=Path('config/geonji_drivable_area_static.yaml'));a=p.parse_args();main(a.config)
+    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,default=Path('src/aac_2026/planning/geonji/config/geonji_drivable_area_static.yaml'));a=p.parse_args();main(a.config)

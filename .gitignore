@@ -4,11 +4,11 @@ __pycache__/
 .DS_Store
 
 # Local archives and generated experiment output
-/archive/f1tenth/desktop_workspace
-/archive/f1tenth/dynamic_lio
-/archive/f1tenth/cad
-/archive/f1tenth/hackathon
-/archive/f1tenth/localization_original
-/archive/f1tenth/localization_results
+/operations/f1tenth/archive/desktop_workspace
+/operations/f1tenth/archive/dynamic_lio
+/operations/f1tenth/archive/cad
+/operations/f1tenth/archive/hackathon
+/operations/f1tenth/archive/localization_original
+/operations/f1tenth/archive/localization_results
 /navigation/localization3d/results/*
 !/navigation/localization3d/results/.gitkeep

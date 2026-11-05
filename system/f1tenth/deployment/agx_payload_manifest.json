@@ -2,7 +2,7 @@
   "status": "manifest_only_not_deployed",
   "source_root": "src/aac_2026",
   "source_exclusions": [
-    "archive",
+    "operations/f1tenth/archive",
     "operations/f1tenth/before",
     "**/__pycache__",
     "**/results",
@@ -55,12 +55,12 @@
   "configuration_root": "src/aac_2026/system/f1tenth/config",
   "optional_replay_input": [
     {
-      "path": "bags/20260913/bags/front180_20260913_081248/front180_20260913_081248_0.mcap",
+      "path": "bag/20260913/bags/front180_20260913_081248/front180_20260913_081248_0.mcap",
       "size": 79908894,
       "sha256": "456d727c18370697dd0ca227127b6a84bca66fdd87444e7b6e80af6a3a38dd5b"
     },
     {
-      "path": "bags/20260913/bags/front180_20260913_081248/metadata.yaml",
+      "path": "bag/20260913/bags/front180_20260913_081248/metadata.yaml",
       "size": 2127,
       "sha256": "28b118593d79106c4c49d4c622b099219d57943ff2adbae5482084df896e365c"
     }

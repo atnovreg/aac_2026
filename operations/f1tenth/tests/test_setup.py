@@ -1,4 +1,4 @@
-"""Setup must reconstruct aliases without overwriting user files."""
+"""Data linking must preserve existing files and preflight every collision."""
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -20,7 +20,7 @@ class SetupTests(unittest.TestCase):
             source = root / 'src/module.py'
             source.parent.mkdir()
             source.write_text('preserved')
-            alias = root / 'tools/module.py'
+            alias = root / 'data/module.py'
             setup = setup_module()
             setup.ensure_links({alias: source})
             setup.ensure_links({alias: source})

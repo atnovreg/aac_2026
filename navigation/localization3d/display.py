@@ -7,8 +7,8 @@ import shutil
 import xml.etree.ElementTree as ET
 import numpy as np
 from scipy.spatial.transform import Rotation
-from tools.gazebo_replay.generate import child,visual
-from tools.gazebo_replay.map_mesh import write_stl
+from system.f1tenth_gazebo_replay.generate import child,visual
+from system.f1tenth_gazebo_replay.map_mesh import write_stl
 
 HERE=Path(__file__).resolve().parent
 BASE=HERE/'baseline'

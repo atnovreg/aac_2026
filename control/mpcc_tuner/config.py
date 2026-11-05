@@ -1,13 +1,13 @@
 """Validated experiment inputs. No solver import or user-supplied filesystem paths."""
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import math
 import copy
 import yaml
 
 ROOT=find_workspace(__file__)
 SPEED_LIMITS={'min':1.,'max':26.8,'step':.1}  # Approximately 60 mph; a cap, not a speed target.
-TUNER_PROFILE=yaml.safe_load((ROOT/'config/mpcc_tuner.yaml').read_text())
+TUNER_PROFILE=yaml.safe_load((ROOT/'src/aac_2026/control/mpcc_tuner/config/mpcc_tuner.yaml').read_text())
 BASELINE=ROOT/TUNER_PROFILE['baseline_directory']
 ORIGINAL_AREA=ROOT/'results/건지광장/drivable_area/083146_v5_slash_footprint'
 EDITED_MAP=ROOT/'results/건지광장/map_edit/20260917_inner_focus'
@@ -45,7 +45,7 @@ def flatten(weights):
 
 def catalog():
     import json
-    weights=flatten(yaml.safe_load((ROOT/'config/acados_mpcc.yaml').read_text())['weights'])
+    weights=flatten(yaml.safe_load((ROOT/'src/aac_2026/control/acados_mpcc/config/acados_mpcc.yaml').read_text())['weights'])
     return {'fields':[dict(key=k,label=l,symbol=s,min=lo,max=hi,scale=scale,group=group,description=d,default=weights[k]) for k,l,s,lo,hi,scale,group,d in FIELDS],
             'tracks':[{'id':k,'label':v['label'],'length_m':json.loads((v['track']/'validation.json').read_text())['length_m'],'map_revision':v['revision']} for k,v in TRACKS.items()],
             'defaults':{'track':'edited_inner','speed_max':4.,'weights':weights},'speed_limits':dict(SPEED_LIMITS),'baseline_label':'선택한 지도·코스 기준 · q꜀ 0.1 · 4 m/s','solver_profile':dict(TUNER_PROFILE)}
@@ -65,9 +65,9 @@ def validated_request(data):
 
 def simulation_config(request,output):
     request=validated_request(request)
-    cfg=yaml.safe_load((ROOT/'config/acados_mpcc.yaml').read_text())
+    cfg=yaml.safe_load((ROOT/'src/aac_2026/control/acados_mpcc/config/acados_mpcc.yaml').read_text())
     spec=TRACKS[request['track']]
-    cfg.update(yaml.safe_load((ROOT/f"config/acados_slash_{spec['controller']}_rti.yaml").read_text()))
+    cfg.update(yaml.safe_load((ROOT/f"src/aac_2026/control/acados_mpcc/config/acados_slash_{spec['controller']}_rti.yaml").read_text()))
     cfg['track']=str(spec['track']);cfg['output']=str(output)
     cfg['speed_max']=request['speed_max'];cfg['progress_speed_max']=max(6.,request['speed_max']*1.5)
     # Damps the local QP update; does not alter vehicle, track, or requested cost weights.

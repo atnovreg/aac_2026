@@ -2,8 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 import numpy as np
-from tools.lidar_filter.pcd import split_pcd
-from tools.track_pipeline.projection import read_pcd
+from navigation.lidar_filter.pcd import split_pcd
+from planning.track_pipeline.projection import read_pcd
 
 
 class PcdTests(unittest.TestCase):

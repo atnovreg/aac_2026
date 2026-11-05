@@ -6,7 +6,7 @@ from .config import simulation_config
 def main():
     job=Path(sys.argv[1]).resolve()
     request=json.loads((job/'request.json').read_text())
-    from tools.acados_mpcc.simulation import run,_json_safe
+    from control.acados_mpcc.simulation import run,_json_safe
     frame_index=0
     with (job/'events.jsonl').open('a',buffering=1) as events:
         def emit(event):

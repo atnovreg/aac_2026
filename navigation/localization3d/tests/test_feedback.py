@@ -2,7 +2,7 @@ import unittest
 from types import SimpleNamespace
 import numpy as np
 from scipy.spatial.transform import Rotation
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.track import Track
 try:
     from feedback import estimated_feedback
 except ImportError:

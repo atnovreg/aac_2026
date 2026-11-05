@@ -47,9 +47,9 @@ Solver 평균/p95/최대는 0.932/1.110/1.497 ms였다. Python을 포함한 cont
 실행한 명령:
 
 ```bash
-python3 -m tools.track_pipeline --config config/track_extraction_cleaned.yaml
-docker compose run --rm -T acados python -m tools.acados_mpcc \
-  --config config/acados_mpcc_rti.yaml --track tracks/indoor_final_cleaned
+python3 -m planning.track_pipeline --config src/aac_2026/planning/track_pipeline/config/track_extraction_cleaned.yaml
+docker compose run --rm -T acados python -m control.acados_mpcc \
+  --config src/aac_2026/control/acados_mpcc/config/acados_mpcc_rti.yaml --track tracks/indoor_final_cleaned
 ./scripts/gazebo_replay.sh --run /ws/results/acados_mpcc/20260910T164333282308Z
 python3 results/acados_mpcc/20260910T164333282308Z/independent_validate.py
 ```

@@ -8,7 +8,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.font_manager import FontProperties
-from tools.track_pipeline.geometry import sample_grid
+from planning.track_pipeline.geometry import sample_grid
 
 BASE=Path('results/건지광장/comparison/20260915_three_routes')
 SOURCE=Path('results/건지광장/drivable_area/083146_v4_assumed_floor')

@@ -6,9 +6,9 @@ from pathlib import Path
 import casadi as ca
 import numpy as np
 
-from tools.acados_mpcc.controller import build_ocp, default_config
-from tools.acados_mpcc.slash_model import load_parameters
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.controller import build_ocp, default_config
+from control.acados_mpcc.slash_model import load_parameters
+from control.acados_mpcc.track import Track
 
 
 class ActuatorPredictionTests(unittest.TestCase):
@@ -63,7 +63,7 @@ class ActuatorPredictionTests(unittest.TestCase):
             self.build(cfg)
 
     def test_python_plant_obeys_same_pending_command_delay(self):
-        from tools.acados_mpcc import simulation
+        from control.acados_mpcc import simulation
         self.assertTrue(hasattr(simulation, 'integrate_plant'),
                         'Python simulation must integrate delayed applied inputs')
         state = np.array([0., 0., 0., 1., 0., 0., 0.])
@@ -82,8 +82,8 @@ class ActuatorPredictionTests(unittest.TestCase):
             self.build(cfg)
 
     def test_two_substep_prediction_matches_independent_rk45_over_speed_range(self):
-        from tools.acados_mpcc.actuator_model import augmented_step
-        from tools.acados_mpcc.simulation import integrate_plant
+        from control.acados_mpcc.actuator_model import augmented_step
+        from control.acados_mpcc.simulation import integrate_plant
         cfg = self.config()
         cfg['actuator_prediction_substeps'] = 2
         for speed in (1., 8., 16.):

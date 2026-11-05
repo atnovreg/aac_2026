@@ -19,4 +19,4 @@
 
 전체 결과와 원본 위치 색인은 본체 `ros2_ws/artifacts/reconciliation/nano-20261105/REPORT_KO.md` 및 `evidence_index.json`에 있습니다. 삭제 파일별 이유와 keeper는 같은 폴더의 `cleanup_*_receipt.json`에 기록했습니다.
 
-기존 `ros2_ws/bags`, `results`, `tracks`의 로컬 데이터 연결은 유지했습니다. 따라서 예전 `Workspace/f1tenth_ws`의 원본 데이터 폴더를 통째로 삭제하면 안 됩니다.
+기존 `ros2_ws/bag`, `results`, `tracks`의 로컬 데이터 연결은 유지했습니다. 따라서 예전 `Workspace/f1tenth_ws`의 원본 데이터 폴더를 통째로 삭제하면 안 됩니다.

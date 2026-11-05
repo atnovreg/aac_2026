@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Explicit entry points for the integrated F1TENTH tools.
 set -euo pipefail
-aac_root="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")" && pwd)"
+aac_root="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/../.." && pwd)"
 workspace="$(cd -- "$aac_root/../.." && pwd)"
 action="${1:-help}"
 if (( $# )); then shift; fi
@@ -22,7 +22,7 @@ case "$action" in
       -W ignore::DeprecationWarning -m unittest discover -s tests -v "$@"
     ;;
   help|-h|--help)
-    printf '%s\n' 'Usage: bash f1tenth.sh {check|python [args...]|tuner [args...]|localization-test}'
+    printf '%s\n' 'Usage: bash operations/f1tenth/run.sh {check|python [args...]|tuner [args...]|localization-test}'
     ;;
   *)
     printf 'Unknown action: %s\n' "$action" >&2

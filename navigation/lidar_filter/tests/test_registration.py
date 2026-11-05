@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.lidar_filter.registration import PoseTrajectory
+from navigation.lidar_filter.registration import PoseTrajectory
 
 
 class RegistrationTests(unittest.TestCase):

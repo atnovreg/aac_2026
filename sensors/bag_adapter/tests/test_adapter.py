@@ -2,6 +2,7 @@
 """Integration check against an actual recorded message (run in Docker)."""
 import signal
 import subprocess
+import platform
 import time
 import numpy as np
 import rclpy
@@ -11,7 +12,7 @@ from sensor_msgs.msg import PointCloud2
 from livox_ros_driver2.msg import CustomMsg
 
 reader=rosbag2_py.SequentialReader()
-reader.open(rosbag2_py.StorageOptions(uri='/ws/bags/lidar_2forward_1reverse_20260909_160207',storage_id='mcap'),rosbag2_py.ConverterOptions('',''))
+reader.open(rosbag2_py.StorageOptions(uri='/ws/bag/lidar_2forward_1reverse_20260909_160207',storage_id='mcap'),rosbag2_py.ConverterOptions('',''))
 while reader.has_next():
     topic,data,_=reader.read_next()
     if topic=='/livox/lidar':
@@ -22,7 +23,7 @@ node=rclpy.create_node('adapter_integration_test')
 received=[]
 pub=node.create_publisher(PointCloud2,'/livox/lidar',10)
 sub=node.create_subscription(CustomMsg,'/livox/lidar_custom',received.append,10)
-process=subprocess.Popen(['/ws/install/bag_adapter/lib/bag_adapter/pointcloud_to_livox'])
+process=subprocess.Popen(['/ws/artifacts/f1tenth/jazzy-'+platform.machine()+'/install/bag_adapter/lib/bag_adapter/pointcloud_to_livox'])
 try:
     end=time.monotonic()+10
     while pub.get_subscription_count()<1 or node.count_publishers('/livox/lidar_custom')<1:

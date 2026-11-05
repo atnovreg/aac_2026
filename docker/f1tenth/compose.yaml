@@ -1,10 +1,23 @@
 name: aac-f1tenth
 x-assets: &assets
   - ${F1TENTH_WS:-../../../..}:/ws
-  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/bags:/Workspace/f1tenth_ws/bags:ro
-  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/tracks:/Workspace/f1tenth_ws/tracks:ro
-  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/results:/Workspace/f1tenth_ws/results
-  - ${F1TENTH_ASSETS:-../../../../../Workspace/f1tenth_ws}/vendor/acados:/Workspace/f1tenth_ws/vendor/acados:ro
+  - type: bind
+    source: ${F1TENTH_WS:-../../../..}/bag
+    target: /ws/bag
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${F1TENTH_WS:-../../../..}/tracks
+    target: /ws/tracks
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${F1TENTH_WS:-../../../..}/results
+    target: /ws/results
+    bind:
+      create_host_path: false
   - /tmp/.X11-unix:/tmp/.X11-unix:ro
 services:
   fastlio:
@@ -31,7 +44,7 @@ services:
     build:
       context: ${F1TENTH_WS:-../../../..}
       dockerfile: src/aac_2026/docker/f1tenth/Dockerfile.track
-    command: ["python3", "-m", "tools.track_pipeline"]
+    command: ["python3", "-m", "planning.track_pipeline"]
   acados:
     build:
       context: ${F1TENTH_WS:-../../../..}
@@ -41,8 +54,9 @@ services:
     user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     volumes: *assets
     environment:
+      PYTHONPATH: /ws/src/aac_2026
       MPLCONFIGDIR: /tmp/aac-acados-matplotlib
-    command: ["python", "-m", "tools.acados_mpcc", "--help"]
+    command: ["python", "-m", "control.acados_mpcc", "--help"]
   gazebo:
     build:
       context: ${F1TENTH_WS:-../../../..}
@@ -51,6 +65,7 @@ services:
     working_dir: /ws
     user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     environment:
+      PYTHONPATH: /ws/src/aac_2026
       DISPLAY: "${DISPLAY:-:0}"
       XAUTHORITY: /tmp/gazebo.Xauthority
       LIBGL_ALWAYS_SOFTWARE: "${LIBGL_ALWAYS_SOFTWARE:-1}"

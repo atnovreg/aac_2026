@@ -17,13 +17,13 @@ from voxel_sensor import VoxelWorld,ray_grid
 from estimator import StateEstimator,DeadReckoner
 from measurements import road_pose,map_velocity,sensor_packet
 from feedback import estimated_feedback
-from tools.acados_mpcc.track import Track
-from tools.acados_mpcc.controller import default_config
-from tools.acados_mpcc.simulation import integrate_plant,assess_pose
-from tools.acados_mpcc.slash_model import load_parameters
+from control.acados_mpcc.track import Track
+from control.acados_mpcc.controller import default_config
+from control.acados_mpcc.simulation import integrate_plant,assess_pose
+from control.acados_mpcc.slash_model import load_parameters
 
 HERE=Path(__file__).resolve().parent
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 WS=Path(os.environ.get('LOCALIZATION_WS',str(find_workspace(__file__))))
 BASE=HERE
 sys.path.insert(0,str(BASE))
@@ -57,7 +57,7 @@ def main(args):
         acceleration_used_for_translation=False,lateral_velocity_source='estimated scan-to-scan displacement with.4s lowpass',
         source_sha256={str(p.relative_to(WS)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [
             WS/'src/aac_2026/control/acados_mpcc/controller.py',WS/'src/aac_2026/control/acados_mpcc/simulation.py',
-            WS/'src/aac_2026/control/acados_mpcc/slash_model.py',WS/'config/vehicles/slash_58276_74.yaml']},
+            WS/'src/aac_2026/control/acados_mpcc/slash_model.py',WS/'src/aac_2026/control/acados_mpcc/config/vehicles/slash_58276_74.yaml']},
         experiment_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in HERE.glob('*.py')},
         original_adapters_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [BASE/'soft_runtime.py',BASE/'solver_margin.py']})
     dump(folder/'provenance.json',provenance)

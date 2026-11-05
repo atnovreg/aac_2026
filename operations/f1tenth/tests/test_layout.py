@@ -7,16 +7,16 @@ import unittest
 
 AAC = Path(__file__).resolve().parents[3]
 WS = AAC.parent.parent
-sys.path.insert(0, str(WS))
+sys.path.insert(0, str(AAC))
 
 
 class ConsolidationTests(unittest.TestCase):
     def test_python_api_uses_aac_sources_and_ros_workspace(self):
-        module = importlib.import_module('tools.acados_mpcc.controller')
+        module = importlib.import_module('control.acados_mpcc.controller')
         self.assertTrue(Path(module.__file__).resolve().is_relative_to(AAC))
-        find = importlib.import_module('tools.workspace').find_workspace
+        find = importlib.import_module('system.f1tenth.workspace').find_workspace
         self.assertEqual(find(module.__file__), WS)
-        self.assertTrue((WS / 'config/vehicles/slash_58276_74.yaml').is_file())
+        self.assertTrue((WS / 'src/aac_2026/control/acados_mpcc/config/vehicles/slash_58276_74.yaml').is_file())
 
     def test_livox_has_real_hardware_source_and_messages(self):
         driver = AAC / 'sensors/livox_ros_driver2'
@@ -43,16 +43,13 @@ class ConsolidationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_archive_and_ros1_are_excluded(self):
-        self.assertTrue((AAC / 'archive/f1tenth/COLCON_IGNORE').is_file())
+        self.assertTrue((AAC / 'operations/f1tenth/archive/COLCON_IGNORE').is_file())
         self.assertFalse((AAC / 'navigation/dynamic_lio/upstream').exists())
 
     def test_data_and_local_environments_are_reachable(self):
-        for name in ['bags', 'tracks', 'results', 'vendor/acados', '.venv-acados']:
+        for name in ['bag', 'tracks', 'results', 'vendor/acados', '.venv-acados']:
             self.assertTrue((WS / name).is_dir(), name)
-        for folder in [WS / 'tools', WS / 'config']:
-            for path in folder.iterdir():
-                if path.is_symlink():
-                    self.assertTrue(path.exists(), str(path))
+
 
 
 if __name__ == '__main__':

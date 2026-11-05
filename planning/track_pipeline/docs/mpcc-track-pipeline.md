@@ -1,19 +1,19 @@
 # 실측 지도 → MPCC 트랙
 
-현재 단기 구현은 `tools/track_pipeline/`이며 기본 입력은 `lidar_final`의 FAST-LIO2 결과입니다. 연구의 중심은 MPCC 재현·실패 조건·최소 수정 비교이고, 이 도구는 그 입력 트랙을 만드는 단계입니다.
+현재 단기 구현은 `src/aac_2026/planning/track_pipeline/`이며 기본 입력은 `lidar_final`의 FAST-LIO2 결과입니다. 연구의 중심은 MPCC 재현·실패 조건·최소 수정 비교이고, 이 도구는 그 입력 트랙을 만드는 단계입니다.
 
 ## 생성과 확인
 
 ```bash
 # 이미 설치된 호스트 Python 의존성 사용
-python3 -m tools.track_pipeline --config config/track_extraction.yaml
+python3 -m planning.track_pipeline --config src/aac_2026/planning/track_pipeline/config/track_extraction.yaml
 # 같은 결과 경로를 다시 생성할 때만 명시
-python3 -m tools.track_pipeline --config config/track_extraction.yaml --overwrite
+python3 -m planning.track_pipeline --config src/aac_2026/planning/track_pipeline/config/track_extraction.yaml --overwrite
 
 # 기존 FAST-LIO Docker 이미지 위에 분석 의존성을 추가한 환경
 # 최초에는 ./scripts/slam.sh build 로 기반 이미지를 생성
 docker compose build track
-docker compose run --rm -T track python3 -m tools.track_pipeline --overwrite
+docker compose run --rm -T track python3 -m planning.track_pipeline --overwrite
 ```
 
 설정 파일의 `source_run`, `output`을 바꾸면 다른 bag 결과에도 적용할 수 있습니다. 관측상 닫힌 루프가 없으면 오류로 종료하며, 짧은 11초 bag을 인위적으로 폐회로로 만들지 않습니다. 기본 출력은 `tracks/indoor_final/`입니다.
@@ -66,7 +66,7 @@ docker compose run --rm -T track python3 -m unittest discover -s tests/track_pip
 로컬에서 찾은 baseline은 `alexliniger/MPCC` MATLAB 코드이며 ORCA 1:43 차량입니다. 이 상태로 F1TENTH 모델을 재현했다고 부르지 않습니다.
 
 ```bash
-python3 scripts/run_liniger_track.py --baseline /path/to/alexliniger_MPCC --progress-speed 2
+python3 src/aac_2026/control/acados_mpcc/scripts/run_liniger_track.py --baseline /path/to/alexliniger_MPCC --progress-speed 2
 ```
 
 runner는 원본의 `Matlab/`을 `tracks/indoor_final/simulation/<UTC>/Matlab/`로 복사합니다. 변경 내역은 `integration.patch`, 출처는 `provenance.json`에 남깁니다.

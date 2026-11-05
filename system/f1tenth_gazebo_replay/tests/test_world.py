@@ -4,8 +4,8 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
 
-from tools.gazebo_replay.generate import strip_mesh, create_world
-from tools.gazebo_replay.map_mesh import select_points, floor_z
+from system.f1tenth_gazebo_replay.generate import strip_mesh, create_world
+from system.f1tenth_gazebo_replay.map_mesh import select_points, floor_z
 
 
 class WorldTests(unittest.TestCase):

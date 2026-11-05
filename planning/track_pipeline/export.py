@@ -1,5 +1,5 @@
 from pathlib import Path
-from tools.workspace import find_workspace
+from system.f1tenth.workspace import find_workspace
 import json
 import os
 import numpy as np
@@ -38,7 +38,7 @@ def export(out,source,config,evidence,trajectory,s,centre,yaw,curvature,left,rig
     metrics['ready_for_vehicle']=False
     (out/'validation.json').write_text(json.dumps(metrics,indent=2)+'\n')
     bag=source.parent.name;workspace=find_workspace(__file__)
-    (out/'bag_metadata.txt').write_text((workspace/'bags'/bag/'metadata.yaml').read_text()+'\n\nSOURCE MAP RUN: '+str(source)+'\nCalibration assumption: MID-360/internal IMU, upstream factory extrinsics.\n')
+    (out/'bag_metadata.txt').write_text((workspace/'bag'/bag/'metadata.yaml').read_text()+'\n\nSOURCE MAP RUN: '+str(source)+'\nCalibration assumption: MID-360/internal IMU, upstream factory extrinsics.\n')
     # Conservative occupancy keeps lower returns occupied, even if dynamic.
     occupancy=np.full(evidence['usable'].shape,205,np.uint8)
     occupancy[evidence['observed_floor']]=254

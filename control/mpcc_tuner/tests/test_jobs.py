@@ -7,8 +7,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tools.mpcc_tuner.config import catalog
-from tools.mpcc_tuner.jobs import BusyError, JobManager
+from control.mpcc_tuner.config import catalog
+from control.mpcc_tuner.jobs import BusyError, JobManager
 
 
 class FakeProcess:
@@ -36,7 +36,7 @@ class JobTests(unittest.TestCase):
 
     def start(self, process=None):
         process = process or FakeProcess()
-        with patch('tools.mpcc_tuner.jobs.subprocess.Popen', return_value=process):
+        with patch('control.mpcc_tuner.jobs.subprocess.Popen', return_value=process):
             ident = self.manager.start(self.request)
         return ident, process
 
@@ -129,7 +129,7 @@ class JobTests(unittest.TestCase):
             # costly solver with a child that exits when its stdin closes.
             return real_popen([sys.executable, '-c', 'import sys; sys.stdin.read()'],
                               stdin=subprocess.PIPE, **kwargs)
-        with patch('tools.mpcc_tuner.jobs.subprocess.Popen', side_effect=launch_waiting_child):
+        with patch('control.mpcc_tuner.jobs.subprocess.Popen', side_effect=launch_waiting_child):
             ident = self.manager.start(self.request)
         process = self.manager.process
         try:

@@ -14,7 +14,7 @@ def main():
  from scipy.spatial.transform import Rotation,Slerp
  from rosbags.rosbag1 import Reader
  from rosbags.typesys import Stores,get_typestore
- from tools.dynamic_lio.adapter import OUTPUT_DTYPE
+ from sensors.bag_adapter.pointcloud_layout import OUTPUT_DTYPE
  d=np.load(BASE/'area.npz');v=np.load(BASE/'vehicle_clearance.npz');t=d['poses'];xy=t[:,1:3];res=float(d['resolution']);origin=d['origin'];shape=d['candidate'].shape;plane=d['plane'];radius=float(v['radius'])
  ij=np.floor((xy-origin)/res).astype(int);yi,xi=ij[:,1],ij[:,0];bad=~v['vehicle_centers'][yi,xi]
  _,near=ndi.distance_transform_edt(d['candidate'],return_indices=True);ny,nx=near[:,yi,xi]

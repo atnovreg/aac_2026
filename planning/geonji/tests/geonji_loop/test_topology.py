@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from tools.check_geonji_loop import encloses
+from planning.geonji.check_geonji_loop import encloses
 class LoopTest(unittest.TestCase):
  def test_ring_and_real_gap(self):
   m=np.zeros((9,9),bool);m[2,2:7]=True;m[6,2:7]=True;m[2:7,2]=True;m[2:7,6]=True

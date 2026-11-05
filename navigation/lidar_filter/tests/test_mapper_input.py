@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from test_filtering import cloud
-from tools.lidar_filter.filtering import records,mapper_effective_timestamps
+from navigation.lidar_filter.filtering import records,mapper_effective_timestamps
 
 
 class MapperInputTests(unittest.TestCase):

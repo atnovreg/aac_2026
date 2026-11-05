@@ -6,8 +6,8 @@ from pathlib import Path
 import casadi as ca
 import numpy as np
 
-from tools.acados_mpcc.controller import Controller, build_ocp, default_config
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.controller import Controller, build_ocp, default_config
+from control.acados_mpcc.track import Track
 
 
 class ControllerFormulationTests(unittest.TestCase):

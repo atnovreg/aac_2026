@@ -3,9 +3,9 @@ from pathlib import Path
 import argparse,json
 import numpy as np
 import yaml
-from tools.audit_geonji_simulation import main as map_audit
-from tools.build_geonji_track import box_clearance
-from tools.acados_mpcc.slash_model import slash_forces
+from control.run_analysis.audit_geonji_simulation import main as map_audit
+from planning.geonji.build_geonji_track import box_clearance
+from control.acados_mpcc.slash_model import slash_forces
 
 def main(run):
  map_audit(run)

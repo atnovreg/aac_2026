@@ -11,7 +11,7 @@ if [[ ! -f "$acados_workspace/.f1tenth-workspace" ]]; then
     echo "Cannot locate .f1tenth-workspace for ${BASH_SOURCE[0]}" >&2
     exit 1
 fi
-acados_lock="$acados_workspace/config/acados_versions.json"
+acados_lock="$acados_workspace/src/aac_2026/control/acados_mpcc/config/acados_versions.json"
 export ACADOS_SOURCE_DIR="${ACADOS_SOURCE_DIR:-$acados_workspace/vendor/acados}"
 export ACADOS_VENV="${ACADOS_VENV:-$acados_workspace/.venv-acados}"
 acados_build_jobs="${ACADOS_BUILD_JOBS:-8}"
@@ -53,7 +53,7 @@ cmake --install "$ACADOS_SOURCE_DIR/build"
 if [[ ! -x "$ACADOS_VENV/bin/python" ]]; then
     "$acados_python" -m venv "$ACADOS_VENV"
 fi
-"$ACADOS_VENV/bin/python" -m pip install --disable-pip-version-check -r "$acados_workspace/requirements/acados.txt"
+"$ACADOS_VENV/bin/python" -m pip install --disable-pip-version-check -r "$acados_workspace/src/aac_2026/control/acados_mpcc/requirements/acados.txt"
 "$ACADOS_VENV/bin/python" -m pip install --disable-pip-version-check --use-pep517 --no-build-isolation --no-deps \
     -e "$ACADOS_SOURCE_DIR/interfaces/acados_template"
 export LD_LIBRARY_PATH="$ACADOS_SOURCE_DIR/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
@@ -72,7 +72,7 @@ acados_smoke_dir="$ACADOS_SOURCE_DIR/build/smoke"
 mkdir -p "$acados_smoke_dir"
 (
     cd "$acados_smoke_dir"
-    "$acados_workspace/scripts/acados_python.sh" - <<'PY'
+    "$acados_workspace/src/aac_2026/control/acados_mpcc/scripts/acados_python.sh" - <<'PY'
 import os, pathlib, runpy, sys
 example = pathlib.Path(os.environ['ACADOS_SOURCE_DIR']) / 'examples/acados_python/getting_started/minimal_example_ocp.py'
 sys.path.insert(0, str(example.parent))

@@ -6,9 +6,9 @@ from pathlib import Path
 import numpy as np
 import yaml
 
-from tools.acados_mpcc.controller import Controller, default_config
-from tools.acados_mpcc.slash_model import load_parameters
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.controller import Controller, default_config
+from control.acados_mpcc.slash_model import load_parameters
+from control.acados_mpcc.track import Track
 
 
 class CBatchEquivalenceTests(unittest.TestCase):

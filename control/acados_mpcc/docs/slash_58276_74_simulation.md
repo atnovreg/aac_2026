@@ -1,6 +1,6 @@
 # Slash VXL 2WD 58276-74 + VESC: 초기 시뮬레이션 모델
 
-이 모델은 공개 제원을 적용한 초기 모델입니다. 실제 차량에서 식별한 모델이나 VESC 펌웨어 시뮬레이터가 아닙니다. VESC/배터리/장비 실측값을 받으면 config/vehicles/slash_58276_74.yaml의 가정을 교체해야 합니다.
+이 모델은 공개 제원을 적용한 초기 모델입니다. 실제 차량에서 식별한 모델이나 VESC 펌웨어 시뮬레이터가 아닙니다. VESC/배터리/장비 실측값을 받으면 src/aac_2026/control/acados_mpcc/config/vehicles/slash_58276_74.yaml의 가정을 교체해야 합니다.
 
 ## 자료와 파라미터
 - 제조사 58276-74 매뉴얼 사본: https://www.astramodel.cz/manualy/5/58276-74-OM-EN-R00.pdf
@@ -47,9 +47,9 @@ RTI/Gauss-Newton, 제어주기20ms, 예측60단계(1.2초), 전진 속도 상한
 기계 판독 제원/가정은 각 config.yaml에 통째로 보존합니다. 원래 ORCA 코드는 기본 선택으로 유지하며 기존 결과는 보존했습니다.
 
 ```bash
-./scripts/acados_python.sh -m tools.acados_mpcc --config config/acados_slash_outer_rti.yaml
-./scripts/acados_python.sh -m tools.acados_mpcc --config config/acados_slash_left_inner_rti.yaml
-./scripts/acados_python.sh -m tools.acados_mpcc --config config/acados_slash_both_inner_rti.yaml
+./scripts/acados_python.sh -m control.acados_mpcc --config src/aac_2026/control/acados_mpcc/config/acados_slash_outer_rti.yaml
+./scripts/acados_python.sh -m control.acados_mpcc --config src/aac_2026/control/acados_mpcc/config/acados_slash_left_inner_rti.yaml
+./scripts/acados_python.sh -m control.acados_mpcc --config src/aac_2026/control/acados_mpcc/config/acados_slash_both_inner_rti.yaml
 ```
 
 다음 실측: 장비 포함 무게와 축별 무게, 실제 차폭/차장, 조향각 보정 및 응답지연, VESC 전류·속도 제한 및 모터 감지 설정, 현재 기어, 일정 전류에서 가감속 응답, 타이어 마찰/슬립. 기존 값은 실측으로 확인된 항목부터 교체합니다.

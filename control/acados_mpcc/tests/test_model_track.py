@@ -8,8 +8,8 @@ import unittest
 
 import numpy as np
 
-from tools.acados_mpcc.model import orca_rhs, rk4_step, symbolic_orca_rhs
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.model import orca_rhs, rk4_step, symbolic_orca_rhs
+from control.acados_mpcc.track import Track
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "matlab_orca_golden.json"

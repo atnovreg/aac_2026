@@ -1,4 +1,4 @@
-"""Loopback-only local MPCC tuning UI. Run via scripts/mpcc_tuner.sh."""
+"""Loopback-only local MPCC tuning UI. Run via src/aac_2026/control/mpcc_tuner/scripts/mpcc_tuner.sh."""
 import argparse,json,mimetypes,signal
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from pathlib import Path

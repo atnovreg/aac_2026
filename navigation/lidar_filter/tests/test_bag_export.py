@@ -10,8 +10,8 @@ import yaml
 from rclpy.serialization import serialize_message,deserialize_message
 from sensor_msgs.msg import Imu,PointCloud2
 from test_filtering import cloud
-from tools.lidar_filter.__main__ import export,reader_for
-from tools.lidar_filter.verify_bag import verify
+from navigation.lidar_filter.__main__ import export,reader_for
+from navigation.lidar_filter.verify_bag import verify
 
 
 class BagExportTests(unittest.TestCase):

@@ -12,15 +12,15 @@ import unittest
 import numpy as np
 import yaml
 
-from tools.acados_mpcc.controller import default_config
-from tools.acados_mpcc.model import configured_rk4, increment_limits
-from tools.acados_mpcc.slash_model import load_parameters
-from tools.acados_mpcc.track import Track
+from control.acados_mpcc.controller import default_config
+from control.acados_mpcc.model import configured_rk4, increment_limits
+from control.acados_mpcc.slash_model import load_parameters
+from control.acados_mpcc.track import Track
 
 
 class NativeExportTests(unittest.TestCase):
     def test_export_preserves_track_and_ten_millisecond_plant(self):
-        module = 'tools.acados_mpcc.native_export'
+        module = 'control.acados_mpcc.native_export'
         self.assertIsNotNone(importlib.util.find_spec(module),
                              'native exporter module is missing')
         export_native = importlib.import_module(module).export_native

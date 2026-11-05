@@ -1,8 +1,8 @@
 import gc,json,time,yaml
 from pathlib import Path
-from tools.acados_mpcc.controller import default_config
-from tools.acados_mpcc.simulation import run
-cfg=default_config();cfg.update(yaml.safe_load(Path('config/acados_geonji_inner_rti_profile.yaml').read_text()))
+from control.acados_mpcc.controller import default_config
+from control.acados_mpcc.simulation import run
+cfg=default_config();cfg.update(yaml.safe_load(Path('src/aac_2026/control/acados_mpcc/config/acados_geonji_inner_rti_profile.yaml').read_text()))
 events=[]
 def callback(phase,info):events.append({'phase':phase,'time':time.perf_counter(),'cpu':time.thread_time(),**info})
 gc.callbacks.append(callback)

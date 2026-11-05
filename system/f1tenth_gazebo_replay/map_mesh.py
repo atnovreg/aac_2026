@@ -1,7 +1,7 @@
 """Display sampled PCD returns as small tetrahedra, without reconstructing surfaces."""
 import struct
 import numpy as np
-from tools.track_pipeline.projection import read_pcd
+from planning.track_pipeline.projection import read_pcd
 
 
 def floor_z(xy, plane):

@@ -37,7 +37,7 @@
 
 ## RViz
 
-`bash scripts/rviz_drivable_area.sh`
+`bash src/aac_2026/planning/geonji/scripts/rviz_drivable_area.sh`
 
 기존 지도 창과 별개로 새 설정 창을 연다.
 
@@ -57,8 +57,8 @@
 - `area_review.png`, `vehicle_area_review.png`: 정적 검토 그림.
 
 ```bash
-.venv-dynamic-lio/bin/python -m tools.drivable_area --config config/geonji_drivable_area_20cm.yaml
-.venv-dynamic-lio/bin/python -m tools.vehicle_area_clearance results/건지광장/drivable_area/083146_v2_20cm --sides .56 .19 --margin .05
+.venv-dynamic-lio/bin/python -m planning.geonji.drivable_area --config src/aac_2026/planning/geonji/config/geonji_drivable_area_20cm.yaml
+.venv-dynamic-lio/bin/python -m planning.geonji.vehicle_area_clearance results/건지광장/drivable_area/083146_v2_20cm --sides .56 .19 --margin .05
 ```
 
 추출기는 기존 결과를 덮어쓰지 않으므로 재실행 시 config의 output을 새 경로로 설정한다. 원본 bag, 정적 지도, 기존 실내복도 트랙은 변경하지 않았다. 중심선·좌우 경계·MPCC는 아직 생성하지 않았다.

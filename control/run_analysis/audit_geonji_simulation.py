@@ -2,8 +2,8 @@
 import argparse,json
 from pathlib import Path
 import numpy as np
-from tools.track_pipeline.geometry import sample_grid
-from tools.acados_mpcc.track import Track
+from planning.track_pipeline.geometry import sample_grid
+from control.acados_mpcc.track import Track
 
 def main(run):
  track_path=Path(json.loads((run/'provenance.json').read_text())['track'])

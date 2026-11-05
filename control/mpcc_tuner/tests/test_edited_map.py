@@ -4,8 +4,8 @@ from io import BytesIO
 import unittest
 import numpy as np
 from PIL import Image
-from tools.mpcc_tuner.config import catalog, simulation_config, ROOT
-from tools.mpcc_tuner.assets import map_png
+from control.mpcc_tuner.config import catalog, simulation_config, ROOT
+from control.mpcc_tuner.assets import map_png
 
 EDITED = ROOT/'results/건지광장/map_edit/20260917_inner_focus'
 

@@ -1,7 +1,7 @@
 """Synthetic visibility evidence must preserve static, unseen and occluded points."""
 import unittest
 import numpy as np
-from tools.lidar_filter.temporal import TemporalVoxelEvidence
+from navigation.lidar_filter.temporal import TemporalVoxelEvidence
 
 
 class TemporalTests(unittest.TestCase):

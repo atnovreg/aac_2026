@@ -1,0 +1,620 @@
+{
+  "baseline_commit": "54ad2856d5c4be47c4423d86b9083d6bc9a26fd3",
+  "moves": {
+    "common/f1tenth/workspace.py": "system/f1tenth/workspace.py",
+    "common/f1tenth/README.md": "system/f1tenth/WORKSPACE.md",
+    "simulation/f1tenth_gazebo_replay": "system/f1tenth_gazebo_replay",
+    "archive/f1tenth": "operations/f1tenth/archive",
+    "docs/F1TENTH_시작하기.md": "operations/f1tenth/docs/F1TENTH_시작하기.md",
+    "docs/superpowers": "operations/f1tenth/docs/superpowers",
+    "f1tenth.sh": "operations/f1tenth/run.sh"
+  },
+  "recording_entry": "bag",
+  "recordings_target": "/home/irdl4/Workspace/f1tenth_ws/bags",
+  "removed_source_aliases": 70,
+  "preserved_hidden_dockerignore_alias": true,
+  "modified_or_moved_imports": [
+    {
+      "before": "common/f1tenth/README.md",
+      "after": "system/f1tenth/WORKSPACE.md",
+      "before_sha256": "a53c1dcc85fd8d5d212ca274c2bd2d63eb14c803196f481e1af1221e839a1704",
+      "after_sha256": "ebae05c79d40f246da3fadf6eb950a3840f174254c7954f8521bb291551f6c28"
+    },
+    {
+      "before": "common/f1tenth/workspace.py",
+      "after": "system/f1tenth/workspace.py",
+      "before_sha256": "93b1f34d8aee25416cffb91b0fbc573d3bcedb75e68be4ad1f2dad011f62e77c",
+      "after_sha256": "de422449eed3b2d1e30eabe7010e51e710600327a4b1613dc818ae896d9e364e"
+    },
+    {
+      "before": "control/acados_mpcc/config/acados_versions.json",
+      "after": "control/acados_mpcc/config/acados_versions.json",
+      "before_sha256": "77a55d9a600839c90fc9f2d866685bafc3709cbd9fd99dfa403c4964cd38177a",
+      "after_sha256": "7d382f5239752387815e2938bde7d157e6e3b8764453596a82b19ad197ff06eb"
+    },
+    {
+      "before": "control/acados_mpcc/controller.py",
+      "after": "control/acados_mpcc/controller.py",
+      "before_sha256": "060a1eb1064ead2834119fdcfe3152af4b8e6aa27fb7a904afc7e67ebd874cfa",
+      "after_sha256": "ab1527198238017444af6f76aafb263f1ded8dbe457b25d5694e13e7b374f2c9"
+    },
+    {
+      "before": "control/acados_mpcc/docs/acados-mpcc.md",
+      "after": "control/acados_mpcc/docs/acados-mpcc.md",
+      "before_sha256": "3d3d4368c6a192363266c63f1210639a58ec929cc794dbdaa1e27736f4ebbc16",
+      "after_sha256": "34fdcc5548c06f27e00a54612ee022f08e7c6bc0c077e3d207509e942343b963"
+    },
+    {
+      "before": "control/acados_mpcc/docs/cleaned-map-mpcc.md",
+      "after": "control/acados_mpcc/docs/cleaned-map-mpcc.md",
+      "before_sha256": "036da6b9912176902b48eea6de22b4203545cc2d22614d66bfac79a18b8d3655",
+      "after_sha256": "1973e30b3573bdf634f137d99d0316e1407619994f742ae081dffbc1dc4e4550"
+    },
+    {
+      "before": "control/acados_mpcc/docs/slash-model-v2.md",
+      "after": "control/acados_mpcc/docs/slash-model-v2.md",
+      "before_sha256": "dedc30366459d776c8e4aac87bad16c98a910c031b6a46a74cf076b0efd10bca",
+      "after_sha256": "669e19388c955c2f87a61f01273712dad7ae0b3b9d93ef8bcee64d1f1f038e36"
+    },
+    {
+      "before": "control/acados_mpcc/docs/slash_58276_74_simulation.md",
+      "after": "control/acados_mpcc/docs/slash_58276_74_simulation.md",
+      "before_sha256": "7a5ebe7275d2d4e29d3e51e0e3bf2d2dd07c748217b97e8b015f654e27561258",
+      "after_sha256": "b8158f47bf7ea3952e124d06411beeaac7165883666c2e124abd2446a62186d2"
+    },
+    {
+      "before": "control/acados_mpcc/profile_gc.py",
+      "after": "control/acados_mpcc/profile_gc.py",
+      "before_sha256": "90383b5f1a876c73601be915c04c82eefcbb40d385c886129da24ba3b344b69e",
+      "after_sha256": "1c11795bff1832bb702250ee8901a7466eb21cdaeace9e7ecca789e7ab34aefb"
+    },
+    {
+      "before": "control/acados_mpcc/scripts/acados_python.sh",
+      "after": "control/acados_mpcc/scripts/acados_python.sh",
+      "before_sha256": "f6ea8e849ceddc6f07d8eef0117e1b61f51950bd79b7b711b340b10651a10fe6",
+      "after_sha256": "14608647fc4537e5ebc71f4cb4e8570796fb8dd69b73a9182c44134f38befc5c"
+    },
+    {
+      "before": "control/acados_mpcc/scripts/setup_acados.sh",
+      "after": "control/acados_mpcc/scripts/setup_acados.sh",
+      "before_sha256": "bc7fff119092d32cb0f55fb63b6d7b7939e5061d3f2f20658af25731cf318f81",
+      "after_sha256": "b142e943fb21826be9790025be2674234af88715aa76bf38209986a13865b5fd"
+    },
+    {
+      "before": "control/acados_mpcc/simulation.py",
+      "after": "control/acados_mpcc/simulation.py",
+      "before_sha256": "37b39d96f0311d2b1d36b0c7d0db7132da89c63e7de904e9ee4ab9ac59eaf960",
+      "after_sha256": "47441b064ee4694d172569fae4871714336ca997982525acbf3cb03bf41fa653"
+    },
+    {
+      "before": "control/acados_mpcc/slash_model.py",
+      "after": "control/acados_mpcc/slash_model.py",
+      "before_sha256": "d450f69ddfc60471fb8a8040e155cfe74171dca270946982e3e95228f1056589",
+      "after_sha256": "f29d5f35e6cb04031c93aa295ce4a0002871bd4b888a8a94b4c39535140e6f16"
+    },
+    {
+      "before": "control/acados_mpcc/tests/slash_model/test_dynamics.py",
+      "after": "control/acados_mpcc/tests/slash_model/test_dynamics.py",
+      "before_sha256": "f4095ad0dee9519dc78d5a49adecc82cc542f1aad47b7704d3ac75891312cb77",
+      "after_sha256": "19e80ae081abba6887faaab63197d6c9e432eb3b1ab55f4e06df4f2fc3b80ab9"
+    },
+    {
+      "before": "control/acados_mpcc/tests/slash_model/test_ocp.py",
+      "after": "control/acados_mpcc/tests/slash_model/test_ocp.py",
+      "before_sha256": "6c7afb8da8643853470db0ef6e5fd58b7d96c5464460a6406257b02ce98b47e5",
+      "after_sha256": "6dbc150246fb90bb271d03ac0c842772500ad46490443daca2faec36e7265650"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_actuator_prediction.py",
+      "after": "control/acados_mpcc/tests/test_actuator_prediction.py",
+      "before_sha256": "3ce8866777f3d45500e5665c5b9e6093677a8d8829bdadb30abddf633bd77c08",
+      "after_sha256": "80ce04273aa9fda5f2f197e27dfec2cf78d0d63a6e4397880c1cb532407f07ae"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_c_batch.py",
+      "after": "control/acados_mpcc/tests/test_c_batch.py",
+      "before_sha256": "0ad6b3d017e662a4702d61125ba5de594ac717ad47a0e0c0f1ec4de3a12b41ac",
+      "after_sha256": "3005d6f12c305b258c8e1c351fa585bd57545de42da2fef6618909c5d6eef53f"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_controller.py",
+      "after": "control/acados_mpcc/tests/test_controller.py",
+      "before_sha256": "b2ab2fe99af55ad2d47bf099ca7bb8939df961d9ce7b2901a8f7da8c20576d4c",
+      "after_sha256": "3bca7be01e158322550aaa3627118bd6d8e4e2541086ebc74c5ee0c9e461582a"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_logging.py",
+      "after": "control/acados_mpcc/tests/test_logging.py",
+      "before_sha256": "e4b20e6849b2819d71098ce00e2b565d6bef148fef7957d3503678c197b6f6ef",
+      "after_sha256": "73bbd22d75c9ddc5e62b65fc9169a637afb1ab7e10b97c43535ddb0ebe7d94a9"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_model_track.py",
+      "after": "control/acados_mpcc/tests/test_model_track.py",
+      "before_sha256": "d7e4bac45dcfe10c6febe1080af2a8796bdfb415bc5924fc202b9c3d5a379ab7",
+      "after_sha256": "e83991f0408d43f8b627337459a4773b9860fb51ff014c36e2466b84a97422e3"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_native_export.py",
+      "after": "control/acados_mpcc/tests/test_native_export.py",
+      "before_sha256": "98c52808df15ab3cd699b0e0b9f0d507b9a3e1ff81866ec8dc648574feb963f7",
+      "after_sha256": "581983dfcc3a98796cd31ce3a6ad9097702f5b5b06f882adea669bab6a9c8332"
+    },
+    {
+      "before": "control/acados_mpcc/tests/test_simulation.py",
+      "after": "control/acados_mpcc/tests/test_simulation.py",
+      "before_sha256": "4aa1209f211294126a234529612049efc347b50578271153d2f04ba5dedf5e26",
+      "after_sha256": "0e6fc131b9c3e9ba2a3172f63cb606f990761c48b63f960ca729070fd2a7a904"
+    },
+    {
+      "before": "control/mpcc_tuner/config.py",
+      "after": "control/mpcc_tuner/config.py",
+      "before_sha256": "a234e542f5c602eaf00674c9596a1bfc7701bcdc1fb0a576e5c84a53af537bf1",
+      "after_sha256": "02f181c3455690a2a41b45c0cf99a7d3406d43b3915ae62b5433087e825c1f5c"
+    },
+    {
+      "before": "control/mpcc_tuner/docs/mpcc-tuner.md",
+      "after": "control/mpcc_tuner/docs/mpcc-tuner.md",
+      "before_sha256": "9e11e6938563c3aebdd0e6886fa3d399dcc115218c7321a0061182bd0812d8a1",
+      "after_sha256": "8aef537880f223c2a3cb741e5280875233575d92c3111a38ab80c34b0a58ae96"
+    },
+    {
+      "before": "control/mpcc_tuner/jobs.py",
+      "after": "control/mpcc_tuner/jobs.py",
+      "before_sha256": "05e4e3df3ca5ceaae585ea46c4e2d15f7afb084f83a30a101ddefee4d7fba262",
+      "after_sha256": "6d34e4f9f813f494a19d6ce306d795f9005f5209b89395874f18123b43c44121"
+    },
+    {
+      "before": "control/mpcc_tuner/scripts/mpcc_tuner.sh",
+      "after": "control/mpcc_tuner/scripts/mpcc_tuner.sh",
+      "before_sha256": "737134c4cfc938b9c9317edffe92d8db4153f5d3eb148ad6b3a75c578e5689bd",
+      "after_sha256": "e4f7094470230e2f77bda203af319014e003cd6aa64d8be63bec03d3aa2b4f46"
+    },
+    {
+      "before": "control/mpcc_tuner/server.py",
+      "after": "control/mpcc_tuner/server.py",
+      "before_sha256": "5ab9777e0dd08f441a7586757f94294dd3c91a271f1ebac7c5b534173290c9df",
+      "after_sha256": "35863daab10adf95eb8467c5348c9463cd80863bcd2aa24875edce387ff4e626"
+    },
+    {
+      "before": "control/mpcc_tuner/tests/test_config.py",
+      "after": "control/mpcc_tuner/tests/test_config.py",
+      "before_sha256": "77c074e896b8c5e8af431f9cb07bac420ccb08cceb5a4f8ad79e2be1e332156d",
+      "after_sha256": "304ddd9400bcc54a598a2c8a398b8d8bc83922b2a09e1ec4270cd40b8e8d6006"
+    },
+    {
+      "before": "control/mpcc_tuner/tests/test_edited_map.py",
+      "after": "control/mpcc_tuner/tests/test_edited_map.py",
+      "before_sha256": "f928fcab22cc9dc04755956affeac00b87c86633438c64e7d29c65e317c13704",
+      "after_sha256": "4ef1dea2508989210214a3ca7a9a762e3d513421130971f4d55c86e1ad47a8b4"
+    },
+    {
+      "before": "control/mpcc_tuner/tests/test_jobs.py",
+      "after": "control/mpcc_tuner/tests/test_jobs.py",
+      "before_sha256": "9d43dacfb194f9cf1e2c2742a791533c17971e09438059cd6c170b682b755e1f",
+      "after_sha256": "4081690c7da2de0ee6ef6f1f5ee49b0cb4da272695c34380e326b476d0580972"
+    },
+    {
+      "before": "control/mpcc_tuner/tests/test_observer.py",
+      "after": "control/mpcc_tuner/tests/test_observer.py",
+      "before_sha256": "9ad244b0079918addea03f655e11de53ed056ab6fba7d838d68379a57bde3c69",
+      "after_sha256": "756c3e7bea8610da12ebd333d734e68b18f2737323fdc5f6a9eafa0559739216"
+    },
+    {
+      "before": "control/mpcc_tuner/worker.py",
+      "after": "control/mpcc_tuner/worker.py",
+      "before_sha256": "4cd760a3cb0d076a9be4820b6d2f2cb31f18e520131cea54ce32071e8d9658db",
+      "after_sha256": "a69d4492d56a1f353266b9cb2f9cc136a2619face423c5fb949b845ef578d954"
+    },
+    {
+      "before": "control/run_analysis/audit_geonji_simulation.py",
+      "after": "control/run_analysis/audit_geonji_simulation.py",
+      "before_sha256": "072e26bb026392439f6303e2f7a3e4c6420280c2de568f0540e80f86546212e5",
+      "after_sha256": "c9ae694795023d163d6e1988b4a65d8d9e43b5c89bcec4bdc1264b75f116770b"
+    },
+    {
+      "before": "control/run_analysis/audit_slash_run.py",
+      "after": "control/run_analysis/audit_slash_run.py",
+      "before_sha256": "8242ede105af4d8141e1c5f12e62f4c3f61a8438120e1e5668798f7570a2810c",
+      "after_sha256": "d09d6601de9e7b04a0f33a9d0569590b21add65cf55378e5c4e061da5ffe08ae"
+    },
+    {
+      "before": "control/run_analysis/compare_geonji_routes.py",
+      "after": "control/run_analysis/compare_geonji_routes.py",
+      "before_sha256": "24b3cd82852816a6cd38508801d5707d6bfa00ac949ad75ecbee7292bf3fe0ef",
+      "after_sha256": "9b5d6802f848c449da835dae8e7e343e6901663c11fad65c02b3aa24e8a5a39a"
+    },
+    {
+      "before": "planning/geonji/assume_route_floor.py",
+      "after": "planning/geonji/assume_route_floor.py",
+      "before_sha256": "20ec49193148018b3274ce060bddf685724d4e248986728d18d6dcd50249bb8b",
+      "after_sha256": "5419916f4ec186dc39a3079a062fa08806ef9cd4bba1b1091958955d50929738"
+    },
+    {
+      "before": "planning/geonji/build_geonji_track.py",
+      "after": "planning/geonji/build_geonji_track.py",
+      "before_sha256": "c684cae604c7afae2ef181468ced354d3bda69c84d1d994c2d4de15863d080ab",
+      "after_sha256": "750137d67a1889cae06b6ce0b6e7b9ff00fd318f32fbb4a9f69983ecab062559"
+    },
+    {
+      "before": "planning/geonji/docs/geonji-drivable-area.md",
+      "after": "planning/geonji/docs/geonji-drivable-area.md",
+      "before_sha256": "2eb3306a2f86b4330dc4de2178478b6d2750dc867bb64f112117ffb3f6c4d4d2",
+      "after_sha256": "91a231956a56532babac80caba477eddbd7361ac0aab5ddc08fddbaf3d34a8e6"
+    },
+    {
+      "before": "planning/geonji/drivable_area.py",
+      "after": "planning/geonji/drivable_area.py",
+      "before_sha256": "96e2cac8c809cb2a89335326ba9517c119d6e58295a44be63a01f60c5953a83f",
+      "after_sha256": "88b927941b8cbe8443bd0b2e06e48e784a05705d1977e7a24f6103e7ccd5d6df"
+    },
+    {
+      "before": "planning/geonji/review_area_gaps.py",
+      "after": "planning/geonji/review_area_gaps.py",
+      "before_sha256": "04ffa759e9f9557540692e816e29e52a4bba90c2d6722054eeb64d878f0deaac",
+      "after_sha256": "d43c388fad697da7c0debf10944ccc6b677169e3966e717312dc18b3bd9e88e2"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_assumed_floor.sh",
+      "after": "planning/geonji/scripts/rviz_assumed_floor.sh",
+      "before_sha256": "ab18981eeab68fb921fdd2c4d0a4ca51e330a8219145930b572bae11d870072b",
+      "after_sha256": "5d63aca3f8a264b40c3ddf5e84f1067fdd83e050fdb62d44091be5e3a03318a6"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_drivable_area.sh",
+      "after": "planning/geonji/scripts/rviz_drivable_area.sh",
+      "before_sha256": "1fbb0e1330f2edf0b49e97bef067fc162a52f24fd1d6c1e3802b19965a36af78",
+      "after_sha256": "424769c84598c2894b328408a6b5448fccd51aee622eda087a8e1df9a8710472"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_gap_review.sh",
+      "after": "planning/geonji/scripts/rviz_gap_review.sh",
+      "before_sha256": "040dbf039f665608b8e286f8093aaec51dadfb7666f140c3e24ddf6482dd8e77",
+      "after_sha256": "5bb2072077dc94b2af00066564974ddae802d50d6cc36315e38ea9315ffb50dc"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_geonji_mpcc.sh",
+      "after": "planning/geonji/scripts/rviz_geonji_mpcc.sh",
+      "before_sha256": "56c0a12947e781348500d7f0affe6c6a5c18273a5fa698edf83a108426edbdbf",
+      "after_sha256": "bf212730af7d1edc211620bcc686139664ac4f75e079df60fc202e155418873a"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_loop_check.sh",
+      "after": "planning/geonji/scripts/rviz_loop_check.sh",
+      "before_sha256": "0a19d437394567a6859da729d0c62caa63d4546b346c27d702ac1373edb0584d",
+      "after_sha256": "65bfc63c8762943ef4ff215e7574bb0f906f59fe7c4f66a402d5574a98c3c9b2"
+    },
+    {
+      "before": "planning/geonji/scripts/rviz_static_area.sh",
+      "after": "planning/geonji/scripts/rviz_static_area.sh",
+      "before_sha256": "86bd96b1de09881022094f49e71c7ad4c305b6982296ffda8e853e9410854c88",
+      "after_sha256": "c4070b3c19f792bcd72db2dc73f8831e132f2f82a2e085c28690e52d4f54276f"
+    },
+    {
+      "before": "planning/geonji/tests/drivable_area/test_assumed_floor.py",
+      "after": "planning/geonji/tests/drivable_area/test_assumed_floor.py",
+      "before_sha256": "75de947e6e642abc0482767e1ec2fae4e534c5c9caafa6ae8685a23437bc194b",
+      "after_sha256": "3743f66c76960d358332811024240133ba62ea0498a96cffcc102c3d11dd8897"
+    },
+    {
+      "before": "planning/geonji/tests/drivable_area/test_masks.py",
+      "after": "planning/geonji/tests/drivable_area/test_masks.py",
+      "before_sha256": "6c540cd0f523fdbe5e453f99261cb1f01399aa4c52bfdb129c4eb991025a17f1",
+      "after_sha256": "9b06d957d2eef14a9b9e427ec7702b0a75c42b15e8efa6c7f70c218f39b14868"
+    },
+    {
+      "before": "planning/geonji/tests/drivable_area/test_vehicle.py",
+      "after": "planning/geonji/tests/drivable_area/test_vehicle.py",
+      "before_sha256": "bdfac5f5675e706dbf7fcdb18bb5254bc60d792b955aa9560b23650ff8b1609d",
+      "after_sha256": "96ba1838ca191f1eebacffe51edfc575d8cc4fa2897a32975f480106cb762977"
+    },
+    {
+      "before": "planning/geonji/tests/geonji_loop/test_topology.py",
+      "after": "planning/geonji/tests/geonji_loop/test_topology.py",
+      "before_sha256": "89fae79e60a52fd12a1ba2a05ed5cc39c7c4e58c3a73928924140a8c92f32163",
+      "after_sha256": "d0e3a85add2529dc8be3d1e159ad4bf331b35cb2cf305b9383b2c8de8052e34b"
+    },
+    {
+      "before": "planning/geonji/tests/geonji_track/test_clearance.py",
+      "after": "planning/geonji/tests/geonji_track/test_clearance.py",
+      "before_sha256": "092adb2f505b9efd60135b444ad400ab1515fea07fee0ed5f2e0fc62ef2c11a3",
+      "after_sha256": "d79df39f31438646670e56f07ac6d44d0c502ec1fb6a1fad86c980c3c5b54255"
+    },
+    {
+      "before": "planning/geonji/tests/geonji_track/test_route_choice.py",
+      "after": "planning/geonji/tests/geonji_track/test_route_choice.py",
+      "before_sha256": "938b5d299a26d6266ee2ad6cc29bb2d34ccb9a897e50c41881c0cb9103692c65",
+      "after_sha256": "2b7dc8019e47d5808b3db43f06a5a57e80c8d6fd59114aefe19595220c0af07d"
+    },
+    {
+      "before": "planning/track_pipeline/__main__.py",
+      "after": "planning/track_pipeline/__main__.py",
+      "before_sha256": "2ca9b4dee5ebad0b898463ce726dee08daab9c99fb31c92841d63af6faef44d0",
+      "after_sha256": "af087100c812654248d05a0c2ded38755189fcb82463e95ca3d4dd77eb29fdf6"
+    },
+    {
+      "before": "planning/track_pipeline/docs/mpcc-track-pipeline.md",
+      "after": "planning/track_pipeline/docs/mpcc-track-pipeline.md",
+      "before_sha256": "1f4126feeb4af59b846288f483ec439870f648525808e487401ffb877a39a9b7",
+      "after_sha256": "ee1249fd44a32d1099b30ced04cd44aea42b1671861b7543edc7ea8920267e61"
+    },
+    {
+      "before": "planning/track_pipeline/export.py",
+      "after": "planning/track_pipeline/export.py",
+      "before_sha256": "bb2edae9fcfcbb561d1649576ed2456eaa8da954fe1ed2794525bb22c76546ea",
+      "after_sha256": "163b6732b1254d9437c7deff5d2ad2da297ef8043225a2594e8bed5d4405a4cb"
+    },
+    {
+      "before": "planning/track_pipeline/tests/test_geometry.py",
+      "after": "planning/track_pipeline/tests/test_geometry.py",
+      "before_sha256": "0636baf4d80d4f75cebd34694d52fb28e3918c5b081264ff34ba0a317d7e82bf",
+      "after_sha256": "d777683f80c91023d19c42137bd6a7e47f8070e046530713f5fa8cd8de7c54bf"
+    },
+    {
+      "before": "navigation/fastlio/scripts/run_bag.py",
+      "after": "navigation/fastlio/scripts/run_bag.py",
+      "before_sha256": "100e96e5a58df218ff9581ab4db73a7662f5a38b1f4460c1ef56d9b7a8458d30",
+      "after_sha256": "1a4c2aec9f052b3503e096d2b4c175c58aa1e8a142a0f467b27b4e0f6301f94d"
+    },
+    {
+      "before": "navigation/fastlio/scripts/slam.sh",
+      "after": "navigation/fastlio/scripts/slam.sh",
+      "before_sha256": "30eaed85364b7810dbe5b83b294fe0170f1e845669d3f339b59f1483aa125e07",
+      "after_sha256": "7e1802360399455cb61bd303550dfd08a2821d4a086212d3ad5ca2248ba40c4d"
+    },
+    {
+      "before": "navigation/fastlio/tests/test_frozen_clock.py",
+      "after": "navigation/fastlio/tests/test_frozen_clock.py",
+      "before_sha256": "879ec3aadeff6b402ad30f708a742969ef2d991f36e89afd5f59d6bceb25c8a6",
+      "after_sha256": "7afb321da3a6d61feaa80b951b96682aa96509e1c34e41ed0c1514af358fe86a"
+    },
+    {
+      "before": "navigation/lidar_filter/__main__.py",
+      "after": "navigation/lidar_filter/__main__.py",
+      "before_sha256": "b0b09f82422f127712d4bdcceb85817d056fe23a6d9663693b7b87dc35f9fbef",
+      "after_sha256": "3108bb890ce8ef97d7ec54b77e93b4b802bb726b153fcb2aa9d734c09ea3468c"
+    },
+    {
+      "before": "navigation/lidar_filter/docs/lidar-human-filter.md",
+      "after": "navigation/lidar_filter/docs/lidar-human-filter.md",
+      "before_sha256": "fa64cd5ceefd88a8c68eb7cb64c4823aec140f774d9fa197ca326a7da5d29f4c",
+      "after_sha256": "029befb5a8cbbffd4546acbbdf82aa18ae2de7f3bc88061afbe5381366bb8798"
+    },
+    {
+      "before": "navigation/lidar_filter/pcd.py",
+      "after": "navigation/lidar_filter/pcd.py",
+      "before_sha256": "5341df707eb3f454d1a2ede95dc02441922dd69540700d6a54e4962722aa571d",
+      "after_sha256": "772cc4730f815e07062d9970675ac73aa166160bec029849e0c1ed0b4e02d825"
+    },
+    {
+      "before": "navigation/lidar_filter/plot.py",
+      "after": "navigation/lidar_filter/plot.py",
+      "before_sha256": "88a9dcacc8e3535eff46c49987fd343ea3a1b0c94dd26b7b74593ce3504b8d9b",
+      "after_sha256": "9df3b424998671fc548cb6cd5d51f2875ef3cb990791ead0f10e2a867275f1fd"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_bag_export.py",
+      "after": "navigation/lidar_filter/tests/test_bag_export.py",
+      "before_sha256": "998511828e4b6bd6446b60b0d2a85f420211456f9935a46a8d95b4f1c19518d3",
+      "after_sha256": "6b484b68aaa4e20119e1920fd999b420be2c7fe9bd018d94476b66a9a93c8af8"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_filtering.py",
+      "after": "navigation/lidar_filter/tests/test_filtering.py",
+      "before_sha256": "8cb4f00de35d128e31514045e906656dfefd387f1fbac5ab5b3d4395cfdd7670",
+      "after_sha256": "21d1121823832017d8eca0df013235c0641564fc456ff1c5ac0fde0693b13d21"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_mapper_input.py",
+      "after": "navigation/lidar_filter/tests/test_mapper_input.py",
+      "before_sha256": "d65828add9e1aad2dfda5cda885493f0dad8535c9b474a577fee6d7955d40076",
+      "after_sha256": "00daeb89c271d64e8f258e88dd6d20e308f218f818970a3264128f9a87b038b1"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_pcd.py",
+      "after": "navigation/lidar_filter/tests/test_pcd.py",
+      "before_sha256": "e338267ac4ea58efd75465366bbd3594e320643e94c93fd873558da58355afaf",
+      "after_sha256": "a492ea4fdbe4bb60dbe150cadeadb4dcb1eeff54c0fd713fd9b7734ef6be6dcc"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_registration.py",
+      "after": "navigation/lidar_filter/tests/test_registration.py",
+      "before_sha256": "22333dc25a5a49e5a4eb6c6c60fd3f48bee318033ce23455281d4251ff5e6d24",
+      "after_sha256": "97b9e457ec0d1b7a28576e0f15a5da2d48c196e38750dd891092f8feb6ae30af"
+    },
+    {
+      "before": "navigation/lidar_filter/tests/test_temporal.py",
+      "after": "navigation/lidar_filter/tests/test_temporal.py",
+      "before_sha256": "d8560d15b728d40fd1d98ac8cb4b8502cc9de56da089a7b46078a6348cb7acd2",
+      "after_sha256": "264b9402721ae8295ce4a182a57dfd0fff694189ffb90f2162709ce4faa43cb7"
+    },
+    {
+      "before": "navigation/map_review/docs/rviz-map-review.md",
+      "after": "navigation/map_review/docs/rviz-map-review.md",
+      "before_sha256": "4b819528f49818a5f018f953af647d56a1317169dbba8d04f50faf9ed0537989",
+      "after_sha256": "26cfe9200e20e4c69aa1d1a5e9e0abf5e7311eecf0ed2dcda21f74796d3cefb6"
+    },
+    {
+      "before": "navigation/map_review/map_review_cloud.py",
+      "after": "navigation/map_review/map_review_cloud.py",
+      "before_sha256": "a8b7354c41734c52fa6879e77e9598744060cd352060d64537ac3d0591e2fab2",
+      "after_sha256": "6a30ddf2565a939bc6f8dfd1d9cae554d6d4aae5c6d7eccd6f0791071340873e"
+    },
+    {
+      "before": "navigation/map_review/scripts/rviz_map_review.sh",
+      "after": "navigation/map_review/scripts/rviz_map_review.sh",
+      "before_sha256": "7adf0e3c31ab55989d8f9b828c63080e58620ec941e032af328426ba274f8928",
+      "after_sha256": "c13eec27a5463bedabecbd5cee92f9600602a7b3337853b44b895db5ca462db1"
+    },
+    {
+      "before": "navigation/map_review/tests/test_cloud.py",
+      "after": "navigation/map_review/tests/test_cloud.py",
+      "before_sha256": "a51fa36039f34cd528e693e494a1f2a0c33ff079e38619bd06fa1c9f8abc7788",
+      "after_sha256": "f05db9750ba204fc987f959a100ac4421555de0f9533ad0d9a4926601a03c168"
+    },
+    {
+      "before": "sensors/bag_adapter/tests/test_adapter.py",
+      "after": "sensors/bag_adapter/tests/test_adapter.py",
+      "before_sha256": "9a779eb552c0a048830f975036b7b802f7820710fd1200647b0161bb6f4b7732",
+      "after_sha256": "fbe2d571e0d02054f4d9f6f34206c008e80cb73c9b1edb54d8f9fb758a5b8c72"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/CMakeLists.txt",
+      "after": "system/f1tenth_gazebo_replay/CMakeLists.txt",
+      "before_sha256": "62b87889f4d0d170cd047dbc6b040855fb3a98ee822507ba4bae59ee68d73a4a",
+      "after_sha256": "62b87889f4d0d170cd047dbc6b040855fb3a98ee822507ba4bae59ee68d73a4a"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/COLCON_IGNORE",
+      "after": "system/f1tenth_gazebo_replay/COLCON_IGNORE",
+      "before_sha256": "89a891c53f0b3907b2c6a660dfa17346b15312e0421b81e172d7c42759aa05bd",
+      "after_sha256": "89a891c53f0b3907b2c6a660dfa17346b15312e0421b81e172d7c42759aa05bd"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/Replay.cc",
+      "after": "system/f1tenth_gazebo_replay/Replay.cc",
+      "before_sha256": "dc3cf1ea677145811c5c571e5a243dec914f9be089194fc30478219b5e368ab7",
+      "after_sha256": "dc3cf1ea677145811c5c571e5a243dec914f9be089194fc30478219b5e368ab7"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/Trajectory.hh",
+      "after": "system/f1tenth_gazebo_replay/Trajectory.hh",
+      "before_sha256": "1679215b4fd40b18eb3f35fc09bb679d53986335ffec63578b989202725a73c0",
+      "after_sha256": "1679215b4fd40b18eb3f35fc09bb679d53986335ffec63578b989202725a73c0"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/__init__.py",
+      "after": "system/f1tenth_gazebo_replay/__init__.py",
+      "before_sha256": "56a13ece5d92e697e626a1a6333bb4e85acf97ebedec0d52d0d7994198e7e810",
+      "after_sha256": "56a13ece5d92e697e626a1a6333bb4e85acf97ebedec0d52d0d7994198e7e810"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/camera.py",
+      "after": "system/f1tenth_gazebo_replay/camera.py",
+      "before_sha256": "bff239fb645196f18949ef7079aac1fd798a55b105060f20a3ca9d826371a487",
+      "after_sha256": "bff239fb645196f18949ef7079aac1fd798a55b105060f20a3ca9d826371a487"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/docs/gazebo-replay.md",
+      "after": "system/f1tenth_gazebo_replay/docs/gazebo-replay.md",
+      "before_sha256": "311d316e7828b7bcc43de673d3b387b64a1481b05cf967b3f55f86c947d00a22",
+      "after_sha256": "4a9e41806628e80feebaae37708b98c20a94e2d3e66d1d46d5f2b04404bc14b7"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/generate.py",
+      "after": "system/f1tenth_gazebo_replay/generate.py",
+      "before_sha256": "669d7a34a2d314bd8468c72977d01fceaeded1b15fd10b55dfbd9b91572c3f32",
+      "after_sha256": "30aa61a01c965b6882f30d81d095e5bb07970ec37547b2b92dabfb70ac8d3c31"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/map_mesh.py",
+      "after": "system/f1tenth_gazebo_replay/map_mesh.py",
+      "before_sha256": "d00aafa45a4d56f5f717513c46f4e84eb9a0fd5674f7a674ed3cad71ef005c48",
+      "after_sha256": "42f3230710e195c30114f4be544d3bae331e30410a8b47e96feef5e984df01c0"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/scripts/gazebo_replay.sh",
+      "after": "system/f1tenth_gazebo_replay/scripts/gazebo_replay.sh",
+      "before_sha256": "68abf4558c346e67c783fda7e33d276ba89f13c781cb7b85710d50a11ac85017",
+      "after_sha256": "7a2433eb54693a1bf5d518bb3ac18a438182bad66581561bd677c3977deeaad4"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/scripts/gazebo_replay_container.sh",
+      "after": "system/f1tenth_gazebo_replay/scripts/gazebo_replay_container.sh",
+      "before_sha256": "9e2df985fb60ffee66cb530e514d6a28ef2aecfb16be4c8b21e1bc87e1f63ca8",
+      "after_sha256": "e30399be0e691c180e628acc0e2bf18f7efdbe475ef930fe811be769bdc2f801"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/tests/test_trajectory.cpp",
+      "after": "system/f1tenth_gazebo_replay/tests/test_trajectory.cpp",
+      "before_sha256": "52f24003f58329f8ca2bd286982101b2f9a8a65279162983a1c0026a6b186ffc",
+      "after_sha256": "52f24003f58329f8ca2bd286982101b2f9a8a65279162983a1c0026a6b186ffc"
+    },
+    {
+      "before": "simulation/f1tenth_gazebo_replay/tests/test_world.py",
+      "after": "system/f1tenth_gazebo_replay/tests/test_world.py",
+      "before_sha256": "c41922ce3747aa6093c44d2f91b9ae845e888ba7cff66425edc3bbcdd1a69a24",
+      "after_sha256": "a2e7a1db9e65272fe48a233fbff8361b8a0ed7d2714f50c7689dfe28ed097abf"
+    },
+    {
+      "before": "docker/f1tenth/Dockerfile.acados",
+      "after": "docker/f1tenth/Dockerfile.acados",
+      "before_sha256": "77433cf791f564c05a0c9250d3dfd5d2e4603f812c36ebd1da4e076c7ec5e6fc",
+      "after_sha256": "73ef52c77684020f6f978290382c7501254016d23a527c5f1e4c2734f21c3dc4"
+    },
+    {
+      "before": "docker/f1tenth/README.md",
+      "after": "docker/f1tenth/README.md",
+      "before_sha256": "044a88c6562b96a2f0f62e7fc52df6696ccf3cd1f380a9d70dab99f72b5e4e1b",
+      "after_sha256": "0c846251e129309623aa55b444a29f17e6112e13fbb9134b6ae4dfaadbd6f096"
+    },
+    {
+      "before": "docker/f1tenth/entrypoint.sh",
+      "after": "docker/f1tenth/entrypoint.sh",
+      "before_sha256": "e097b4fa6029a4f49b9ee62ef3a530fbad854adcddd71b4d7bcc72a8b97f3cb7",
+      "after_sha256": "5875a5bde55d22a6d2a2b34be1334ff9f0e95588b4acbfe7c28ffaf6948bd4d5"
+    },
+    {
+      "before": "docker/f1tenth/gazebo-entrypoint.sh",
+      "after": "docker/f1tenth/gazebo-entrypoint.sh",
+      "before_sha256": "fb65372518eb7542469b94c84280adc7b3e6d1edf6515a9ff4ce334aaf2d36ed",
+      "after_sha256": "47dfdc1105d707768a0fb14164a6ded9414e159567da063ca6dc2597adfc45ad"
+    },
+    {
+      "before": "sensors/livox_front_filter/README.md",
+      "after": "sensors/livox_front_filter/README.md",
+      "before_sha256": "57a03de6c6299a1f2a12bffbc60c6d64153c1fe4e3c14851d4cdb004d78392f7",
+      "after_sha256": "763e82455c89ef088cde79db63ec91c8a9ad277efefabc50160a2abfbe813cc1"
+    },
+    {
+      "before": "navigation/localization3d/closed_loop.py",
+      "after": "navigation/localization3d/closed_loop.py",
+      "before_sha256": "fbd3281fc55b375e93e7d05facb0f111ae53e7166fc5934e9009430ee0de0893",
+      "after_sha256": "bbd10fdd0f7b9e07624fbfd38d0cee1c6f29f6f2b513d14f4b73386280361f8d"
+    },
+    {
+      "before": "navigation/localization3d/display.py",
+      "after": "navigation/localization3d/display.py",
+      "before_sha256": "5c39f828831a2b9d6b525318e82d0341dfb4e5f9c788ac3c3034694b675797f7",
+      "after_sha256": "4c2fde6a34b0d0052ace21b6321a15cfb845c394763f39bc562f2ac6c56c3d27"
+    },
+    {
+      "before": "navigation/localization3d/prepare.py",
+      "after": "navigation/localization3d/prepare.py",
+      "before_sha256": "61da135c316e0f5cd40f8bc5bd9c2cbaf0f9834d057302f78e41de57cf0a578e",
+      "after_sha256": "1a1f92e3136af6a114311c6bc99670585cb4438d88178c4500e5e73ee92d5c3c"
+    },
+    {
+      "before": "navigation/localization3d/PROGRESS.md",
+      "after": "navigation/localization3d/PROGRESS.md",
+      "before_sha256": "6f5160b7ee7e8beaf5d24bb6a32b5498150c42a4dd7e584340f85cfcb6f6dd3b",
+      "after_sha256": "282b076907995a74f071652b25ff53f65eccc3a010050a06f5d0b82cea3f0a04"
+    },
+    {
+      "before": "navigation/localization3d/tests/test_feedback.py",
+      "after": "navigation/localization3d/tests/test_feedback.py",
+      "before_sha256": "9f6214ac5e0a8a1733566bc4edfee63d9b46ead912c18ff5418316aee0d35567",
+      "after_sha256": "e43ca64b5694cfebe0d0a40cd1772e5fc948385230c3de2fa49a62337abb81a3"
+    },
+    {
+      "before": "navigation/localization3d/soft_runtime.py",
+      "after": "navigation/localization3d/soft_runtime.py",
+      "before_sha256": "3e7af0f3aea9aca7bc2cc9f15fe90844d25584dd48821f010a1e27f97c79a13d",
+      "after_sha256": "4ba51c06d78df9e1a8074ebb1840d5645260dccc607d65bec3a90f17179fcc28"
+    }
+  ],
+  "algorithms_and_tuning_changed": false,
+  "raw_data_deleted": false,
+  "nano_changed": false,
+  "agx_deployed": false,
+  "verification": {
+    "python_tests": 119,
+    "native_gazebo_tests": 1,
+    "original_recording_metadata_preserved": 10,
+    "compose_existing_symlink_data": "PASS",
+    "compose_fresh_native_data_no_bags_created": "PASS",
+    "review": "Two important mount findings fixed; no remaining important issues",
+    "source_audit": "901 imported files and 548 original AAC files passed",
+    "physical_hardware_tested": false
+  }
+}

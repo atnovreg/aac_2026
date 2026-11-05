@@ -3,8 +3,8 @@ import argparse,json,hashlib
 from pathlib import Path
 import numpy as np
 from scipy import ndimage as ndi
-from tools.vehicle_area_clearance import main as vehicle_clearance
-from tools.check_geonji_loop import encloses,cut_loop
+from planning.geonji.vehicle_area_clearance import main as vehicle_clearance
+from planning.geonji.check_geonji_loop import encloses,cut_loop
 
 def fill_route_gaps(observed,obstacle,origin,res,route,radius):
     if radius<=0 or len(route)<2:raise ValueError('Positive radius and a trajectory required')

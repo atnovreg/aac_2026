@@ -24,6 +24,6 @@ Gazebo Harmonic 창에서 `tracks/indoor_final/map.pcd`의 실제 XYZ 점과 저
 
 동시에 여러 재생 서버를 켜지 않는다. 현재 작업에서 띄운 창을 종료하려면 창을 닫거나 `docker stop f1tenth-gazebo-replay`를 사용한다. 스크립트로 실행한 경우 Ctrl+C로 종료한다. GUI에는 현재 데스크톱의 DISPLAY/XAUTHORITY를 사용한다.
 
-생성물은 `results/gazebo_replay/<UTC>/`에 저장한다: world.sdf, 표시용 STL/OBJ, 재생 CSV, 원본 경로·해시·필터 설정 manifest.json. 소스는 `tools/gazebo_replay/`, Docker 설정은 `docker/Dockerfile.gazebo`와 compose.yaml에 있다.
+생성물은 `results/gazebo_replay/<UTC>/`에 저장한다: world.sdf, 표시용 STL/OBJ, 재생 CSV, 원본 경로·해시·필터 설정 manifest.json. 소스는 `src/aac_2026/system/f1tenth_gazebo_replay/`, Docker 설정은 `src/aac_2026/docker/f1tenth/`에 있다.
 
 검증: Python 지도 샘플링/세계 생성 테스트 3개, C++ 시간 보간·yaw wrap·잘못된 입력 거부 테스트 통과. 실제 Gazebo pose 토픽 23개를 기록 CSV 및 바닥 평면과 대조했고 최대 XYZ 오차 5e-16m, 표본 간 이동 1.736m를 확인했다. 근거: `results/gazebo_replay/20260910T141513401030Z/replay_validation.json` 및 pose_samples.jsonl.

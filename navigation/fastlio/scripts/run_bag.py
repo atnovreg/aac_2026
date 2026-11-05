@@ -22,13 +22,13 @@ INSTALL = Path(os.environ.get('F1TENTH_INSTALL_BASE', str(WS/'artifacts/f1tenth'
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('bag', help='Bag directory under /ws/bags, or all')
+    parser.add_argument('bag', help='Bag directory under /ws/bag, or all')
     parser.add_argument('--rate', type=float, default=1.0)
-    parser.add_argument('--config', default='/ws/config/mid360_bag.yaml')
+    parser.add_argument('--config', default='/ws/src/aac_2026/navigation/fastlio/config/mid360_bag.yaml')
     args = parser.parse_args()
     if not math.isfinite(args.rate) or args.rate <= 0:
         parser.error('--rate must be positive and finite')
-    bags = sorted((WS/'bags').glob('*/metadata.yaml')) if args.bag == 'all' else [WS/'bags'/args.bag/'metadata.yaml']
+    bags = sorted((WS/'bag').glob('*/metadata.yaml')) if args.bag == 'all' else [WS/'bag'/args.bag/'metadata.yaml']
     if not bags or any(not p.is_file() for p in bags):
         parser.error('Bag metadata not found')
     (WS/"results").mkdir(exist_ok=True)
