@@ -11,7 +11,7 @@ from system.f1tenth_gazebo_replay.generate import child,visual
 from system.f1tenth_gazebo_replay.map_mesh import write_stl
 
 HERE=Path(__file__).resolve().parent
-BASE=HERE/'baseline'
+ASSETS=HERE/'display_assets'
 
 
 def ring(path,radius):
@@ -42,11 +42,11 @@ def main(args):
     checked=json.loads((HERE/'results/audit.json').read_text())
     assert checked['status']=='PASS' and Path(checked['run']).resolve()==run
     out=HERE/'results/display';out.mkdir(exist_ok=False)
-    tree=ET.parse(BASE/'gazebo_equiv100/world.sdf');world=tree.getroot().find('world')
+    tree=ET.parse(ASSETS/'world.sdf');world=tree.getroot().find('world')
     world.set('name','geonji_localization3d_20261104')
     template=world.find("model[@name='slash_replay']");world.remove(template)
     for name in ['preferred_region.stl','soft_band.stl','raceline.stl']:
-        shutil.copy2(BASE/'gazebo_equiv100'/name,out/name)
+        shutil.copy2(ASSETS/name,out/name)
     for e in tree.iter():
         if e.tag=='uri' and e.text.startswith('/experiment/gazebo_equiv100/'):
             e.text=e.text.replace('/experiment/gazebo_equiv100/','/experiment/results/display/')

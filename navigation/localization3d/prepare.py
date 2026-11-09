@@ -1,4 +1,5 @@
 """Prepare original measured 3D geometry and unchanged raceline inputs."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -11,11 +12,11 @@ HERE=Path(__file__).resolve().parent
 from system.f1tenth.workspace import find_workspace
 WS=find_workspace(__file__)
 SOURCE=WS/'results/건지광장/dynamic_lio/20260913T100858860234Z_indoor_front180_20260913_083146/map_static.pcd'
-BASE=HERE/'baseline'
+INPUTS=HERE/'inputs'
 
 
-def main():
-    out=HERE/'inputs';out.mkdir(exist_ok=False)
+def main(out):
+    out.mkdir(exist_ok=False)
     a=read_pcd(SOURCE)
     xyz=np.c_[a['x'],a['y'],a['z']]
     with np.load(WS/'results/건지광장/map_edit/20261001_similarity_obstacles/drivable_area/area.npz') as d:
@@ -25,7 +26,7 @@ def main():
     world=VoxelWorld.from_points(xyz,voxel=.15)
     world.save(out/'map_geometry.npz')
     for name in ['track.csv','validation.json','soft_profile.npz','zones_map_xy.geojson','area_layers.npz']:
-        shutil.copy2(BASE/'inputs'/name,out/name)
+        shutil.copy2(INPUTS/name,out/name)
     manifest=dict(source=str(SOURCE),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         original_points=len(a),retained_points=len(xyz),occupied_voxels=int(world.occupied.sum()),
         grid_shape=world.shape.tolist(),voxel_m=world.voxel,floor_plane=plane.tolist(),
@@ -37,4 +38,7 @@ def main():
     print(json.dumps(manifest,indent=2))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True,help='New directory; existing data is never overwritten')
+    main(parser.parse_args().output)

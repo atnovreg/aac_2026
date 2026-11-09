@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 # Use the isolated acados environment without changing the caller's shell.
 set -euo pipefail
-# Resolve both the canonical source path and legacy script symlink.
-acados_workspace=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
-while [[ ! -f "$acados_workspace/.f1tenth-workspace" && "$acados_workspace" != / ]]; do
-    acados_workspace=$(dirname -- "$acados_workspace")
-done
+acados_workspace="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/../../../../.." && pwd)"
 if [[ ! -f "$acados_workspace/.f1tenth-workspace" ]]; then
     echo "Cannot locate .f1tenth-workspace for ${BASH_SOURCE[0]}" >&2
     exit 1

@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# Resolve both the canonical source path and legacy script symlink.
-gap_workspace=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
-while [[ ! -f "$gap_workspace/.f1tenth-workspace" && "$gap_workspace" != / ]]; do
-    gap_workspace=$(dirname -- "$gap_workspace")
-done
+gap_workspace="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/../../../../.." && pwd)"
 if [[ ! -f "$gap_workspace/.f1tenth-workspace" ]]; then
     echo "Cannot locate .f1tenth-workspace for ${BASH_SOURCE[0]}" >&2
     exit 1

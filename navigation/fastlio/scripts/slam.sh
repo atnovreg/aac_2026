@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-slam_workspace=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
-while [[ ! -f "$slam_workspace/.f1tenth-workspace" && "$slam_workspace" != / ]]; do
-    slam_workspace=$(dirname -- "$slam_workspace")
-done
+slam_workspace="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/../../../../.." && pwd)"
 if [[ ! -f "$slam_workspace/.f1tenth-workspace" ]]; then
     echo "Cannot locate .f1tenth-workspace for ${BASH_SOURCE[0]}" >&2
     exit 1

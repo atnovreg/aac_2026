@@ -35,7 +35,6 @@ class ConsolidationTests(unittest.TestCase):
         code = (
             "import closed_loop, audit, display; from pathlib import Path; "
             "assert closed_loop.WS == Path(" + repr(str(WS)) + "); "
-            "assert closed_loop.BASE == Path.cwd(); "
             "assert Path(audit.geometry.__file__).parent == Path.cwd()"
         )
         result = subprocess.run([sys.executable, '-W', 'ignore::DeprecationWarning', '-c', code],

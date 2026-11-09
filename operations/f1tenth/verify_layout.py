@@ -1,66 +1,54 @@
 #!/usr/bin/env python3
-"""Verify source preservation, the AAC layout, and local data/archive links."""
+"""Check the current AAC layout, independently of old migration snapshots."""
 import argparse
-import hashlib
-import json
 from pathlib import Path
+
+REQUIRED_FILES = (
+    'control/acados_mpcc/controller.py',
+    'control/acados_mpcc/config/acados_mpcc.yaml',
+    'control/mpcc_cpp_virtual/package.xml',
+    'control/mpcc_tuner/server.py',
+    'navigation/fastlio/FAST_LIO/package.xml',
+    'navigation/localization3d/closed_loop.py',
+    'navigation/localization3d/inputs/map_geometry.npz',
+    'planning/track_pipeline/__main__.py',
+    'sensors/livox_ros_driver2/src/livox_ros_driver2.cpp',
+    'sensors/livox_ros_driver2/package.xml',
+    'sensors/realsense-ros/realsense2_camera/package.xml',
+    'system/f1tenth/config/agx/profile.yaml',
+    'system/f1tenth_gazebo_replay/Replay.cc',
+    'docker/f1tenth/compose.yaml',
+    'operations/f1tenth/run.sh',
+)
+
+
+def check_layout(aac, source_only=False):
+    errors = [f'Missing source: {name}' for name in REQUIRED_FILES if not (aac/name).is_file()]
+    workspace = aac.parent.parent
+    if aac.parent.name != 'src':
+        errors.append('Place AAC under <workspace>/src/aac_2026')
+    if not (workspace/'.f1tenth-workspace').is_file():
+        errors.append('Run operations/f1tenth/setup_workspace.py first')
+    for name in ['tools', 'scripts', 'config', 'requirements', 'bags', 'compose.yaml']:
+        path = workspace/name
+        if path.exists() or path.is_symlink():
+            errors.append(f'Legacy duplicate workspace entry: {path}')
+    if not source_only:
+        for name in ['bag', 'tracks', 'results']:
+            if not (workspace/name).is_dir():
+                errors.append(f'Missing or broken data directory: {workspace/name}')
+    return errors
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source-only', action='store_true',
-                        help='Skip workstation asset links and original-source availability checks')
+    parser.add_argument('--source-only', action='store_true', help='Skip local data directories')
     args = parser.parse_args()
-    aac = Path(__file__).resolve().parents[2]
-    here = Path(__file__).resolve().parent
-    manifest = json.loads((here/'import_manifest.json').read_text())
-    failures = []
-    imported_checked = 0
-    for row in manifest['files']:
-        if args.source_only and row.get('publish_source') is False:
-            continue
-        imported_checked += 1
-        path = aac/row['destination']
-        if not path.is_file():
-            failures.append(f'Missing imported file: {path}')
-            continue
-        if hashlib.sha256(path.read_bytes()).hexdigest() != row.get('installed_sha256'):
-            failures.append(f'Imported file changed since verification: {path}')
-        source = row['source']
-        if not args.source_only and not source.startswith('ssh://'):
-            original = Path(source)
-            if not original.is_file() or hashlib.sha256(original.read_bytes()).hexdigest() != row['source_sha256']:
-                failures.append(f'Original source missing or changed: {source}')
-    baseline = json.loads((here/'original_aac_hashes.json').read_text())
-    backups = {'README.md': 'operations/f1tenth/before/README.md',
-               '.gitignore': 'operations/f1tenth/before/.gitignore'}
-    backups.update(manifest.get('original_aac_backups', {}))
-    for rel, expected in baseline.items():
-        # Host-path updates retain the byte-exact baseline in a recorded backup.
-        source = aac/backups.get(rel, rel)
-        if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
-            failures.append(f'Original AAC file not preserved: {rel}')
-    workspace = aac.parent.parent
-    for name in ['tools', 'scripts', 'config', 'requirements', 'bags', 'compose.yaml']:
-        path = workspace/name
-        if path.exists() or path.is_symlink():
-            failures.append(f'Legacy duplicate workspace entry: {path}')
-    if not (workspace/'bag').is_dir():
-        failures.append(f'Missing canonical recording directory: {workspace/"bag"}')
-    if not args.source_only:
-        for link in manifest['local_links']:
-            path, target = Path(link['path']), Path(link['target'])
-            if not path.is_symlink() or path.resolve() != target.resolve() or not path.exists():
-                failures.append(f'Broken local data/archive alias: {path}')
-    for message in failures:
-        print(message)
-    if failures:
-        raise SystemExit(f'FAIL: {len(failures)} preservation/layout checks')
-    print(f"PASS: {imported_checked} imported files, {len(baseline)} original AAC files; "
-          'AAC category paths and one bag/ entry')
-    if not args.source_only:
-        print(f"PASS: {len(manifest['local_links'])} local source/data/archive links; originals preserved")
-    print('Scope: file/layout verification; hardware/AGX operation is not verified.')
+    errors = check_layout(Path(__file__).resolve().parents[2], args.source_only)
+    if errors:
+        raise SystemExit('\n'.join(errors))
+    print('PASS: AAC source layout' + ('' if args.source_only else ' and local data directories'))
+    print('Scope: layout only; dependencies, tests and physical hardware require separate checks.')
 
 
 if __name__ == '__main__':

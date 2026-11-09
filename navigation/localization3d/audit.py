@@ -3,7 +3,6 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-import sys
 import numpy as np
 import shapely
 from shapely.geometry import shape,LineString
@@ -14,11 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 HERE=Path(__file__).resolve().parent
-BASE=HERE/'baseline'
-# Avoid import-name collision with this independent audit.
-import importlib.util
-spec=importlib.util.spec_from_file_location('baseline_geometry_audit',HERE/'baseline_geometry.py')
-geometry=importlib.util.module_from_spec(spec);spec.loader.exec_module(geometry)
+from navigation.localization3d import geometry
 
 
 def main(args):

@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 # Replay saved acados poses. This does not run a Gazebo vehicle controller.
 set -euo pipefail
-# Resolve both the canonical source path and legacy script symlink.
-replay_workspace=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
-while [[ ! -f "$replay_workspace/.f1tenth-workspace" && "$replay_workspace" != / ]]; do
-    replay_workspace=$(dirname -- "$replay_workspace")
-done
+replay_workspace="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/../../../../.." && pwd)"
 if [[ ! -f "$replay_workspace/.f1tenth-workspace" ]]; then
     echo "Cannot locate .f1tenth-workspace for ${BASH_SOURCE[0]}" >&2
     exit 1

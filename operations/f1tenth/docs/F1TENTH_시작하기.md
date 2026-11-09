@@ -101,6 +101,8 @@ Compose는 `bag/`의 원본을 컨테이너에서도 읽을 수 있게 연결합
 
 ## 검증 기록
 
-소스 출처는 `operations/f1tenth/import_manifest.json`, 이번 재분류 내역은 `structure_reuse.json`에 있습니다. 과거 검증·계획 문서는 당시 경로를 포함할 수 있습니다.
+현재 구조 검사는 `operations/f1tenth/verify_layout.py`, 회귀 검사는 `operations/f1tenth/tests/`에 있습니다. 일반적인 소스 편집은 검사 기준 해시를 갱신할 필요가 없습니다.
+
+이관 당시 소스 목록·원본 백업·계획·검증 로그는 본체 `ros2_ws/log/f1tenth/migration-20261105/`에 보존했습니다. Git에서는 정리 전 커밋 `5faa7e0`에서 확인할 수 있습니다. 이 기록은 실행·설치에 필요하지 않습니다.
 
 이전 C++ 검사 `core_parity`의 차이 `5.34077e-6`은 원본에서도 동일하게 재현된 기존 문제입니다. 이번 정리에서는 수식이나 허용치를 변경하지 않았습니다. AGX 배포·실제 센서·VESC 동작은 별도 검증 대상입니다.

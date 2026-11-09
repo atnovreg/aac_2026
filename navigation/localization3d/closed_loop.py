@@ -7,7 +7,6 @@ from pathlib import Path
 import platform
 import os
 import shutil
-import sys
 import time
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -25,8 +24,6 @@ from control.acados_mpcc.slash_model import load_parameters
 HERE=Path(__file__).resolve().parent
 from system.f1tenth.workspace import find_workspace
 WS=Path(os.environ.get('LOCALIZATION_WS',str(find_workspace(__file__))))
-BASE=HERE
-sys.path.insert(0,str(BASE))
 from solver_margin import GuardedSoftController
 
 
@@ -59,7 +56,7 @@ def main(args):
             WS/'src/aac_2026/control/acados_mpcc/controller.py',WS/'src/aac_2026/control/acados_mpcc/simulation.py',
             WS/'src/aac_2026/control/acados_mpcc/slash_model.py',WS/'src/aac_2026/control/acados_mpcc/config/vehicles/slash_58276_74.yaml']},
         experiment_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in HERE.glob('*.py')},
-        original_adapters_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [BASE/'soft_runtime.py',BASE/'solver_margin.py']})
+        original_adapters_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [HERE/'soft_runtime.py',HERE/'solver_margin.py']})
     dump(folder/'provenance.json',provenance)
     (folder/'source').mkdir()
     for name in provenance['experiment_sha256']:shutil.copy2(HERE/name,folder/'source'/name)
