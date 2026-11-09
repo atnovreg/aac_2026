@@ -40,5 +40,3 @@ def analytic_check():
     mask=np.ones((5,5),bool);mask[2,2]=False
     dist=GridDistance(mask,[0,0],1.)
     np.testing.assert_allclose(dist(np.array([[2.5,2.5],[1.5,2.5],[1.,1.],[-1,0]])),[0,.5,1,0])
-
-
