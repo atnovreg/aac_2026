@@ -46,6 +46,18 @@ void JoyControl::getParams()
   if (!std::isfinite(input_timeout_) || input_timeout_ <= 0.0) {
     throw std::invalid_argument("input_timeout must be finite and positive");
   }
+  const auto index = [this](const char * name, int default_value) {
+      const auto value = declare_parameter<int>(name, default_value);
+      if (value < 0) {
+        throw std::invalid_argument(std::string(name) + " must be nonnegative");
+      }
+      return static_cast<std::size_t>(value);
+    };
+  speed_axis_ = index("speed_axis", 4);
+  steering_axis_ = index("steering_axis", 0);
+  stop_button_ = index("stop_button", 0);
+  arm_button_ = index("arm_button", 1);
+  deadman_button_ = index("deadman_button", 5);
 
   RCLCPP_INFO(get_logger(),
     "max_speed: %.2f m/s | max_steer: %.1f deg | reverse: %s",
@@ -62,8 +74,9 @@ void JoyControl::autoCallback(
 
 void JoyControl::joyCallback(const sensor_msgs::msg::Joy::SharedPtr msg)
 {
-  if (msg->buttons.size() <= 5 || msg->axes.size() <= 4 ||
-      !std::isfinite(msg->axes[0]) || !std::isfinite(msg->axes[4])) {
+  if (msg->buttons.size() <= std::max({stop_button_, arm_button_, deadman_button_}) ||
+      msg->axes.size() <= std::max(speed_axis_, steering_axis_) ||
+      !std::isfinite(msg->axes[steering_axis_]) || !std::isfinite(msg->axes[speed_axis_])) {
     latest_joy_.reset();
     run_mode_ = false;
     arm_was_pressed_ = true;
@@ -100,14 +113,14 @@ void JoyControl::timerCallback()
     const auto & axes    = latest_joy_->axes;
 
     // Stop wins; a held arm button must be released before rearming.
-    if (buttons.at(0) != 0) {
+    if (buttons.at(stop_button_) != 0) {
       run_mode_ = false;
       arm_was_pressed_ = true;
       has_auto_cmd_ = false;
       publishStop();
       return;
     }
-    const bool arm_pressed = buttons.at(1) != 0;
+    const bool arm_pressed = buttons.at(arm_button_) != 0;
     if (arm_pressed && !arm_was_pressed_) {
       run_mode_ = true;
       RCLCPP_INFO(get_logger(), "RUN MODE enabled (○)");
@@ -120,14 +133,14 @@ void JoyControl::timerCallback()
     if (run_mode_) {
       const double reverse = reverse_angle_ ? -1.0 : 1.0;
 
-      if (buttons.at(5) != 0) {
+      if (buttons.at(deadman_button_) != 0) {
         // R1 홀드 → 조이스틱 수동 제어
         ackermann_cmd_.drive.speed =
           static_cast<float>(maximum_speed_ *
-            std::max(-1.0, std::min(1.0, static_cast<double>(axes.at(4)))));
+            std::max(-1.0, std::min(1.0, static_cast<double>(axes.at(speed_axis_)))));
         ackermann_cmd_.drive.steering_angle =
           static_cast<float>(reverse * maximum_steering_angle_ *
-            std::max(-1.0, std::min(1.0, static_cast<double>(axes.at(0)))));
+            std::max(-1.0, std::min(1.0, static_cast<double>(axes.at(steering_axis_)))));
       } else if (!manual_only_ && has_auto_cmd_) {
         // TODO: auto 모드 패스스루 (나중에 모드 선택 추가)
         ackermann_cmd_.drive.speed          = auto_cmd_.drive.speed;

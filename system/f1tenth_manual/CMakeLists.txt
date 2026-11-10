@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.8)
+project(f1tenth_manual)
+find_package(ament_cmake REQUIRED)
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
+install(PROGRAMS scripts/check_controller.py DESTINATION lib/${PROJECT_NAME})
+ament_package()

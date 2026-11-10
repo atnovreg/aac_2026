@@ -8,7 +8,8 @@
 #include <chrono>
 
 // ----------------------------------------------------------------
-// Button / axis mapping (PS3/PS4 layout via joy_node)
+// Legacy default mapping; actual SDL layouts vary. The manual launch supplies
+// the verified DualSense mapping through parameters.
 //   Button[0] : Cross  (×)  — E-STOP
 //   Button[1] : Circle (○)  — enable run mode
 //   Button[5] : R1          — hold for manual joystick control
@@ -45,6 +46,7 @@ private:
   bool   reverse_angle_;
   bool   manual_only_;
   double input_timeout_;
+  std::size_t speed_axis_, steering_axis_, stop_button_, arm_button_, deadman_button_;
 
   // State
   ackermann_msgs::msg::AckermannDriveStamped ackermann_cmd_;

@@ -159,6 +159,38 @@ class ManualSafety(unittest.TestCase):
             self.fail('Nonfinite timeout accepted; stale-input guard could be disabled')
         self.assertNotEqual(code, 0)
 
+    def test_dualsense_mapping_uses_stick_not_idle_trigger(self):
+        self.process.terminate()
+        self.process.wait(timeout=3)
+        self.process = subprocess.Popen(self.command + [
+            '-p', 'speed_axis:=5', '-p', 'stop_button:=1', '-p', 'arm_button:=2'],
+            stdout=self.log, stderr=subprocess.STDOUT)
+        self.pump(0.3)
+        msg = Joy()
+        msg.axes = [0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0]
+        msg.buttons = [0] * 15
+        self.pump(0.2, msg)
+        msg.buttons[2] = 1  # Actual device Circle
+        msg.buttons[5] = 1  # R1
+        msg.axes[5] = 0.4
+        self.pump(0.3, msg)
+        self.assertAlmostEqual(self.samples[-1][1], 0.4, places=4)
+        msg.buttons[2] = 0
+        msg.buttons[1] = 1  # Actual device Cross
+        self.pump(0.2, msg)
+        self.assert_stopped()
+
+    def test_negative_mapping_is_rejected(self):
+        self.process.terminate()
+        self.process.wait(timeout=3)
+        self.process = subprocess.Popen(self.command + ['-p', 'speed_axis:=-1'],
+                                        stdout=self.log, stderr=subprocess.STDOUT)
+        try:
+            code = self.process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            self.fail('Negative axis index accepted')
+        self.assertNotEqual(code, 0)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

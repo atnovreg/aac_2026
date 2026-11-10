@@ -1,0 +1,41 @@
+/manual_joy:
+  ros__parameters:
+    device_id: 0
+    device_name: Sony Interactive Entertainment DualSense Wireless Controller
+    deadzone: 0.12
+    autorepeat_rate: 20.0
+    coalesce_interval_ms: 1
+/manual_control:
+  ros__parameters:
+    manual_only: true
+    input_timeout: 0.3
+    maximum_speed: 0.3  # Provisional scaling, NOT calibrated metres/second.
+    maximum_steering_angle: 0.15  # Preview only; no physical servo output.
+    reverse_angle: false
+    speed_axis: 5
+    steering_axis: 0
+    stop_button: 1
+    arm_button: 2
+    deadman_button: 5
+/vesc/ackermann_to_vesc:
+  ros__parameters:
+    speed_to_erpm_gain: 4614.0  # Reference gain pending wheel/gearing calibration.
+    speed_to_erpm_offset: 0.0
+    steering_angle_to_servo_gain: 1.0  # Preview only; not a servo calibration.
+    steering_angle_to_servo_offset: 0.5
+/vesc/vesc_driver:
+  ros__parameters:
+    port: /dev/serial/by-id/usb-STMicroelectronics_ChibiOS_RT_Virtual_COM_Port_304-if00
+    speed_min: -2000.0
+    speed_max: 2000.0
+    # Unused control modes are routed away and clamped to zero.
+    current_min: 0.0
+    current_max: 0.0
+    brake_min: 0.0
+    brake_max: 0.0
+    duty_cycle_min: 0.0
+    duty_cycle_max: 0.0
+    position_min: 0.0
+    position_max: 0.0
+    servo_min: 0.5
+    servo_max: 0.5

@@ -62,6 +62,13 @@ The legacy auto fallback is available only with `manual_only:=false`.
 | `reverse_angle` | `true` | Invert steering sign |
 | `manual_only` | `false` | Ignore auto commands and stop when R1 is released |
 | `input_timeout` | `0.3` s | Positive finite joystick freshness timeout |
+| `speed_axis`, `steering_axis` | `4`, `0` | Nonnegative raw SDL axis indices |
+| `stop_button`, `arm_button`, `deadman_button` | `0`, `1`, `5` | Nonnegative raw SDL button indices |
+
+The table above is the legacy default. The Jetson's USB DualSense reports
+Cross=1, Circle=2, R1=5, left X=0 and right Y=5. Its unused right trigger is
+axis 4 and reads +1 at rest; using the legacy speed axis would be unsafe.
+`f1tenth_manual` selects the verified device name and supplies these overrides.
 
 ---
 
