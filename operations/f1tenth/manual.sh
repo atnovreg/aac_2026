@@ -5,7 +5,8 @@ action="${1:-dry-run}"
 case "$action" in build|dry-run|check|telemetry|drive) ;; *)
   echo 'Usage: manual.sh {build|dry-run|check|telemetry|drive --wheels-up}' >&2; exit 2;;
 esac
-repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
+repo_root="$(cd -- "$(dirname -- "$script_path")/../.." && pwd)"
 workspace="${F1TENTH_WS:-$(cd "$repo_root/../.." && pwd)}"
 source /opt/ros/humble/setup.bash
 deps="$workspace/.manual_ros_deps/opt/ros/humble"
@@ -14,6 +15,17 @@ if [[ -d "$deps" ]]; then
 fi
 export ROS_LOCALHOST_ONLY=1 ROS_DOMAIN_ID=42 SDL_VIDEODRIVER=offscreen
 if [[ "$action" == build ]]; then
+  vesc_source="$workspace/src/vesc"
+  expected_revision=153998df8545fe1781b975df88e411b4e71d4bfe
+  if [[ "$(git -C "$vesc_source" rev-parse HEAD)" != "$expected_revision" ]]; then
+    echo "Expected VESC source revision $expected_revision; refusing an unverified build." >&2
+    exit 1
+  fi
+  patch_file="$repo_root/system/f1tenth_manual/patches/0001-publish-primary-temperatures.patch"
+  if ! git -C "$vesc_source" apply --reverse --check "$patch_file" 2>/dev/null; then
+    git -C "$vesc_source" apply --check "$patch_file"
+    git -C "$vesc_source" apply "$patch_file"
+  fi
   cd "$workspace"
   export CMAKE_BUILD_PARALLEL_LEVEL=2
   exec colcon --log-base log/manual build --base-paths \

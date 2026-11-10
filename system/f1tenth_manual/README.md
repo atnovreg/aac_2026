@@ -73,6 +73,9 @@ USB 경로:
 VESC 소스는 워크스페이스의 `src/vesc`에 둔다.
 상류: https://github.com/f1tenth/vesc (ros2), 고정 커밋:
 `153998df8545fe1781b975df88e411b4e71d4bfe`.
+상류가 누락한 FET/모터 온도 필드 두 개를 채우는 패치를 빌드할 때 적용한다.
+다른 커밋이나 충돌하는 소스에서는 빌드를 중단한다. 이 수정은 PC의 ROS
+텔레메트리 전달만 바꾸며 MCU 펌웨어나 보호 설정을 쓰지 않는다.
 최초 설치는 이 리비전을 체크아웃하고 `manual.sh build`를 실행한다.
 현재 젯슨에서는 sudo 없이 누락된 asio CMake 패키지를 apt로 내려받아
 `.manual_ros_deps/opt/ros/humble`에 풀었다. 빌드 스크립트가 이 경로를 인식한다.
@@ -87,6 +90,8 @@ source ~/f1tenth_ws/install/manual/setup.bash
 export ROS_LOCALHOST_ONLY=1 ROS_DOMAIN_ID=177
 python3 ~/f1tenth_ws/src/aac_2026/control/joy_control_node/test/test_manual_safety.py
 python3 ~/f1tenth_ws/src/aac_2026/system/f1tenth_manual/test/test_dry_run.py
+python3 ~/f1tenth_ws/src/aac_2026/system/f1tenth_manual/test/test_controller_check.py
+python3 ~/f1tenth_ws/src/aac_2026/system/f1tenth_manual/test/test_driver_temperature.py
 ```
 
 테스트는 실제 ROS 노드와 변환기를 사용하지만 하드웨어 드라이버를 실행하지 않는다.
