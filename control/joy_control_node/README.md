@@ -1,7 +1,7 @@
 # joy_control_node
 
 ROS2 node that converts PS4/PS3 joystick input into `AckermannDriveStamped` commands.  
-Runs on a 40 Hz timer, making it easy to add alternative input sources (e.g. keyboard) in the future.
+Runs on a 100 Hz timer. Joystick input expires after 0.3 seconds by default.
 
 ---
 
@@ -11,7 +11,7 @@ Runs on a 40 Hz timer, making it easy to add alternative input sources (e.g. key
 | --------- | ----- | ---- | ----------- |
 | Sub | `/joy` | `sensor_msgs/Joy` | Raw joystick input |
 | Sub | `/ackermann_auto` | `ackermann_msgs/AckermannDriveStamped` | Autonomous planner command |
-| Pub | `/ackermann_drive` | `ackermann_msgs/AckermannDriveStamped` | Final drive command (40 Hz) |
+| Pub | `/ackermann_drive` | `ackermann_msgs/AckermannDriveStamped` | Final drive command (100 Hz) |
 
 > `/ackermann_auto` and `/ackermann_drive` are intentionally separate topics to prevent the node from receiving its own published messages as auto commands.
 
@@ -21,8 +21,8 @@ Runs on a 40 Hz timer, making it easy to add alternative input sources (e.g. key
 
 | Button / Axis | Index | Function |
 | ------------- | ----- | -------- |
-| `buttons[1]` | Circle (○) | Enable RUN MODE |
-| `buttons[0]` | Cross (×) | E-STOP (immediate stop) |
+| `buttons[1]` | Circle (○) | Enable RUN MODE on a fresh press |
+| `buttons[0]` | Cross (×) | Software stop; wins over Circle |
 | `buttons[5]` | R1 (hold) | Enable manual joystick control |
 | `axes[4]` | Right stick vertical | Speed |
 | `axes[0]` | Left stick horizontal | Steering angle |
@@ -44,7 +44,12 @@ joystick connected
     └─ × button                       → E-STOP → STOP
 ```
 
-No messages are published until a joystick is connected.
+Zero commands are published before connection and after stale or malformed input.
+Startup, input loss and Cross disarm the controller; release Circle and press it
+again to rearm. Short messages or nonfinite used axes stop without crashing.
+Axes are clamped to [-1, 1]. Cross is a software stop, not a hardware emergency stop.
+With `manual_only:=true`, releasing R1 always outputs zero and auto input is ignored.
+The legacy auto fallback is available only with `manual_only:=false`.
 
 ---
 
@@ -55,6 +60,8 @@ No messages are published until a joystick is connected.
 | `maximum_speed` | `1.5` m/s | Maximum speed in manual mode |
 | `maximum_steering_angle` | `0.524` rad (30°) | Maximum steering angle in manual mode |
 | `reverse_angle` | `true` | Invert steering sign |
+| `manual_only` | `false` | Ignore auto commands and stop when R1 is released |
+| `input_timeout` | `0.3` s | Positive finite joystick freshness timeout |
 
 ---
 
@@ -74,3 +81,14 @@ ros2 launch joy_control_node joy_control.launch.py joy_id:=1
 This is set in both `run_x86.sh` (`-e SDL_VIDEODRIVER=offscreen`) and the launch file.
 
 The container user also needs access to `/dev/input/js*`. `run_x86.sh` passes the numeric input group GID via `--group-add $(getent group input | cut -d: -f3)` since the container image may not have an `input` group by name.
+
+## Safety regression tests
+
+Source the built ROS overlay, then run without any hardware driver:
+
+```bash
+ROS_LOCALHOST_ONLY=1 ROS_DOMAIN_ID=177 python3 test/test_manual_safety.py
+```
+
+These integration tests start the real controller in an isolated local ROS domain.
+They do not test motor braking, steering wiring or end-to-end hardware stopping.
