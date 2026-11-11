@@ -1,0 +1,7 @@
+# Reuse the Humble image already installed on this desktop.
+FROM d4d-koyul:humble-fortress
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-joy ros-humble-ackermann-msgs ros-humble-serial-driver \
+    ros-humble-asio-cmake-module ros-humble-ament-cmake-auto libasio-dev \
+    && rm -rf /var/lib/apt/lists/*

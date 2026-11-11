@@ -20,9 +20,13 @@ class DryRun(unittest.TestCase):
             raise RuntimeError('Requires isolated localhost domain 177')
         rclpy.init()
         cls.log = tempfile.TemporaryFile()
+        cls.pc_profile = os.environ.get('MANUAL_TEST_GAMEPAD_PROFILE', '')
+        command = ['ros2', 'launch', 'f1tenth_manual', 'manual.launch.py',
+                   'stage:=dry-run', 'gamepad:=false']
+        if cls.pc_profile:
+            command.append('gamepad_profile:=' + cls.pc_profile)
         cls.process = subprocess.Popen(
-            ['ros2', 'launch', 'f1tenth_manual', 'manual.launch.py',
-             'stage:=dry-run', 'gamepad:=false'], start_new_session=True,
+            command, start_new_session=True,
             stdout=cls.log, stderr=subprocess.STDOUT)
         cls.node = rclpy.create_node('manual_chain_test')
         cls.pub = cls.node.create_publisher(Joy, '/manual/joy', 10)
@@ -55,8 +59,12 @@ class DryRun(unittest.TestCase):
         while time.monotonic() < deadline:
             if publish and time.monotonic() >= next_publish:
                 msg = Joy()
-                msg.axes = [0.2, 0.0, 0.0, 1.0, 1.0, float(throttle), 0.0, 0.0]
-                msg.buttons = [0, stop, arm, 0, 0, deadman, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                if self.pc_profile:
+                    msg.axes = [0.2, 0.0, 1.0, 0.0, float(throttle), 1.0, 0.0, 0.0]
+                    msg.buttons = [stop, arm, 0, 0, 0, deadman, 0, 0, 0, 0, 0, 0, 0]
+                else:
+                    msg.axes = [0.2, 0.0, 0.0, 1.0, 1.0, float(throttle), 0.0, 0.0]
+                    msg.buttons = [0, stop, arm, 0, 0, deadman, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 self.pub.publish(msg)
                 next_publish = time.monotonic() + 0.03
             rclpy.spin_once(self.node, timeout_sec=0.01)

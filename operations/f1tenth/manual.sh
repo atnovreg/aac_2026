@@ -61,4 +61,8 @@ PY
   [[ "$action" == check ]] && exit 0
 fi
 echo "Manual stage: $action | Circle arm, R1 hold, Cross stop | steering preview only"
-exec ros2 launch f1tenth_manual manual.launch.py "stage:=$action"
+launch_args=("stage:=$action")
+if [[ -n "${F1TENTH_GAMEPAD_PROFILE:-}" ]]; then
+  launch_args+=("gamepad_profile:=$F1TENTH_GAMEPAD_PROFILE")
+fi
+exec ros2 launch f1tenth_manual manual.launch.py "${launch_args[@]}"

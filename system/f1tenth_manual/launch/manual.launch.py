@@ -14,14 +14,18 @@ def nodes(context):
         raise ValueError('stage must be dry-run, telemetry or drive')
     config = os.path.join(get_package_share_directory('f1tenth_manual'),
                           'config', 'manual.yaml')
+    profile = LaunchConfiguration('gamepad_profile').perform(context)
+    if profile and not os.path.isfile(profile):
+        raise ValueError('Gamepad profile does not exist: ' + profile)
+    input_parameters = [config] + ([profile] if profile else [])
     actions = []
     if stage != 'telemetry':
         if LaunchConfiguration('gamepad').perform(context).lower() == 'true':
             actions.append(Node(package='joy', executable='joy_node', name='manual_joy',
-                                parameters=[config], remappings=[('joy', '/manual/joy')]))
+                                parameters=input_parameters, remappings=[('joy', '/manual/joy')]))
         actions += [
             Node(package='joy_control_node', executable='joy_control_node_exe',
-                 name='manual_control', parameters=[config],
+                 name='manual_control', parameters=input_parameters,
                  remappings=[('/joy', '/manual/joy'),
                              ('/ackermann_drive', '/manual/ackermann_drive'),
                              ('/ackermann_auto', '/manual/auto_unused')]),
@@ -49,5 +53,6 @@ def generate_launch_description():
         SetEnvironmentVariable('SDL_VIDEODRIVER', 'offscreen'),
         DeclareLaunchArgument('stage', default_value='dry-run'),
         DeclareLaunchArgument('gamepad', default_value='true'),
+        DeclareLaunchArgument('gamepad_profile', default_value=''),
         OpaqueFunction(function=nodes),
     ])

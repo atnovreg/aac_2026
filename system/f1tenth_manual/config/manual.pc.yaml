@@ -1,0 +1,8 @@
+# Observed on this PC's SDL2/Linux DualSense mapping; shared limits stay unchanged.
+/manual_control:
+  ros__parameters:
+    speed_axis: 4
+    steering_axis: 0
+    stop_button: 0
+    arm_button: 1
+    deadman_button: 5
