@@ -1,5 +1,9 @@
 # AAC 자율주행 개발
 
+**PS5 수동 제어 / Jetson AGX Orin:** [젯슨 설치·실행 안내](system/f1tenth_manual/JETSON_QUICKSTART.md).
+이 작업 브랜치에는 PC에서 검증한 입력·정지·USB 재연결 코드와 젯슨용 선택 빌드가 포함돼 있습니다.
+조향 및 지상 주행의 하드웨어 검증 범위는 해당 안내를 확인하세요.
+
 앞으로 수정할 코드는 `~/ros2_ws/src/aac_2026`에 있습니다. 본체와 Orin Nano의 F1TENTH 코드를 기존 AAC의 센서·위치 추정·계획·제어 분류에 통합했습니다.
 
 | 기존 분류 | 추가한 작업 |

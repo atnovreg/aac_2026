@@ -1,5 +1,7 @@
 # Jetson 수동 조작 준비
 
+새 젯슨에 설치하거나 GitHub에서 받으려면 [빠른 시작](JETSON_QUICKSTART.md)을 따른다.
+
 대상: AGX Orin / Ubuntu 22.04 / ROS Humble, USB DualSense,
 FLIPSKY Dual FSESC6.7 Plus의 구동 채널 117 / 펌웨어 5.2.
 
@@ -16,6 +18,7 @@ ROS_DOMAIN_ID=42, ROS_LOCALHOST_ONLY=1을 사용한다.
 
 | 명령 | 기능 |
 |---|---|
+| `manual.sh setup` | Humble 의존성과 고정 VESC 소스를 준비하고 선택 빌드 |
 | `manual.sh build` | 필요한 6개 ROS 패키지만 ARM 네이티브 빌드 |
 | `manual.sh dry-run` | 게임패드와 명령 변환 미리보기. 하드웨어 드라이버 없음 |
 | `manual.sh check` | 읽기 전용 VESC 검사 후 종료 |
