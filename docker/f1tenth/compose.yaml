@@ -30,6 +30,7 @@ services:
     environment:
       HOME: /tmp/aac-fastlio-home
       ROS_DOMAIN_ID: "${ROS_DOMAIN_ID:-42}"
+      USE_SIM_TIME: "${USE_SIM_TIME:-false}"
       ROS_AUTOMATIC_DISCOVERY_RANGE: LOCALHOST
       DISPLAY: "${DISPLAY:-}"
       QT_X11_NO_MITSHM: "1"

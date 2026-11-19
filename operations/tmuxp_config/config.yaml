@@ -1,45 +1,31 @@
+# Entry point: bash start.sh [autonomy|prepare]. Settings: jetson.env.
 session_name: AAC_2026
+start_directory: ../..
+before_script: ./jetson.sh
+environment:
+  AAC_RUN_MODE: ${AAC_RUN_MODE}
+  AAC_SETTINGS: ${AAC_SETTINGS}
+  AAC_RUN_DIR: ${AAC_RUN_DIR}
+options:
+  remain-on-exit: 'on'
 windows:
-  - window_name: Autonomy
-    layout: tiled
-    shell_command_before:
-      - source /opt/ros/humble/setup.bash
-      - source /ros_ws/install/setup.bash
-      - cd /ros_ws/src/aac_2026
+  - window_name: Vehicle
     panes:
-    - shell_command:
-      - exec ros2 launch aac_vehicle spawn_vehicle.launch.py
-    - shell_command:
-      - ros2 launch joy_control_node joy_control.launch.py
-    - shell_command:
-      - ros2 launch ipm_bev_node deploy.launch.py
-    - shell_command:
-      - ros2 launch image_match_node opencv.launch.py
-    - shell_command:
-      - ros2 launch aac_vehicle slam_mapping.launch.py use_sim_time:=true input_odom_topic:=/odom_gt
-    - shell_command:
-      - ros2 launch local_path_planner_node local_path_planner.launch.py
-    - shell_command:
-      - ros2 launch stanley_node stanley.launch.py
-    - shell_command:
-      - ros2 launch frenet_local_planning_node frenet_local_planning.launch.py 
-    - shell_command:
-      - ros2 launch hybrid_a_star_planner_node hybrid_a_star_planner.launch.py use_sim_time:=true
-
-  - window_name: DefaultSetup
-    layout: tiled
-    shell_command_before:
-      - source /opt/ros/humble/setup.bash
-      - source /ros_ws/install/setup.bash
-      - cd /ros_ws/src/aac_2026
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh vehicle
+  - window_name: Lidar
     panes:
-    - shell_command:
-      - exec ros2 launch static_tf_tree static_tf_tree.launch.py
-    - shell_command:
-      - ros2 launch track_path_publisher track_path_publisher.launch.py
-    - shell_command:
-      - ros2 launch parking_lines_publisher parking_lines_publisher.launch.py use_sim_time:=true
-    - shell_command:
-      - ros2 launch parking_map_publisher parking_map_publisher.launch.py use_sim_time:=true
-    - shell_command:
-      - exec rviz2 -d /ros_ws/src/aac_2026/rviz/planner.rviz
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh lidar
+  - window_name: Localization
+    panes:
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh localization
+  - window_name: MPCC
+    panes:
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh controller
+  - window_name: Record
+    layout: tiled
+    panes:
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh record-sensors
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh record-vehicle
+  - window_name: Monitor
+    panes:
+      - shell_command: exec bash operations/tmuxp_config/jetson.sh monitor

@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SESSION_NAME="AAC_2026_HARNESS"
-CONFIG_FILE="${REPO_DIR}/operations/tmuxp_config/config.yaml"
+CONFIG_FILE="${REPO_DIR}/operations/tmuxp_config/simulation.yaml"
 LIVE_MODE="${1:-static}"
 
 PROCESS_PATTERN='[r]os2 launch aac_vehicle spawn_vehicle.launch.py|[r]os2 launch joy_control_node joy_control.launch.py|[r]os_gz_sim|[r]os_gz_bridge|[p]arameter_bridge|[r]obot_state_publisher|[v]ehicle_state_publisher_exe|[i]gn gazebo|[g]z sim|[i]gnition gazebo|[g]zserver|[g]zclient'

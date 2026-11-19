@@ -30,6 +30,6 @@ bash build.sh
 source /ros_ws/install/setup.bash
 ```
 
-실행 구성은 기존 `start.sh`, `auto.sh`, `operations/tmuxp_config/`를 확인합니다. 이 스크립트들은 여러 노드를 실행하므로 사용하려는 차량·시뮬레이션 구성을 확인한 뒤 사용합니다. 추가한 MPCC·FAST-LIO 전체가 자동 연결되는 구성은 아닙니다.
+기존 Gazebo 구성은 `bash start.sh sim`으로 실행합니다. `start.sh`와 `auto.sh`의 기본값은 이제 Jetson 실차 진입점입니다. [tmuxp 실행 안내](../../tmuxp_config/README.md)를 확인합니다. 실차 `prepare`는 센서·지도 위치추정·PS5 수동주행·MPCC 계산과 기록을 실행하며, 기본 자율주행 모드는 실제 MPCC 출력과 차량 선택기 실행 파일이 없으면 시작하지 않습니다.
 
 Docker·GPU·USB·DDS 준비는 플랫폼별 `docker/run_*.sh`, `docker/dockerfiles/`, `operations/pc_setup/`의 실제 설정을 확인합니다. 기존 설치 문서와 과거 결과는 Git 커밋 `5faa7e0` 및 본체의 `log/f1tenth/migration-20261105/`에 보존했습니다.

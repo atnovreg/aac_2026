@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage as nd
 from scipy.spatial import cKDTree
-from skimage.morphology import disk
 
 
 def read_pcd(path):
@@ -54,6 +53,7 @@ def fill_small_holes(mask,max_pixels):
 
 
 def project(points,trajectory,config):
+    from skimage.morphology import disk
     resolution=config['resolution_m'];origin=trajectory[:,1:3].min(0)-config['roi_padding_m']
     upper=trajectory[:,1:3].max(0)+config['roi_padding_m'];shape=np.ceil((upper-origin)/resolution).astype(int)[::-1]
     if np.prod(shape)>10000000:raise ValueError('Grid too large; crop route or increase resolution')

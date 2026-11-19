@@ -13,5 +13,7 @@ RUN cmake -S /tmp/Livox-SDK2 -B /tmp/livox-build -DCMAKE_BUILD_TYPE=Release \
     && rm -rf /tmp/Livox-SDK2 /tmp/livox-build
 WORKDIR /ws
 COPY src/aac_2026/docker/f1tenth/entrypoint.sh /fastlio-entrypoint.sh
+RUN apt-get update && apt-get install -y --no-install-recommends python3-scipy \
+    && rm -rf /var/lib/apt/lists/*
 ENTRYPOINT ["/fastlio-entrypoint.sh"]
 CMD ["bash"]

@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetParameter
 
 
 def generate_launch_description():
@@ -16,6 +16,8 @@ def generate_launch_description():
     driver = Path(get_package_share_directory('livox_ros_driver2'))
     build = Path(os.environ.get('F1TENTH_FRONT_BUILD', str(workspace/'artifacts/f1tenth'/('jazzy-'+platform.machine())/'front_filter')))
     return LaunchDescription([
+        # This entry point starts a physical MID-360, including its display nodes.
+        SetParameter(name='use_sim_time', value=False),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(
             str(driver / 'launch_ROS2' / 'msg_MID360_launch.py'))),
         Node(executable=str(build / 'livox_front_filter'),

@@ -45,3 +45,5 @@ bash operations/f1tenth/run.sh localization-test
 
 
 기존 AAC Humble 환경의 실행은 [Humble 실행 안내](operations/f1tenth/docs/AAC_HUMBLE.md)를 따릅니다. 원본은 [Leedk3/aac_2026](https://github.com/Leedk3/aac_2026)이며 기존 노드·커밋 이력·서브모듈 출처를 유지합니다.
+
+Jetson의 실차 tmuxp 실행·종료는 [실차 실행 안내](operations/tmuxp_config/README.md)를 따릅니다. 기존 Gazebo 구성은 `bash start.sh sim`, 실차 센서·위치추정·수동주행·MPCC 계산/기록은 `bash start.sh prepare`입니다. 기본 `bash start.sh`의 자율주행 모드는 실제 제어 출력 실행 파일을 연결하기 전에는 시작하지 않습니다.

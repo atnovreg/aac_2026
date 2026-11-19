@@ -5,7 +5,10 @@ ros_preference: jazzy; confirm with actual OS/JetPack
 host_ipv4: null
 ethernet_interface: null
 serial_by_id: null
-body_sensor_transform: null
+body_sensor_transform:
+  source: mid360.launch.py
+  parent_frame: base_link
+  child_frame: livox_frame
 notes:
 - Rebuild SDK/ROS/acados/solver on actual AGX.
 - Confirm IP/interfaces, sensor timing and new mounting calibration on hardware.

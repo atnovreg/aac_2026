@@ -18,9 +18,15 @@ case "${1:-help}" in
     docker compose --project-directory "$slam_workspace" -f "$slam_workspace/src/aac_2026/docker/f1tenth/compose.yaml" run --rm -T fastlio python3 /ws/src/aac_2026/navigation/fastlio/scripts/run_bag.py "$@"
     ;;
   shell)
-    docker compose --project-directory "$slam_workspace" -f "$slam_workspace/src/aac_2026/docker/f1tenth/compose.yaml" run --rm fastlio bash
+    mounts=()
+    if [[ "${2:-}" == --acados ]]; then
+      mounts=(--volume "$(realpath -e "$slam_workspace/.venv-acados"):/opt/aac-venv:ro"
+              --volume "$(realpath -e "$slam_workspace/vendor/acados"):/opt/aac-acados:ro"
+              --env ACADOS_VENV=/opt/aac-venv --env ACADOS_SOURCE_DIR=/opt/aac-acados)
+    fi
+    docker compose --project-directory "$slam_workspace" -f "$slam_workspace/src/aac_2026/docker/f1tenth/compose.yaml" run --rm "${mounts[@]}" fastlio bash
     ;;
   *)
-    echo 'Usage: src/aac_2026/navigation/fastlio/scripts/slam.sh build | run BAG_NAME [--rate 1.0] | run all | shell'
+    echo 'Usage: src/aac_2026/navigation/fastlio/scripts/slam.sh build | run BAG_NAME [--rate 1.0] | run all | shell [--acados]'
     ;;
 esac

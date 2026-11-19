@@ -38,7 +38,7 @@
 | `operations/f1tenth` | 설치·검증·실행 보조·문서 |
 | `operations/f1tenth/archive` | 예전 워크스페이스·CAD·별도 실험 위치 색인 |
 
-기존 Pure Pursuit·Stanley·조이스틱 노드는 유지했습니다. MPCC와 기존 노드의 입출력·명령 선택 연결은 별도 통합 작업입니다. 기존 `start.sh`가 추가한 F1TENTH 전체를 자동 실행하지는 않습니다.
+기존 Pure Pursuit·Stanley·조이스틱 노드는 유지했습니다. MPCC와 차량 구동·명령 선택 연결은 별도 통합 작업입니다. [실차 tmuxp 실행](../../tmuxp_config/README.md)의 `bash start.sh prepare`는 센서·지도 위치추정·MPCC 계산/기록과 PS5 수동주행을 실행합니다. 기본 `bash start.sh`는 실제 자율주행 출력 실행 파일이 연결되지 않으면 시작하지 않습니다. 기존 Gazebo 구성은 `bash start.sh sim`입니다.
 
 ## 본체와 Jetson
 
@@ -98,6 +98,40 @@ bash src/aac_2026/navigation/fastlio/scripts/slam.sh build
 ```
 
 Compose는 `bag/`의 원본을 컨테이너에서도 읽을 수 있게 연결합니다. 빌드 컨텍스트에는 대형 데이터를 보내지 않습니다. 실제 센서 실행에는 네트워크·USB·SDK·차량 TF 설정을 추가로 확인해야 합니다.
+
+## 본체 시뮬레이션과 실차의 시간 설정
+
+ROS 노드가 `/clock`을 받는 본체 시뮬레이션에서는 `use_sim_time=true`, 실제 센서로 동작하는 실차에서는 `false`를 사용합니다. 같은 입력을 처리하는 위치 추정·표시 노드에도 같은 설정을 전달합니다.
+
+FAST-LIO의 `mapping.launch.py`는 명시적 launch 인수, `USE_SIM_TIME` 환경변수, 기본값 `false` 순서로 설정을 선택합니다. FAST-LIO와 함께 실행하는 RViz에도 같은 값을 적용합니다. Docker Compose의 `fastlio` 서비스는 호스트의 `USE_SIM_TIME`을 컨테이너에 전달합니다.
+
+```bash
+# 본체: /clock을 발행하는 ROS 시뮬레이션 입력을 연결할 때
+cd ~/ros2_ws/src/aac_2026
+USE_SIM_TIME=true bash navigation/fastlio/scripts/slam.sh shell
+# 컨테이너 안에서
+ros2 launch fast_lio mapping.launch.py use_sim_time:=true
+
+# 실차: 실제 센서의 시간 사용. 실행할 장비의 ROS 환경에서
+ros2 launch fast_lio mapping.launch.py use_sim_time:=false
+```
+
+이 명령은 FAST-LIO를 실행합니다. 센서 토픽·네트워크·보정과 MPCC 연결을 완성하는 실차 실행 명령은 아닙니다. 실차의 MID-360 녹화용 `sensors/livox_front_filter/front180.launch.py`는 드라이버·필터·TF·RViz를 `false`로 실행합니다.
+
+`slam.sh run BAG_NAME`은 `--clock`을 발행하는 오프라인 bag 매핑입니다. 기존 `mid360_bag.yaml`의 `use_sim_time=true`를 유지하며, 호스트가 실차용 `false`라고 해서 이 bag 설정을 바꾸지 않습니다. `/clock` 없이 bag을 재생해 wall time으로 처리할 때는 해당 실행 노드에 `false`를 명시합니다.
+
+현재 MPCC Python 실험과 `navigation/localization3d` 계산은 오프라인이며, `system/f1tenth_gazebo_replay`는 Gazebo 자체 시뮬레이션 시간으로 기록을 재생합니다. 이들에는 ROS `use_sim_time`을 적용할 노드가 없으며, 이번 변경으로 ROS 센서 시뮬레이션이나 실시간 MPCC 연결을 추가하지 않습니다.
+
+실행 후 `ros2 node list`에서 노드 이름을 확인하고 다음처럼 검사합니다.
+
+```bash
+ros2 param get /laser_mapping use_sim_time
+ros2 param get /rviz use_sim_time  # 기본 FAST-LIO RViz 설정의 노드 이름
+```
+
+launch 파일이 일반 복사본으로 설치되어 있으므로 수정 뒤에는 `fast_lio` 패키지를 다시 빌드·설치해야 합니다. 기존 본체에서는 `bash navigation/fastlio/scripts/slam.sh build`를 사용합니다.
+
+ROS Jazzy의 빌드된 FAST-LIO·RViz 환경에서 저장소 루트로 이동한 뒤 `python3 navigation/fastlio/tests/test_clock_modes.py`로 환경변수·명시적 인수 우선순위와 두 노드의 실제 파라미터를 검사할 수 있습니다. 화면 없는 환경에는 가상 X 화면이 필요하며 `xvfb-run -a`로 실행합니다.
 
 ## 검증 기록
 

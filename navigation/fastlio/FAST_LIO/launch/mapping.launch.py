@@ -4,10 +4,11 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition
 
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -17,14 +18,16 @@ def generate_launch_description():
         package_path, 'rviz', 'fastlio.rviz')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
+    clock_parameters = {'use_sim_time': ParameterValue(use_sim_time, value_type=bool)}
     config_path = LaunchConfiguration('config_path')
     config_file = LaunchConfiguration('config_file')
     rviz_use = LaunchConfiguration('rviz')
     rviz_cfg = LaunchConfiguration('rviz_cfg')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
-        'use_sim_time', default_value='false',
-        description='Use simulation (Gazebo) clock if true'
+        'use_sim_time',
+        default_value=EnvironmentVariable('USE_SIM_TIME', default_value='false'),
+        description='Use /clock for simulation or clocked bag playback; false for live sensors'
     )
     declare_config_path_cmd = DeclareLaunchArgument(
         'config_path', default_value=default_config_path,
@@ -47,13 +50,14 @@ def generate_launch_description():
         package='fast_lio',
         executable='fastlio_mapping',
         parameters=[PathJoinSubstitution([config_path, config_file]),
-                    {'use_sim_time': use_sim_time}],
+                    clock_parameters],
         output='screen'
     )
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         arguments=['-d', rviz_cfg],
+        parameters=[clock_parameters],
         condition=IfCondition(rviz_use)
     )
 

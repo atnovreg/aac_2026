@@ -7,6 +7,7 @@ find_package(nav_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/MpccStateStamped.msg"
   "msg/PathWithCost.msg"
   "msg/PathWithCostArray.msg"
   DEPENDENCIES

@@ -1,4 +1,4 @@
-#!/bin/bash
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-cd "${SCRIPT_DIR}"
-tmuxp load operations/tmuxp_config/config.yaml
+#!/usr/bin/env bash
+set -euo pipefail
+repo="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+exec bash "$repo/start.sh" "$@"

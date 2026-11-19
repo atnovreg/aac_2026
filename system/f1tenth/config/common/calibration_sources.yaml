@@ -29,7 +29,8 @@ fastlio_imu_lidar:
   notes: This file is a bag-mapping profile, not a finished live localization profile.
 body_sensor_transform:
   value: null
-  classification: unconfirmed measured mounting
+  classification: vehicle-specific mounting
+  agx_source: src/aac_2026/system/f1tenth/config/agx/mid360.launch.py
 camera_intrinsics:
   value: null
   classification: unconfirmed

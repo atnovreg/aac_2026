@@ -1,0 +1,9 @@
+# Estimates from the 2026-11-19 run 181654_gc5h7h. Check direction and
+# neutral on stands before enabling motor output.
+wheel_erpm_per_mps: -3793.0
+auto_speed_mps: 2.2
+auto_erpm_limit: 8300.0
+auto_servo_gain: -0.998
+auto_servo_center: 0.4535
+controller_id: 117
+auto_button: 4
